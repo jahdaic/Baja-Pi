@@ -4,7 +4,7 @@ import { selectSpeedometer } from '../speedometerSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
 
-export const Baja = () => {
+export const Bajapunk = () => {
 	const {
 		speed,
 		rpm,
@@ -135,10 +135,11 @@ export const Baja = () => {
 				colorMinorTicks={textColor}
 				colorMajorTicks={textColor}
 				colorBarStroke='red'
-				colorBar={barColor}
+				colorBar="transparent"
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={24}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -167,10 +168,11 @@ export const Baja = () => {
 				colorMinorTicks={textColor}
 				colorMajorTicks={textColor}
 				colorBarStroke='red'
-				colorBar={barColor}
+				colorBar="transparent"
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={24}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -199,10 +201,11 @@ export const Baja = () => {
 				colorMinorTicks={textColor}
 				colorMajorTicks={textColor}
 				colorBarStroke='red'
-				colorBar={barColor}
+				colorBar="transparent"
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={24}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -231,10 +234,11 @@ export const Baja = () => {
 				colorMinorTicks={textColor}
 				colorMajorTicks={textColor}
 				colorBarStroke='red'
-				colorBar={barColor}
+				colorBar="transparent"
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={24}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -267,4 +271,4 @@ export const Baja = () => {
   );
 };
 
-export default Baja;
+export default Bajapunk;

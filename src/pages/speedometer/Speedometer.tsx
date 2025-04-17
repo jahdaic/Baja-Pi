@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { setSpeed, setRPM, setFuel, setHeadlights, setTurnSignal, setCheckEngine, setOilTemp, setOilPressure, setVoltage } from './speedometerSlice';
-import { VintageVW, Formula1, Beetle13, LCD, Cyberpunk, Baja } from './themes';
+import { Standard, VintageVW, Formula1, Beetle13, LCD, Cyberpunk, Bajapunk } from './themes';
 
 import '../../css/themes.css';
 
@@ -21,7 +21,7 @@ export function Speedometer() {
 	// 	turnSignal,
 	// 	checkEngine
 	// } = useAppSelector(selectSpeedometer);
-  const [gauges] = useState<React.FC[]>([VintageVW, Formula1, Beetle13, LCD, Cyberpunk, Baja]);
+  const [gauges] = useState<React.FC[]>([Standard, VintageVW, Formula1, Beetle13, LCD, Cyberpunk, Bajapunk]);
   const [currentGauge, setCurrentGauge] = useState<number>(0);
   const [timer, setTimer] = useState<any>(0);
 

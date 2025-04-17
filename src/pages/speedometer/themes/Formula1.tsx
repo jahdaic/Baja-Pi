@@ -36,7 +36,7 @@ export const Formula1 = () => {
 		</div>
 
 		<div style={{position: 'absolute', top: '20vh', left: '60vh'}}>
-			<img src={TopDownView} alt="Top-down View" />
+			<img src={TopDownView} className="f1-car" alt="Top-down View" />
 		</div>
 		<div style={{position: 'absolute', top: '21vh', left: '55vh'}}>
 			<label className="f1-label">32</label>

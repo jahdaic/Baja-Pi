@@ -13,6 +13,29 @@
 	src: url('../fonts/bebas-neue.otf') format('opentype');
 }
 
+/* STANDARD */
+
+#standard {
+	background: #000000;
+	/* background:red; */
+	font-family: Bebas Neue;
+	color: #ffffff;
+}
+
+.standard-turn {
+	font-size: 4rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+	color: #323232;
+}
+
+.standard-speed {
+	font-size: 4rem;
+	text-align: center;
+	font-style: normal;
+}
+
 /* VINTAGE VW */
 
 #vintagevw {
@@ -23,6 +46,7 @@
 #formula1 {
 	background: #000000;
 	color: #FFFFFF;
+	font-family: Bebas Neue;
 	font-size: 3rem;
 }
 
@@ -33,6 +57,10 @@
 
 .f1-value {
 	line-height: 2.5rem;
+}
+
+.f1-car {
+	max-height: 60vh;
 }
 
 .f1-light {
@@ -56,6 +84,7 @@
 
 .f1-light-green {
 	/* background: #FFFFFF; */
+	color: #FFFFFF;
 	animation: glowing-green 1s ease-in-out infinite alternate;
 }
 
@@ -90,6 +119,7 @@
 
 #beetle13 {
 	background: #000000;
+	/* background:red; */
 }
 
 /* LCD */

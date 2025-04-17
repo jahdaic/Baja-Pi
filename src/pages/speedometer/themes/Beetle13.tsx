@@ -36,11 +36,13 @@ export const Beetle13 = () => {
 		<div className="expand" style={{position: 'relative', zIndex: 1}}>
 			<RadialGauge
 				value={speed}
+				height={window.innerHeight}
+				width={window.innerHeight}
 				//   units="MPH"
 				//   title="Speedometer"
 				minValue={0}
 				maxValue={160}
-
+				
 				majorTicks={[0, 20, 40, 60, 80, 100, 120, 140, 160]}
 				minorTicks={4}
 				strokeTicks={false}
@@ -77,16 +79,16 @@ export const Beetle13 = () => {
 				needleCircleSize={14}
 
 				borders={true}
-				borderOuterWidth={35}
+				borderOuterWidth={0}
 				borderMiddleWidth={0}
 				borderInnerWidth={0}
 			/>
-		</div>		
+		</div>
 
 		<div style={{position: 'absolute', bottom: '10%', left: '25%', height: '30%', width: '50%', background: '#0e0e0e', color: '#FFFFFF', borderRadius: 20}}>
 			Hello World
 		</div>
-    </div>
+	</div>
   );
 };
 

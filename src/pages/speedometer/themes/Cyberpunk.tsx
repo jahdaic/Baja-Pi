@@ -16,7 +16,7 @@ export const Cyberpunk = () => {
 		turnSignal,
 		checkEngine
 	} = useAppSelector(selectSpeedometer);
-	const fontFace = "Arial";
+	const fontFace = "Brave81";
 	const textColor = "#FBBD1F";
 	const barColor = "#F36924";
 	const barFillColor = "#953E12";
