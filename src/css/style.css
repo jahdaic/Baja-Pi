@@ -1,0 +1,57 @@
+html, body, #root {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	font-size: 3vh;
+}
+
+#app {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	background: #000000;
+}
+
+#app > * {
+	position: relative;
+	aspect-ratio: 1/1;
+	height: 100%;
+}
+
+.next-button {
+	height: 100%;
+	width: 50%;
+	position: absolute;
+	top: 0;
+	right: 0%;
+	z-index: 100;
+}
+
+.prev-button {
+	height: 100%;
+	width: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+
+.centralized {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.expand {
+	height: 100%;
+	width: 100%;
+}
+
+.circular {
+	/* background: #000000; */
+	border: 1px solid #393939;
+	border-radius: 100%;
+}
