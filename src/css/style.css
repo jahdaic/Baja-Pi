@@ -3,6 +3,7 @@ html, body, #root {
 	width: 100%;
 	margin: 0;
 	font-size: 3vh;
+	overflow: hidden;
 }
 
 #app {
@@ -51,7 +52,6 @@ html, body, #root {
 }
 
 .circular {
-	/* background: #000000; */
-	border: 1px solid #393939;
+	/* border: 1px solid #393939; */
 	border-radius: 100%;
 }
