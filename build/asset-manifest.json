@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.05b623cf.css",
-    "main.js": "/static/js/main.6d72e75b.js",
+    "main.css": "/static/css/main.a3add353.css",
+    "main.js": "/static/js/main.413c6733.js",
     "static/js/453.08a8c598.chunk.js": "/static/js/453.08a8c598.chunk.js",
     "static/media/bebas-neue.otf": "/static/media/bebas-neue.2f99e8e59eadc04454dc.otf",
     "static/media/beetle-top-down.png": "/static/media/beetle-top-down.f416ef6ec790b3435258.png",
     "static/media/lcd.otf": "/static/media/lcd.9234be453b055a7cf3ba.otf",
     "static/media/brave-eightyone.ttf": "/static/media/brave-eightyone.9477467165cc74f43ed2.ttf",
     "index.html": "/index.html",
-    "main.05b623cf.css.map": "/static/css/main.05b623cf.css.map",
-    "main.6d72e75b.js.map": "/static/js/main.6d72e75b.js.map",
+    "main.a3add353.css.map": "/static/css/main.a3add353.css.map",
+    "main.413c6733.js.map": "/static/js/main.413c6733.js.map",
     "453.08a8c598.chunk.js.map": "/static/js/453.08a8c598.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.05b623cf.css",
-    "static/js/main.6d72e75b.js"
+    "static/css/main.a3add353.css",
+    "static/js/main.413c6733.js"
   ]
 }

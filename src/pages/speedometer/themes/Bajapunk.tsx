@@ -139,7 +139,7 @@ export const Bajapunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
-				fontNumbersSize={24}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -172,7 +172,7 @@ export const Bajapunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
-				fontNumbersSize={24}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -205,7 +205,7 @@ export const Bajapunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
-				fontNumbersSize={24}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -238,7 +238,7 @@ export const Bajapunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
-				fontNumbersSize={24}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}

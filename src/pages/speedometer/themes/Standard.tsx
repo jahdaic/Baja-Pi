@@ -9,10 +9,9 @@ export const Standard = () => {
 	const textColor = "#FFFFFF";
 	const tickColor = "#FFFFFF";
 	const needleColor = "#FFFFFF";
-	const barFillColor = "#FFFFFF";
 	const highlightColor = "#e62c0f";
 
-  return (
+	return (
     <div id="standard" className="expand circular">
 		
 		<div className="expand" style={{position: 'relative', zIndex: 1}}>
@@ -25,7 +24,7 @@ export const Standard = () => {
 				// title="Speedometer"
 				fontTitle={fontFace}
 				minValue={0}
-				maxValue={80}
+				maxValue={Number(process.env.REACT_APP_SPEED_LIMIT || 80)}
 				
 				majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 				minorTicks={2}
@@ -77,12 +76,12 @@ export const Standard = () => {
 		<div style={{position: 'absolute', top: '35%', left: '65%', height: '40vh', width: '40vh', zIndex: 1}}>
 			<RadialGauge
 				value={rpm / 1000}
-				units="RPM"
+				units="× 1000"
 				fontUnits={fontFace}
-				// title="Speedometer"
+				title="RPM"
 				fontTitle={fontFace}
 				minValue={0}
-				maxValue={7}
+				maxValue={Number(process.env.REACT_APP_RPM_LIMIT || 7000) / 1000}
 				
 				majorTicks={[0, 1, 2, 3, 4, 5, 6, 7]}
 				minorTicks={2}
@@ -90,7 +89,13 @@ export const Standard = () => {
 				ticksAngle={180}
 				startAngle={0}
 				numbersMargin={5}
-				highlights={[{from: 5.5, to: 7, color: 'red'}]}
+				highlights={[
+					{
+						from: Number(process.env.REACT_APP_RPM_REDLINE || 5000) / 1000,
+						to: Number(process.env.REACT_APP_RPM_LIMIT || 7000) / 1000,
+						color: highlightColor
+					}
+				]}
 				highlightsWidth={8}
 				
 				colorPlate="transparent"
@@ -111,7 +116,7 @@ export const Standard = () => {
 				colorNeedleCircleInnerEnd="#000000"
 
 				fontNumbers={fontFace}
-				fontNumbersSize={28}
+				fontNumbersSize={38}
 
 				needleShadow={false}
 				needleStart={0}

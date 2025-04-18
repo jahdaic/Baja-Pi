@@ -45,22 +45,27 @@
 /* FORMULA 1 */
 #formula1 {
 	background: #000000;
+	/* background: red; */
 	color: #FFFFFF;
 	font-family: Bebas Neue;
 	font-size: 3rem;
 }
 
 .f1-label {
-	font-size: 0.75rem;
+	font-size: 1.5rem;
 	text-transform: uppercase;
 }
 
 .f1-value {
-	line-height: 2.5rem;
+	line-height: 3rem;
 }
 
 .f1-car {
 	max-height: 60vh;
+}
+
+.f1-turn-signal {
+	font-size: 5rem;
 }
 
 .f1-light {

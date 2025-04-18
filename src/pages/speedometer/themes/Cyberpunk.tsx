@@ -139,6 +139,7 @@ export const Cyberpunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -171,6 +172,7 @@ export const Cyberpunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -203,6 +205,7 @@ export const Cyberpunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
@@ -211,7 +214,7 @@ export const Cyberpunk = () => {
 
 		<div style={{height: '35vh', width: '20vh', position: 'absolute', top: '28vh', right: '5vh'}}>
 			<LinearGauge
-				units="°F"
+				units="Oil °F"
 				needle={false}
 				value={50}
 				minValue={0}
@@ -235,6 +238,7 @@ export const Cyberpunk = () => {
 				colorBarProgress={barFillColor}
 				colorUnits={barColor}
 				fontNumbers={fontFace}
+				fontNumbersSize={32}
 				fontUnits={fontFace}
 				borders={false}
 				animation={true}
