@@ -2,9 +2,11 @@ import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../speedometerSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
+import PositionedElement from '../../../components/layout/PositionedElement';
+import Panel from '../../../components/layout/Panel';
 
 export const Beetle13 = () => {
-  const {speed} = useAppSelector(selectSpeedometer);
+  const {speed, checkEngine, fuel, voltage} = useAppSelector(selectSpeedometer);
 
   return (
     <div id="beetle13" className="expand circular">
@@ -85,9 +87,26 @@ export const Beetle13 = () => {
 			/>
 		</div>
 
-		<div style={{position: 'absolute', bottom: '10%', left: '25%', height: '30%', width: '50%', background: '#0e0e0e', color: '#FFFFFF', borderRadius: 20}}>
-			Hello World
-		</div>
+		<PositionedElement width="50%" height="30%" bottom="10%" left="25%" center>
+			<Panel width="100%" height="20%" background="#0e0e0e" noBorder center>
+				<PositionedElement width="3rem" height="100%" top="0" left="10%" center>
+					<label className="">{checkEngine ? '⚠' : ''}</label>
+				</PositionedElement>
+				{new Date().toTimeString().substring(0, 5)}
+			</Panel>
+			<Panel width="100%" height="60%" background="#0e0e0e" borderWidth="2px" noLeftBorder noRightBorder center>
+				<span className="beetle13-speed">{speed.toFixed(0)}</span>
+				<label>MPH</label>
+			</Panel>
+			<Panel width="100%" height="20%" background="#0e0e0e" noBorder center>
+				<PositionedElement width="3rem" height="100%" top="0" left="5%" center>
+					<label className="">{fuel.toFixed(0)}%</label>
+				</PositionedElement>
+				<PositionedElement width="3rem" height="100%" top="0" right="10%" center>
+					<label className="">{voltage.toFixed(2)}v</label>
+				</PositionedElement>
+			</Panel>
+		</PositionedElement>
 	</div>
   );
 };

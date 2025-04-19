@@ -10,18 +10,7 @@ export interface ISpeedometerTheme {}
 
 export function Speedometer() {
   const dispatch = useAppDispatch();
-  // const {
-	// 	speed,
-	// 	rpm,
-	// 	fuel,
-	// 	oilTemperature,
-	// 	oilPressure,
-	// 	voltage,
-	// 	headlights,
-	// 	turnSignal,
-	// 	checkEngine
-	// } = useAppSelector(selectSpeedometer);
-  const [gauges] = useState<React.FC[]>([Standard, VintageVW, Formula1, Beetle13, LCD, Cyberpunk, Bajapunk]);
+  const [gauges] = useState<React.FC[]>([Standard, /*VintageVW,*/ Formula1, Beetle13, LCD, Cyberpunk, Bajapunk]);
   const [currentGauge, setCurrentGauge] = useState<number>(0);
   const [timer, setTimer] = useState<any>(0);
 

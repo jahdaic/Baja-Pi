@@ -1,56 +1,79 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../speedometerSlice';
-
-import TopDownView from '../../../images/beetle-top-down.png';
+import LayoutContainer from '../../../components/layout/LayoutContainer';
+import PositionedElement from '../../../components/layout/PositionedElement';
+import Panel from '../../../components/layout/Panel';
 
 export const Formula1 = () => {
-  const {speed, rpm, fuel, headlights, turnSignal, checkEngine} = useAppSelector(selectSpeedometer);
+  const {speed, rpm, fuel, oilTemperature,
+	oilPressure,
+	voltage,
+	headlights,
+	turnSignal,
+	checkEngine} = useAppSelector(selectSpeedometer);
 
   return (
-    <div id="formula1" className="expand circular">
-		<div className="centralized" style={{width: '6rem', position: 'absolute', top: '0vh', left: 'CALC(50% - 3rem)'}}>
-			<div className={`f1-turn-signal ${turnSignal ? 'f1-light-green' : ''}`}>⬌</div>
-		</div>
+	<LayoutContainer id="formula1">
+		<Panel width="30%" height="100%" top="0" left="0" borderWidth="2px" noLeftBorder>
+			<Panel width="100%" height="20vh" top="20vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">Gear</label>
+					<div className="f1-value">{'N'}</div>
+				</PositionedElement>
+			</Panel>
+			<Panel width="100%" height="20vh" top="40vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">RPM</label>
+					<div className="f1-value">{rpm.toFixed(0)}</div>
+				</PositionedElement>
+			</Panel>
+			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">Fuel</label>
+					<div className="f1-value">{fuel.toFixed(0)}</div>
+				</PositionedElement>
+			</Panel>
+		</Panel>
 
-		<div className="centralized" style={{width: '6rem', position: 'absolute', top: '35vh', left: '5vh'}}>
-			<label className="f1-label">Lights</label>
-			<div className={`f1-light ${headlights ? 'f1-light-blue' : ''}`} />
-		</div>
-		<div className="centralized" style={{width: '6rem', position: 'absolute', top: '55vh', left: '5vh'}}>
-			<label className="f1-label">Pit</label>
-			<div className={`f1-light ${checkEngine ? 'f1-light-red' : ''}`} />
-		</div>
+		<Panel width="30%" height="100%" top="0" right="0" borderWidth="2px" noRightBorder>
+			<Panel width="100%" height="20vh" top="20vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">Pres</label>
+					<div className="f1-value">{oilPressure.toFixed(0)}</div>
+				</PositionedElement>
+			</Panel>
+			<Panel width="100%" height="20vh" top="40vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">Temp</label>
+					<div className="f1-value">{oilTemperature.toFixed(0)}</div>
+				</PositionedElement>
+			</Panel>
+			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+				<PositionedElement width="100%" height="100%" center>
+					<label className="f1-label">Voltage</label>
+					<div className="f1-value">{voltage.toFixed(1)}</div>
+				</PositionedElement>
+			</Panel>
+		</Panel>
 
-		<div className="centralized" style={{width: '8rem', position: 'absolute', top: '25vh', left: '25vh'}}>
-			<label className="f1-label">Speed</label>
-			<div className="f1-value">{speed.toFixed(0)}</div>
-		</div>
-		<div className="centralized" style={{width: '8rem', position: 'absolute', top: '45vh', left: '25vh'}}>
-			<label className="f1-label">RPM</label>
-			<div className="f1-value">{rpm.toFixed(0)}</div>
-		</div>
-		<div className="centralized" style={{width: '8rem', position: 'absolute', top: '65vh', left: '25vh'}}>
-			<label className="f1-label">Fuel To Finish</label>
-			<div className="f1-value">{fuel.toFixed(0)}</div>
-		</div>
+		<Panel width="100%" height="20vh" top="0" left="0" background="black" borderWidth="2px" noTopBorder noLeftBorder noRightBorder>
+			<PositionedElement height="100%" top="0" left="29%" center>
+				<div className={`f1-light ${checkEngine ? 'f1-light-red' : ''}`} />
+			</PositionedElement>
+			<PositionedElement width="6rem" height='100%' top="0" left="CALC(50% - 3rem)" center>
+				<div className={`f1-turn-signal ${turnSignal ? 'f1-light-green' : ''}`}>⬌</div>
+			</PositionedElement>
+			<PositionedElement height="100%" top="0" left="65%" center>
+				<div className={`f1-light ${headlights ? 'f1-light-blue' : ''}`} />
+			</PositionedElement>
+		</Panel>
 
-		<div style={{position: 'absolute', top: '20vh', left: '60vh'}}>
-			<img src={TopDownView} className="f1-car" alt="Top-down View" />
-		</div>
-		<div style={{position: 'absolute', top: '23vh', left: '55vh'}}>
-			<label className="f1-label">32</label>
-		</div>
-		<div style={{position: 'absolute', top: '23vh', left: '88vh'}}>
-			<label className="f1-label">32</label>
-		</div>
-		<div style={{position: 'absolute', top: '60vh', left: '55vh'}}>
-			<label className="f1-label">32</label>
-		</div>
-		<div style={{position: 'absolute', top: '60vh', left: '88vh'}}>
-			<label className="f1-label">32</label>
-		</div>
-    </div>
+		<PositionedElement width="6rem" top="35vh" left="CALC(50% - 3rem)" center>
+			<div className="f1-speed">{speed.toFixed(0)}</div>
+			<label className="f1-label">MPH</label>
+		</PositionedElement>
+	</LayoutContainer>
   );
 };
 

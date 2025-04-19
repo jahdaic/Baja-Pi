@@ -52,12 +52,18 @@
 }
 
 .f1-label {
-	font-size: 1.5rem;
+	font-size: 1rem;
 	text-transform: uppercase;
 }
 
 .f1-value {
-	line-height: 3rem;
+	font-size: 4rem;
+	line-height: 3.5rem;
+}
+
+.f1-speed {
+	font-size: 8rem;
+	line-height: 7rem;
 }
 
 .f1-car {
@@ -125,6 +131,12 @@
 #beetle13 {
 	background: #000000;
 	/* background:red; */
+	font-family: Monocraft;
+	color: #FFFFFF;
+}
+
+.beetle13-speed {
+	font-size: 3rem;
 }
 
 /* LCD */
