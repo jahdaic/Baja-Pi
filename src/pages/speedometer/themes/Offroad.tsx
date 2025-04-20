@@ -42,7 +42,7 @@ export const Offroad = () => {
 					maxValue={Number(process.env.REACT_APP_SPEED_LIMIT || 80)}
 					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 					minorTicks={4}
-					strokeTicks={true}
+					strokeTicks={false}
 					ticksAngle={240}
 					startAngle={60}
 					numbersMargin={3}
@@ -76,7 +76,7 @@ export const Offroad = () => {
 					needleType="arrow"
 					needleCircleSize={14}
 					needleCircleOuter={false}
-					barStrokeWidth={40}
+					barStrokeWidth={0}
 					barWidth={0}
 					barProgress={false}
 					borders={false}
