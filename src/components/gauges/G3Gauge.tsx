@@ -23,7 +23,12 @@ export interface IG3Gauge {
 // 	valueBox: false
 // };
 
-const ReactG3Gauge: React.FC<IG3Gauge> = ({ height = window.innerHeight, width = window.innerHeight, value, ...props}) => {
+const ReactG3Gauge: React.FC<IG3Gauge> = ({
+	height = window.innerHeight,
+	width = window.innerHeight,
+	value,
+	...props
+}) => {
 	// const canvas = useRef<HTMLCanvasElement>(null);
 	// const [panel, setPanel] = useState<any>(null);
 	// const [gauge, setGauge] = useState<any>(null);
@@ -41,7 +46,7 @@ const ReactG3Gauge: React.FC<IG3Gauge> = ({ height = window.innerHeight, width =
 
 	// 		setPanel(
 
-	// 		);			
+	// 		);
 	// 	}
 
 	// 	// gauge?.update({...defaultOptions, ...gauge.options, ...props}).draw();
@@ -62,6 +67,6 @@ const ReactG3Gauge: React.FC<IG3Gauge> = ({ height = window.innerHeight, width =
 	return null;
 
 	// return ( <canvas ref={canvas} style={{height, width}} /> );
-}
+};
 
-export default ReactG3Gauge
+export default ReactG3Gauge;

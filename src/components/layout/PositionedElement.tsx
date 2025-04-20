@@ -11,12 +11,23 @@ export interface IPositionedElement {
 	center?: boolean;
 	id?: string;
 	className?: string;
+	style?: {};
 	children?: React.ReactNode;
 }
 
-
-const PositionedElement: React.FC<IPositionedElement> = ({height, width, top, left, right, bottom, center, className, children, ...props}) => {
-
+const PositionedElement: React.FC<IPositionedElement> = ({
+	height,
+	width,
+	top,
+	left,
+	right,
+	bottom,
+	center,
+	className,
+	style,
+	children,
+	...props
+}) => {
 	return (
 		<div
 			{...props}
@@ -29,11 +40,12 @@ const PositionedElement: React.FC<IPositionedElement> = ({height, width, top, le
 				bottom: bottom,
 				height: height,
 				width: width,
+				...style,
 			}}
 		>
 			{children}
 		</div>
 	);
-}
+};
 
-export default PositionedElement
+export default PositionedElement;

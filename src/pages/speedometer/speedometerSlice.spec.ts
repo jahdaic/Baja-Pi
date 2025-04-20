@@ -1,7 +1,7 @@
-import speedometerReducer, { SpeedometerState, setSpeed } from './speedometerSlice';
-  
-  describe('speedometer reducer', () => {
-	const initialState: SpeedometerState = {
+import speedometerReducer, { ISpeedometerState, setSpeed } from './speedometerSlice';
+
+describe('speedometer reducer', () => {
+	const initialState: ISpeedometerState = {
 		speed: 12,
 		rpm: 34,
 		fuel: 56,
@@ -11,6 +11,21 @@ import speedometerReducer, { SpeedometerState, setSpeed } from './speedometerSli
 		headlights: 2,
 		turnSignal: true,
 		checkEngine: true,
+		location: {
+			latitude: 0,
+			longitude: 0,
+			altitude: 0,
+			speed: 0,
+			heading: 0,
+			climb: 0,
+			error: {
+				latitude: 0,
+				longitude: 0,
+				altitude: 0,
+				speed: 0,
+				heading: 0,
+			},
+		},
 		startTime: 1234567890,
 	};
 
@@ -19,10 +34,9 @@ import speedometerReducer, { SpeedometerState, setSpeed } from './speedometerSli
 	// 		speed: 0, rpm: 0, fuel: 0, headlights: 0, turnSignal: false, checkEngine: false
 	// 	});
 	// });
-  
+
 	it('should handle setSpeed', () => {
-	  const actual = speedometerReducer(initialState, setSpeed(69));
-	  expect(actual.speed).toEqual(69);
+		const actual = speedometerReducer(initialState, setSpeed(69));
+		expect(actual.speed).toEqual(69);
 	});
-  });
-  
+});

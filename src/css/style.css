@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -54,4 +56,8 @@ html, body, #root {
 .circular {
 	/* border: 1px solid #393939; */
 	border-radius: 100%;
+}
+
+.smooth-rotate {
+	transition: transform 0.25s ease-in-out;
 }

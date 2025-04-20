@@ -22,8 +22,26 @@ export interface IPanel {
 	children?: React.ReactNode;
 }
 
-
-const Panel: React.FC<IPanel> = ({height, width, top, left, right, bottom, background, borderWidth, borderColor, noBorder, noTopBorder, noLeftBorder, noRightBorder, noBottomBorder, center, className, children, ...props}) => {
+const Panel: React.FC<IPanel> = ({
+	height,
+	width,
+	top,
+	left,
+	right,
+	bottom,
+	background,
+	borderWidth,
+	borderColor,
+	noBorder,
+	noTopBorder,
+	noLeftBorder,
+	noRightBorder,
+	noBottomBorder,
+	center,
+	className,
+	children,
+	...props
+}) => {
 	return (
 		<div
 			{...props}
@@ -46,6 +64,6 @@ const Panel: React.FC<IPanel> = ({height, width, top, left, right, bottom, backg
 			{children}
 		</div>
 	);
-}
+};
 
-export default Panel
+export default Panel;
