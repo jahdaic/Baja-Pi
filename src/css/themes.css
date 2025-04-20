@@ -13,6 +13,11 @@
 	src: url('../fonts/bebas-neue.otf') format('opentype');
 }
 
+@font-face {
+	font-family: Pixel Operator;
+	src: url('../fonts/pixel-operator.ttf') format('truetype');
+}
+
 /* STANDARD */
 
 #standard {
@@ -131,12 +136,14 @@
 #beetle13 {
 	background: #000000;
 	/* background:red; */
-	font-family: Monocraft;
+	font-family: Pixel Operator;
+	font-size: 1.25rem;
 	color: #FFFFFF;
 }
 
 .beetle13-speed {
-	font-size: 3rem;
+	font-size: 5rem;
+	line-height: 4rem;
 }
 
 /* LCD */

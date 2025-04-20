@@ -28,7 +28,7 @@ export const Formula1 = () => {
 					<div className="f1-value">{rpm.toFixed(0)}</div>
 				</PositionedElement>
 			</Panel>
-			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" background={fuel < 20 ? 'red' : ''} noLeftBorder noRightBorder>
 				<PositionedElement width="100%" height="100%" center>
 					<label className="f1-label">Fuel</label>
 					<div className="f1-value">{fuel.toFixed(0)}</div>
@@ -37,19 +37,19 @@ export const Formula1 = () => {
 		</Panel>
 
 		<Panel width="30%" height="100%" top="0" right="0" borderWidth="2px" noRightBorder>
-			<Panel width="100%" height="20vh" top="20vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+			<Panel width="100%" height="20vh" top="20vh" left="0" borderWidth="2px" background={oilPressure < Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 'red' : ''} noLeftBorder noRightBorder>
 				<PositionedElement width="100%" height="100%" center>
-					<label className="f1-label">Pres</label>
+					<label className="f1-label">Pressure</label>
 					<div className="f1-value">{oilPressure.toFixed(0)}</div>
 				</PositionedElement>
 			</Panel>
-			<Panel width="100%" height="20vh" top="40vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+			<Panel width="100%" height="20vh" top="40vh" left="0" borderWidth="2px" background={oilTemperature > Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? 'red' : ''} noLeftBorder noRightBorder>
 				<PositionedElement width="100%" height="100%" center>
 					<label className="f1-label">Temp</label>
 					<div className="f1-value">{oilTemperature.toFixed(0)}</div>
 				</PositionedElement>
 			</Panel>
-			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" noLeftBorder noRightBorder>
+			<Panel width="100%" height="20vh" top="60vh" left="0" borderWidth="2px" background={voltage < Number(process.env.REACT_APP_VOLTAGE_REDLINE) ? 'red' : ''} noLeftBorder noRightBorder>
 				<PositionedElement width="100%" height="100%" center>
 					<label className="f1-label">Voltage</label>
 					<div className="f1-value">{voltage.toFixed(1)}</div>
@@ -69,7 +69,7 @@ export const Formula1 = () => {
 			</PositionedElement>
 		</Panel>
 
-		<PositionedElement width="6rem" top="35vh" left="CALC(50% - 3rem)" center>
+		<PositionedElement width="6rem" top="45vh" left="CALC(50% - 3rem)" center>
 			<div className="f1-speed">{speed.toFixed(0)}</div>
 			<label className="f1-label">MPH</label>
 		</PositionedElement>
