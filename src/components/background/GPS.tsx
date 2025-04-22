@@ -5,44 +5,68 @@ import { selectSpeedometer, setLocation } from '../../pages/speedometer/speedome
 import * as Utility from '../../scripts/Utility';
 
 export interface IGPS {
+	stop?: boolean;
 	children: React.ReactElement<any, any> | null;
 }
 
-const GPS: React.FC<IGPS> = ({ children, ...props }) => {
+const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 	const dispatch = useAppDispatch();
 	const { location } = useAppSelector(selectSpeedometer);
 	const timeout = 250; // 250ms
 	const [timeoutID, setTimeoutID] = useState<any>(0);
 
-	const updateLocation = async () => {
-		fetch(process.env.REACT_APP_GPSD_SERVER_URL || '');
+	const updateLocation = () => {
+		// fetch(process.env.REACT_APP_GPSD_SERVER_URL || '');
+
+		if (stop) return;
 
 		try {
-			const response = await fetch(process.env.REACT_APP_GPSD_SERVER_URL || '');
+			fetch(process.env.REACT_APP_GPSD_SERVER_URL || '')
+				.then(response => response.json())
+				.then(gps =>
+					dispatch(
+						setLocation({
+							latitude: gps?.lat || location.latitude || 0,
+							longitude: gps?.lon || location.longitude || 0,
+							altitude: Utility.metersToFeet(gps?.alt || 0) || location.altitude || 0,
+							speed: Utility.metersPerSecondToMPH(gps?.speed || 0) || location.speed || 0,
+							heading: gps?.track || location.heading || 0,
+							climb: gps?.climb || location.climb || 0,
+							error: {
+								latitude: gps?.lat || location.error.latitude || 0,
+								longitude: gps?.lon || location.error.longitude || 0,
+								altitude: Utility.metersToFeet(gps?.epv || 0) || location.error.altitude || 0,
+								speed: Utility.metersToFeet(gps?.epx || 0) || location.error.speed || 0,
+								heading: gps?.track || location.error.heading || 0,
+							},
+						}),
+					),
+				)
+				.catch(err => console.log(err));
 
-			if (!response.ok) throw new Error(`Response status: ${response.status}`);
+			// if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
-			const gps = await response.json();
+			// const gps = await response.json();
 
-			dispatch(
-				setLocation({
-					latitude: gps?.lat || location.latitude || 0,
-					longitude: gps?.lon || location.longitude || 0,
-					altitude: Utility.metersToFeet(gps?.alt || 0) || location.altitude || 0,
-					speed: Utility.metersPerSecondToMPH(gps?.speed || 0) || location.speed || 0,
-					heading: gps?.track || location.heading || 0,
-					climb: gps?.climb || location.climb || 0,
-					error: {
-						latitude: gps?.lat || location.error.latitude || 0,
-						longitude: gps?.lon || location.error.longitude || 0,
-						altitude: Utility.metersToFeet(gps?.epv || 0) || location.error.altitude || 0,
-						speed: Utility.metersToFeet(gps?.epx || 0) || location.error.speed || 0,
-						heading: gps?.track || location.error.heading || 0,
-					},
-				}),
-			);
+			// dispatch(
+			// 	setLocation({
+			// 		latitude: gps?.lat || location.latitude || 0,
+			// 		longitude: gps?.lon || location.longitude || 0,
+			// 		altitude: Utility.metersToFeet(gps?.alt || 0) || location.altitude || 0,
+			// 		speed: Utility.metersPerSecondToMPH(gps?.speed || 0) || location.speed || 0,
+			// 		heading: gps?.track || location.heading || 0,
+			// 		climb: gps?.climb || location.climb || 0,
+			// 		error: {
+			// 			latitude: gps?.lat || location.error.latitude || 0,
+			// 			longitude: gps?.lon || location.error.longitude || 0,
+			// 			altitude: Utility.metersToFeet(gps?.epv || 0) || location.error.altitude || 0,
+			// 			speed: Utility.metersToFeet(gps?.epx || 0) || location.error.speed || 0,
+			// 			heading: gps?.track || location.error.heading || 0,
+			// 		},
+			// 	}),
+			// );
 		} catch (error: any) {
-			console.error(error.message);
+			console.log(error.message);
 		} finally {
 			setTimeoutID(setTimeout(updateLocation, timeout));
 		}

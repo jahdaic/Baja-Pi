@@ -4,12 +4,13 @@ import { selectSpeedometer } from '../speedometerSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
+import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
-import WeatherIcon from '../../../images/weather-test.svg';
+// import WeatherIcon from '../../../images/weather-test.svg';
 // import MetalBG from '../../../images/radial-metal.png';
 
 export const Offroad = () => {
-	const { speed, fuel, location } = useAppSelector(selectSpeedometer);
+	const { speed, fuel, location, weather } = useAppSelector(selectSpeedometer);
 	const fontFace = 'Bebas Neue';
 	const textColor = '#FFFFFF';
 	const tickColor = '#FFFFFF';
@@ -17,7 +18,7 @@ export const Offroad = () => {
 	const highlightColor = '#e62c0f';
 
 	return (
-		<LayoutContainer id="standard">
+		<LayoutContainer id="offroad">
 			<PositionedElement
 				width="100%"
 				height="100%"
@@ -47,9 +48,9 @@ export const Offroad = () => {
 					startAngle={60}
 					numbersMargin={3}
 					highlights={[
-						{ from: 14.5, to: 15.5, color: highlightColor },
-						{ from: 31, to: 32, color: highlightColor },
-						{ from: 47, to: 48, color: highlightColor },
+						{ from: 19.5, to: 20.5, color: highlightColor },
+						{ from: 33.5, to: 34.5, color: highlightColor },
+						{ from: 49.5, to: 50.5, color: highlightColor },
 					]}
 					highlightsWidth={7}
 					colorPlate="transparent"
@@ -86,7 +87,7 @@ export const Offroad = () => {
 				/>
 			</PositionedElement>
 
-			<PositionedElement width="100%" height="100%" center>
+			{/* <PositionedElement width="100%" height="100%" center>
 				<RadialGauge
 					value={25}
 					height={window.innerHeight}
@@ -145,7 +146,7 @@ export const Offroad = () => {
 					borderMiddleWidth={0}
 					borderInnerWidth={0}
 				/>
-			</PositionedElement>
+			</PositionedElement> */}
 
 			<PositionedElement
 				width="60%"
@@ -156,11 +157,12 @@ export const Offroad = () => {
 				style={{
 					background:
 						'linear-gradient(135deg, rgba(0,4,25,1) 0%, rgba(0,4,25,1) 40%, rgba(15,32,57,1) 54%, rgba(15,32,57,1) 100%)',
-					boxShadow: 'inset 0px 0px 4px 1px rgba(255,255,255,0.10), 0px 0px 0px 10px rgba(0,0,0,1)',
+					// boxShadow: 'inset 0px 0px 4px 1px rgba(255,255,255,0.10), 0px 0px 0px 10px rgba(0,0,0,1)',
+					boxShadow: '0px 10px 40px 10px rgba(0,4,25,1), inset 0px 0px 4px 1px rgba(255,255,255,0.17)',
 				}}
 				center
 			>
-				<div className="smooth-rotate expand" style={{ transform: `rotate(${fuel}deg)` }}>
+				<div className="smooth-rotate expand" style={{ transform: `rotate(${-(weather.windDirection || fuel)}deg)` }}>
 					<RadialGauge
 						value={0}
 						// height={window.innerHeight}
@@ -213,8 +215,8 @@ export const Offroad = () => {
 						boxShadow: '0px 10px 40px 10px rgba(0,4,25,1), inset 0px 0px 4px 1px rgba(255,255,255,0.10)',
 					}}
 				>
-					<img src={WeatherIcon} style={{ height: '3rem', filter: 'invert(100%)' }} alt="weather icon" />
-					82°
+					<WeatherIcon style={{ textShadow: '0 0 8px #ffffff' }} />
+					{Math.round(weather.feelsLike)}°
 				</div>
 			</PositionedElement>
 
@@ -222,7 +224,27 @@ export const Offroad = () => {
 				<label className="offroad-speed" style={{ display: 'inline-block' }}>
 					{Math.round(location.speed)}
 				</label>
-				<span> MPH</span>
+				<span>MPH</span>
+			</PositionedElement>
+
+			<PositionedElement width="8rem" top="77vh" left="CALC(50% - 4rem - 8.5rem)" center>
+				<div>
+					<label className="offroad-speed" style={{ display: 'inline-block' }}>
+						{Math.round(location.altitude)}
+					</label>
+					<span> ft</span>
+				</div>
+				<span>Altitude</span>
+			</PositionedElement>
+
+			<PositionedElement width="8rem" top="77vh" left="CALC(50% - 4rem + 8.5rem)" center>
+				<div>
+					<label className="offroad-speed" style={{ display: 'inline-block' }}>
+						{Math.round(weather.rain)}
+					</label>
+					<span> %</span>
+				</div>
+				<span>Rain</span>
 			</PositionedElement>
 		</LayoutContainer>
 	);

@@ -14,7 +14,10 @@
 		"@types/react": "^18.0.25",
 		"@types/react-dom": "^18.0.9",
 		"canvas-gauges": "git@github.com:Mikhus/canvas-gauges.git",
+		"node-polyfill-webpack-plugin": "^4.1.0",
+		"openweather-api-node": "^3.1.5",
 		"react": "^18.2.0",
+		"react-bootstrap-icons": "^1.11.5",
 		"react-dom": "^18.2.0",
 		"react-redux": "^8.0.5",
 		"react-scripts": "5.0.1",
@@ -27,12 +30,13 @@
 		"eslint-config-prettier": "^10.1.2",
 		"eslint-plugin-prettier": "^5.2.6",
 		"prettier": "^3.5.3",
-		"prettier-eslint": "^16.4.1"
+		"prettier-eslint": "^16.4.1",
+		"react-app-rewired": "^2.2.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"start": "react-app-rewired start",
+		"build": "react-app-rewired build",
+		"test": "react-app-rewired test",
 		"eject": "react-scripts eject",
 		"eslint": "eslint --ext js,ts,tsx",
 		"lint": "npm run eslint -- src",

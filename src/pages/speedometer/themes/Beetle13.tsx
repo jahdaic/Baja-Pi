@@ -6,7 +6,7 @@ import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
 
 export const Beetle13 = () => {
-	const { speed, checkEngine, fuel, voltage } = useAppSelector(selectSpeedometer);
+	const { speed, checkEngine, fuel, voltage, weather } = useAppSelector(selectSpeedometer);
 
 	return (
 		<div id="beetle13" className="expand circular">
@@ -126,6 +126,9 @@ export const Beetle13 = () => {
 						<label className="">{checkEngine ? '⚠' : ''}</label>
 					</PositionedElement>
 					{new Date().toTimeString().substring(0, 5)}
+					<PositionedElement width="3rem" height="100%" top="0" right="10%" center>
+						<label className="">{Math.round(weather.temperature)}°</label>
+					</PositionedElement>
 				</Panel>
 				<Panel width="100%" height="60%" background="#0e0e0e" borderWidth="2px" noLeftBorder noRightBorder center>
 					<span className="beetle13-speed">{speed.toFixed(0)}</span>
