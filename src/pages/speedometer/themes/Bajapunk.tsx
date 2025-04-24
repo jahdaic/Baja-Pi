@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
+
+import '../../../css/bajapunk.css';
 
 export const Bajapunk = () => {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine } =

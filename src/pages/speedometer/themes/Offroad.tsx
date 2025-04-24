@@ -1,16 +1,15 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
-// import WeatherIcon from '../../../images/weather-test.svg';
-// import MetalBG from '../../../images/radial-metal.png';
+import '../../../css/offroad.css';
 
 export const Offroad = () => {
-	const { speed, fuel, location, weather } = useAppSelector(selectSpeedometer);
+	const { speed, location, weather } = useAppSelector(selectSpeedometer);
 	const fontFace = 'Bebas Neue';
 	const textColor = '#FFFFFF';
 	const tickColor = '#FFFFFF';
@@ -64,6 +63,57 @@ export const Offroad = () => {
 					colorMajorTicks={tickColor}
 					colorMinorTicks={tickColor}
 					// colorBar={'#7D769A'}
+					colorBarStroke="#d2d2d2"
+					colorBarProgress="red"
+					colorBorderOuter="#000000"
+					colorBorderOuterEnd="#000000"
+					fontNumbers={fontFace}
+					fontNumbersSize={24}
+					needleShadow={false}
+					needleStart={30}
+					needleEnd={93}
+					needleWidth={8}
+					needleType="arrow"
+					needleCircleSize={14}
+					needleCircleOuter={false}
+					barStrokeWidth={0}
+					barWidth={0}
+					barProgress={false}
+					borders={false}
+					borderOuterWidth={0}
+					borderMiddleWidth={0}
+					borderInnerWidth={0}
+				/>
+			</PositionedElement>
+
+			<PositionedElement width="100%" height="100%" center className="gauge-glow">
+				<RadialGauge
+					value={speed}
+					height={window.innerHeight}
+					width={window.innerHeight}
+					units="MPH"
+					fontUnits={fontFace}
+					fontTitle={fontFace}
+					minValue={0}
+					maxValue={Number(process.env.REACT_APP_SPEED_LIMIT || 80)}
+					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
+					minorTicks={4}
+					strokeTicks={false}
+					ticksAngle={240}
+					startAngle={60}
+					numbersMargin={3}
+					highlights={[]}
+					highlightsWidth={7}
+					colorPlate="transparent"
+					colorTitle={textColor}
+					colorUnits={textColor}
+					colorNeedle={needleColor}
+					colorNeedleEnd={needleColor}
+					colorNeedleShadowUp={needleColor}
+					colorNeedleShadowDown={needleColor}
+					colorNumbers={textColor}
+					colorMajorTicks={tickColor}
+					colorMinorTicks={tickColor}
 					colorBarStroke="#d2d2d2"
 					colorBarProgress="red"
 					colorBorderOuter="#000000"
@@ -162,7 +212,10 @@ export const Offroad = () => {
 				}}
 				center
 			>
-				<div className="smooth-rotate expand" style={{ transform: `rotate(${-(weather.windDirection || fuel)}deg)` }}>
+				<div
+					className="smooth-rotate expand"
+					style={{ transform: `rotate(${-(location.heading || weather.windDirection)}deg)` }}
+				>
 					<RadialGauge
 						value={0}
 						// height={window.innerHeight}
@@ -209,14 +262,20 @@ export const Offroad = () => {
 
 			<PositionedElement width="30%" height="30%" top="CALC(50% - 15%)" left="CALC(50% - 15%)" center>
 				<div
-					className="offroad-weather circular expand centralized"
+					className="circular expand centralized"
 					style={{
 						background: 'linear-gradient(to bottom, rgba(15,32,57,1) 0%, rgba(0,4,25,1) 100%)',
 						boxShadow: '0px 10px 40px 10px rgba(0,4,25,1), inset 0px 0px 4px 1px rgba(255,255,255,0.10)',
 					}}
 				>
-					<WeatherIcon style={{ textShadow: '0 0 8px #ffffff' }} />
-					{Math.round(weather.feelsLike)}°
+					<div className="centralized">
+						<div>
+							<WeatherIcon className="offroad-weather-icon svg-glow" />
+							<WeatherIcon className="offroad-weather-icon" />
+						</div>
+						<span className="offroad-weather">&nbsp;{Math.round(weather.feelsLike)}°</span>
+					</div>
+					{/* <div className="offroad-weather-description">{weather.description}</div> */}
 				</div>
 			</PositionedElement>
 

@@ -1,4 +1,4 @@
-import speedometerReducer, { ISpeedometerState, setSpeed } from './speedometerSlice';
+import speedometerReducer, { ISpeedometerState, setSpeed } from './siteSlice';
 
 describe('speedometer reducer', () => {
 	const initialState: ISpeedometerState = {

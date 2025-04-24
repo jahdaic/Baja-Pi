@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 
 import TopDownView from '../../../images/beetle-top-down.png';
 

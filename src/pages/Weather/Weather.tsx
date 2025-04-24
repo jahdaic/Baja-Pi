@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
-export interface ISpeedometer {
+export interface IWeather {
 	children?: React.ReactElement<any, any> | null;
 }
 
-export const Speedometer: React.FC<ISpeedometer> = ({ children }) => {
+export const Weather: React.FC<IWeather> = ({ children }) => {
 	return <div>{children}</div>;
 };
 
-export default Speedometer;
+export default Weather;

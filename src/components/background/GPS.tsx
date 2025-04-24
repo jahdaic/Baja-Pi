@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSpeedometer, setLocation } from '../../pages/speedometer/speedometerSlice';
+import { selectSpeedometer, setLocation } from '../../store/siteSlice';
 import * as Utility from '../../scripts/Utility';
 
 export interface IGPS {

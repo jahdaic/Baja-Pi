@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
+
+import '../../../css/formula1.css';
 
 export const Formula1 = () => {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine } =

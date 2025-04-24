@@ -1,14 +1,16 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import G3Gauge from '../../../components/gauges/G3Gauge';
 
-export const VintageVW = () => {
+import '../../../css/vintage.css';
+
+export const Vintage = () => {
 	const { speed } = useAppSelector(selectSpeedometer);
 
 	return (
-		<div id="vintagevw" className="expand">
+		<div id="vintage" className="expand">
 			<RadialGauge
 				value={speed}
 				//   units="MPH"
@@ -44,4 +46,4 @@ export const VintageVW = () => {
 	);
 };
 
-export default VintageVW;
+export default Vintage;

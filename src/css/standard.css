@@ -1,0 +1,46 @@
+/* STANDARD */
+
+#standard {
+	background: #000000;
+	/* background: red; */
+	font-family: Bebas Neue;
+	color: #ffffff;
+}
+
+.standard-turn {
+	font-size: 4rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+	color: #323232;
+}
+
+.standard-turn-on {
+	color: #ffffff;
+	animation: glowing-green 1s ease-in-out infinite alternate;
+}
+
+.standard-speed {
+	font-size: 4rem;
+	text-align: center;
+	font-style: normal;
+}
+
+.weather-icon {
+	font-size: 4rem;
+	margin-right: 1rem;
+}
+
+.temperature {
+	font-size: 6rem;
+	line-height: 5rem;
+	margin-top: 0.5rem;
+}
+
+.label {
+	font-size: 1.5rem;
+}
+
+.value {
+	font-size: 3rem;
+}

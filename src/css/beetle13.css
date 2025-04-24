@@ -1,0 +1,14 @@
+/* BEETLE 13 */
+
+#beetle13 {
+	background: #000000;
+	/* background:red; */
+	font-family: Pixel Operator;
+	font-size: 1.5rem;
+	color: #ffffff;
+}
+
+.beetle13-speed {
+	font-size: 5rem;
+	line-height: 4rem;
+}

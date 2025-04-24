@@ -1,0 +1,42 @@
+/* BAJAPUNK */
+
+#baja {
+	font-family: Bebas Neue;
+	background: #111111;
+	color: #ffffff;
+	/* text-shadow: 0px 0px 5px currentColor; */
+	/* font-style: italic; */
+}
+
+.baja-value {
+	font-size: 2rem;
+	text-align: right;
+}
+
+.baja-speed {
+	font-size: 6rem;
+	width: 100%;
+	text-align: center;
+}
+
+.baja-turn {
+	font-size: 4rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+}
+
+.baja-check-engine {
+	font-size: 5rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+	color: #e62c0f;
+}
+
+.baja-symbol {
+	font-size: 2rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+}

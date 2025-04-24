@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
-export interface ISpeedometer {
+export interface IHula {
 	children?: React.ReactElement<any, any> | null;
 }
 
-export const Speedometer: React.FC<ISpeedometer> = ({ children }) => {
+export const Hula: React.FC<IHula> = ({ children }) => {
 	return <div>{children}</div>;
 };
 
-export default Speedometer;
+export default Hula;

@@ -9,7 +9,11 @@ export interface ILayoutContainer {
 
 const LayoutContainer: React.FC<ILayoutContainer> = ({ className, children, ...props }) => {
 	return (
-		<div {...props} className={`expand circular ${className || ''}`} style={{ overflow: 'hidden' }}>
+		<div
+			{...props}
+			className={`expand circular ${className || ''}`}
+			style={{ position: 'absolute', overflow: 'hidden' }}
+		>
 			{children}
 		</div>
 	);

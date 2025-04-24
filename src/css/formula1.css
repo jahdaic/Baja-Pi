@@ -1,0 +1,57 @@
+/* FORMULA 1 */
+
+#formula1 {
+	background: #000000;
+	/* background: red; */
+	color: #ffffff;
+	font-family: Bebas Neue;
+	font-size: 3rem;
+}
+
+.f1-label {
+	font-size: 1.5rem;
+	text-transform: uppercase;
+}
+
+.f1-value {
+	font-size: 4rem;
+	line-height: 3.5rem;
+}
+
+.f1-speed {
+	font-size: 8rem;
+	line-height: 7rem;
+}
+
+.f1-car {
+	max-height: 60vh;
+}
+
+.f1-turn-signal {
+	font-size: 5rem;
+}
+
+.f1-light {
+	height: 2rem;
+	width: 2rem;
+	background: #1a1a1a;
+	/* border: 1px solid #1A1A1A; */
+	border-radius: 100%;
+	margin-top: 0.5rem;
+}
+
+.f1-light-blue {
+	background: #a1c3ff;
+	animation: glowing-blue 1s ease-in-out infinite alternate;
+}
+
+.f1-light-red {
+	background: #ffffff;
+	animation: glowing-red 1s ease-in-out infinite alternate;
+}
+
+.f1-light-green {
+	/* background: #FFFFFF; */
+	color: #ffffff;
+	animation: glowing-green 1s ease-in-out infinite alternate;
+}

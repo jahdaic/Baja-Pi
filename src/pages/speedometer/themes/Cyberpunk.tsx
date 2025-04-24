@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
+
+import '../../../css/cyberpunk.css';
 
 export const Cyberpunk = () => {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine } =

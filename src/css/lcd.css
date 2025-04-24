@@ -1,0 +1,56 @@
+/* LCD */
+
+#lcd {
+	font-family: LCD;
+	background: #989c7f;
+	color: #252421;
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.lcd-label {
+	font-family: Arial;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 0.75rem;
+	text-align: center;
+	width: 100%;
+	display: block;
+}
+
+.lcd-value {
+	font-size: 2rem;
+	text-align: right;
+}
+
+[data-unlit]:before {
+	content: attr(data-unlit);
+	opacity: 8%;
+	position: absolute;
+	display: block;
+	/* text-align: right; */
+	width: 100%;
+}
+
+.lcd-suffix {
+	font-family: Arial;
+	text-transform: uppercase;
+	font-size: 0.75rem;
+	position: absolute;
+	left: CALC(100% + 0.25rem);
+	bottom: 0.5rem;
+}
+
+.lcd-turn {
+	font-size: 3rem;
+}
+
+.lcd-speed {
+	font-size: 5rem;
+}
+
+.lcd-bottom {
+	font-size: 3rem;
+	text-align: left;
+	width: 100%;
+	white-space: pre;
+}

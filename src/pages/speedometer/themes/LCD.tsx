@@ -1,11 +1,24 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 
+import '../../../css/lcd.css';
+
 export const LCD = () => {
-	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine, startTime } =
-		useAppSelector(selectSpeedometer);
+	const {
+		speed,
+		rpm,
+		fuel,
+		oilTemperature,
+		oilPressure,
+		voltage,
+		headlights,
+		turnSignal,
+		checkEngine,
+		startTime,
+		weather,
+	} = useAppSelector(selectSpeedometer);
 
 	const calculateTime = () => {
 		const now = Date.now();
@@ -14,13 +27,18 @@ export const LCD = () => {
 		const minutes = Math.floor((now - startTime) / 1000 / 60) - hours * 60;
 		const seconds = Math.floor((now - startTime) / 1000) - hours * 60 * 60 - minutes * 60;
 
-		console.log('TIME', hours, minutes, seconds);
-
 		return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 	};
 
+	const calculatePadding = (text: string, length: number): number => {
+		const remainder = length - text.length;
+
+		return Math.min(Math.ceil(text.length + remainder / 2), length);
+		// Math.floor((11 - String(Math.round(weather.temperature)).length - weather.description.length) / 2);
+	};
+
 	return (
-		<div id="lcd" className="expand circular">
+		<div id="lcd" className="expand circular" style={{ boxShadow: 'rgb(0 4 25 / 36%) 0px 3px 10px 7px inset' }}>
 			<RadialGauge
 				needle={false}
 				value={rpm / 1000}
@@ -125,7 +143,11 @@ export const LCD = () => {
 
 			<div className="centralized" style={{ width: '28rem', position: 'absolute', top: '68vh', left: '8vh' }}>
 				<div className="lcd-value lcd-bottom" data-unlit="ᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤ">
-					{'MAF 65488 G/S'}
+					{`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`.padStart(
+						calculatePadding(`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`, 13),
+						' ',
+					)}
+					{/* {'MAF 65488 G/S'} */}
 				</div>
 			</div>
 

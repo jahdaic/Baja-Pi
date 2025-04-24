@@ -1,0 +1,37 @@
+/* CYBERPUNK */
+
+#cyberpunk {
+	font-family: Brave81;
+	background: #27130d;
+	color: #fbbd1f;
+	/* text-shadow: 0px 0px 5px currentColor; */
+	font-style: italic;
+}
+
+.cyberpunk-speed {
+	font-size: 6rem;
+	width: 100%;
+	text-align: center;
+}
+
+.cyberpunk-turn {
+	font-size: 4rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+}
+
+.cyberpunk-check-engine {
+	font-size: 5rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+	color: #365bcc;
+}
+
+.cyberpunk-symbol {
+	font-size: 2rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+}

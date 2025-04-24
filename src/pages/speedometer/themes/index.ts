@@ -1,4 +1,4 @@
-export { VintageVW } from './VintageVW';
+export { Vintage as VintageVW } from './Vintage';
 export { Formula1 } from './Formula1';
 export { Beetle13 } from './Beetle13';
 export { LCD } from './LCD';

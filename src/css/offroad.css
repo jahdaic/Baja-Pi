@@ -1,0 +1,29 @@
+/* OFFROAD */
+
+#offroad {
+	background: #000000;
+	font-family: Bebas Neue;
+	color: #ffffff;
+	text-shadow: 0 0 8px #ffffff;
+}
+
+.offroad-speed {
+	font-size: 4rem;
+	line-height: 3rem;
+}
+
+.offroad-weather {
+	font-size: 3rem;
+	line-height: 2.5rem;
+	margin-top: 1rem;
+	margin-bottom: -0.5rem;
+}
+
+.offroad-weather-icon {
+	font-size: 2rem;
+	z-index: 1;
+}
+
+.offroad-weather-description {
+	font-size: 1.25rem;
+}

@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { selectSpeedometer } from '../../pages/speedometer/speedometerSlice';
+import { selectSpeedometer } from '../../store/siteSlice';
 import * as Icon from 'react-bootstrap-icons';
 
 export interface IWeatherIcon {
-	children?: React.ReactElement<any, any> | null;
+	className?: string;
 	style?: React.CSSProperties;
+	children?: React.ReactElement<any, any> | null;
 }
 
-const WeatherIcon: React.FC<IWeatherIcon> = ({ style, children, ...props }) => {
+const WeatherIcon: React.FC<IWeatherIcon> = ({ className, style, children, ...props }) => {
 	const { weather } = useAppSelector(selectSpeedometer);
 
 	const getWeatherIcon = (code: string) => {
-		const className = 'big-icon';
-
 		switch (code) {
 			case '01d':
 				return <Icon.Sun className={className} style={style} />;

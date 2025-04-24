@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../speedometerSlice';
+import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
+
+import '../../../css/beetle13.css';
 
 export const Beetle13 = () => {
 	const { speed, checkEngine, fuel, voltage, weather } = useAppSelector(selectSpeedometer);

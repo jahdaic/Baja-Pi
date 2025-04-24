@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import speedometerReducer from '../pages/speedometer/speedometerSlice';
+import speedometerReducer from './siteSlice';
 import counterReducer from '../features/counter/counterSlice';
 
 export const store = configureStore({
