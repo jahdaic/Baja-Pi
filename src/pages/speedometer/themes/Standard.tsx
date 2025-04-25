@@ -112,6 +112,7 @@ export const Standard = () => {
 					colorNeedleCircleInnerEnd="#000000"
 					fontNumbers={fontFace}
 					fontNumbersSize={28}
+					needle={false}
 					needleShadow={false}
 					needleStart={0}
 					needleEnd={93}
@@ -219,6 +220,7 @@ export const Standard = () => {
 					colorNeedleCircleInnerEnd="#000000"
 					fontNumbers={fontFace}
 					fontNumbersSize={38}
+					needle={false}
 					needleShadow={false}
 					needleStart={0}
 					needleEnd={93}

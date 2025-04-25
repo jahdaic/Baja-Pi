@@ -120,6 +120,7 @@ export const Offroad = () => {
 					colorBorderOuterEnd="#000000"
 					fontNumbers={fontFace}
 					fontNumbersSize={24}
+					needle={false}
 					needleShadow={false}
 					needleStart={30}
 					needleEnd={93}
