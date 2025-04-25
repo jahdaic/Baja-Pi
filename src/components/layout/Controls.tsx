@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
 	setSpeed,
@@ -22,7 +22,7 @@ export function Controls() {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage } = useAppSelector(selectSpeedometer);
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
-	const [timer, setTimer] = useState<NodeJS.Timeout>();
+	const timerRef = useRef<any>(null);
 	const timeout = 500;
 
 	const appMap = [
@@ -86,13 +86,13 @@ export function Controls() {
 		dispatch(setTurnSignal(Boolean(Math.round(Math.random()))));
 		dispatch(setCheckEngine(Boolean(Math.round(Math.random()))));
 
-		setTimer(setTimeout(updateSpeedometer, timeout));
+		timerRef.current = setTimeout(updateSpeedometer, timeout);
 	};
 
 	useEffect(() => {
-		setTimer(setTimeout(updateSpeedometer, timeout));
+		timerRef.current = setTimeout(updateSpeedometer, 0);
 
-		return () => clearTimeout(timer);
+		return () => clearTimeout(timerRef.current);
 	}, []);
 
 	return (
