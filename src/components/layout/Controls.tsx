@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
 	setSpeed,
@@ -88,6 +89,10 @@ export function Controls() {
 
 		timerRef.current = setTimeout(updateSpeedometer, timeout);
 	};
+
+	useHotkeys('left', prevGauge);
+	useHotkeys('right', nextGauge);
+	useHotkeys('down', nextTheme);
 
 	useEffect(() => {
 		timerRef.current = setTimeout(updateSpeedometer, 0);
