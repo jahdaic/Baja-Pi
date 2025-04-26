@@ -1,0 +1,72 @@
+/* STANDARD */
+
+#big-picture {
+	background: #000000;
+	background-size: cover;
+	background-position: center;
+	/* font-family: Bebas Neue; */
+	color: #ffffff;
+}
+
+#big-picture .big-picture-conditions {
+	background: rgba(255, 255, 255, 0.1);
+	padding: 1rem;
+	border-radius: 14px;
+	flex-direction: row;
+	justify-content: space-around;
+	backdrop-filter: blur(5px);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.big-picture-conditions > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.big-picture-conditions .value {
+	font-size: 1rem;
+}
+
+.big-picture-conditions .label {
+	font-size: 1rem;
+}
+
+.standard-turn {
+	font-size: 4rem;
+	width: 100%;
+	text-align: center;
+	font-style: normal;
+	color: #323232;
+}
+
+.standard-turn-on {
+	color: #ffffff;
+	animation: glowing-green 1s ease-in-out infinite alternate;
+}
+
+.standard-speed {
+	font-size: 4rem;
+	text-align: center;
+	font-style: normal;
+}
+
+.weather-icon {
+	font-size: 4rem;
+	margin-right: 1rem;
+}
+
+.temperature {
+	font-size: 6rem;
+	line-height: 5rem;
+	margin-top: 0.5rem;
+}
+
+.label {
+	font-size: 1.5rem;
+}
+
+.value {
+	font-size: 3rem;
+}

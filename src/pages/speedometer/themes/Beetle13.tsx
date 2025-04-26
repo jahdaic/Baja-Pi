@@ -4,25 +4,20 @@ import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
+import LayoutContainer from '../../../components/layout/LayoutContainer';
 
 import '../../../css/beetle13.css';
+import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
 export const Beetle13 = () => {
 	const { speed, checkEngine, fuel, voltage, weather } = useAppSelector(selectSpeedometer);
 
 	return (
-		<div id="beetle13" className="expand circular">
-			<div
-				style={{
-					position: 'absolute',
-					top: '12.5%',
-					left: '0%',
-					height: '75%',
-					width: '100%',
-					zIndex: 0,
-				}}
-			>
+		<LayoutContainer id="beetle13">
+			<PositionedElement width="100%" height="100%" top="0" left="0">
 				<RadialGauge
+					height={window.innerHeight}
+					width={window.innerWidth}
 					needle={false}
 					minValue={0}
 					maxValue={260}
@@ -67,20 +62,18 @@ export const Beetle13 = () => {
 					colorNumbers="#666666"
 					colorBorderOuter="transparent"
 					colorBorderOuterEnd="transparent"
-					// borders={true}
-					borderOuterWidth={90}
+					borders={true}
+					borderOuterWidth={window.innerHeight * 0.2}
 					borderMiddleWidth={0}
 					borderInnerWidth={0}
 				/>
-			</div>
+			</PositionedElement>
 
-			<div className="expand" style={{ position: 'relative', zIndex: 1 }}>
+			<PositionedElement width="100%" height="100%" center>
 				<RadialGauge
 					value={speed}
 					height={window.innerHeight}
 					width={window.innerHeight}
-					//   units="MPH"
-					//   title="Speedometer"
 					minValue={0}
 					maxValue={160}
 					majorTicks={[0, 20, 40, 60, 80, 100, 120, 140, 160]}
@@ -91,8 +84,6 @@ export const Beetle13 = () => {
 					numbersMargin={-5}
 					highlights={[{ from: 0, to: 160, color: '#FFFFFF' }]}
 					highlightsWidth={5}
-					//   highlights={[{from: 14.5, to: 15.5, color: 'red'}, {from: 31, to: 32, color: 'red'}, {from: 47, to: 48, color: 'red'}]}
-
 					colorPlate="transparent"
 					colorNeedle="#FE0238"
 					colorNeedleEnd="#FE0238"
@@ -120,16 +111,20 @@ export const Beetle13 = () => {
 					borderMiddleWidth={0}
 					borderInnerWidth={0}
 				/>
-			</div>
+			</PositionedElement>
 
 			<PositionedElement width="50%" height="30%" bottom="10%" left="25%" center>
 				<Panel width="100%" height="20%" background="#0e0e0e" noBorder center>
-					<PositionedElement width="3rem" height="100%" top="0" left="10%" center>
+					<PositionedElement width="3rem" height="100%" top="0" left="5%" center>
 						<label className="">{checkEngine ? '⚠' : ''}</label>
 					</PositionedElement>
-					{new Date().toTimeString().substring(0, 5)}
-					<PositionedElement width="3rem" height="100%" top="0" right="10%" center>
-						<label className="">{Math.round(weather.temperature)}°</label>
+					<PositionedElement height="100%" center>
+						{new Date().toTimeString().substring(0, 5)}
+					</PositionedElement>
+					<PositionedElement width="4rem" height="100%" top="0" right="5%" center style={{ textAlign: 'right' }}>
+						<label className="">
+							<WeatherIcon style={{ fontSize: '0.65em' }} /> {Math.round(weather.temperature)}°
+						</label>
 					</PositionedElement>
 				</Panel>
 				<Panel width="100%" height="60%" background="#0e0e0e" borderWidth="2px" noLeftBorder noRightBorder center>
@@ -140,12 +135,12 @@ export const Beetle13 = () => {
 					<PositionedElement width="3rem" height="100%" top="0" left="5%" center>
 						<label className="">{fuel.toFixed(0)}%</label>
 					</PositionedElement>
-					<PositionedElement width="3rem" height="100%" top="0" right="10%" center>
+					<PositionedElement width="4rem" height="100%" top="0" right="5%" center>
 						<label className="">{voltage.toFixed(2)}v</label>
 					</PositionedElement>
 				</Panel>
 			</PositionedElement>
-		</div>
+		</LayoutContainer>
 	);
 };
 

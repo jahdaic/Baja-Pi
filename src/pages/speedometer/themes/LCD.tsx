@@ -2,6 +2,7 @@ import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
+import LayoutContainer from '../../../components/layout/LayoutContainer';
 
 import '../../../css/lcd.css';
 
@@ -34,11 +35,10 @@ export const LCD = () => {
 		const remainder = length - text.length;
 
 		return Math.min(Math.ceil(text.length + remainder / 2), length);
-		// Math.floor((11 - String(Math.round(weather.temperature)).length - weather.description.length) / 2);
 	};
 
 	return (
-		<div id="lcd" className="expand circular" style={{ boxShadow: 'rgb(0 4 25 / 36%) 0px 3px 10px 7px inset' }}>
+		<LayoutContainer id="lcd" style={{ boxShadow: 'rgb(0 4 25 / 36%) 0px 3px 10px 7px inset' }}>
 			<RadialGauge
 				needle={false}
 				value={rpm / 1000}
@@ -170,7 +170,7 @@ export const LCD = () => {
 					{oilPressure <= Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 'OIL PRESSURE!' : ''}
 				</label>
 			</div>
-		</div>
+		</LayoutContainer>
 	);
 };
 

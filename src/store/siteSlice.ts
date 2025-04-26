@@ -136,6 +136,12 @@ export const speedometerSlice = createSlice({
 		setVoltage: (state, action: PayloadAction<number>) => {
 			state.voltage = action.payload;
 		},
+		incrementValue: (state, action: PayloadAction<{ name: string; amount: number; max: number }>) => {
+			const key = action.payload.name as keyof ISpeedometerState;
+			const value: number = Number(state[key]) || 0;
+
+			state[key] = (value + action.payload.amount >= action.payload.max ? 0 : value + action.payload.amount) as never;
+		},
 		setHeadlights: (state, action: PayloadAction<number>) => {
 			state.headlights = action.payload;
 		},
@@ -176,6 +182,7 @@ export const {
 	setOilTemp,
 	setOilPressure,
 	setVoltage,
+	incrementValue,
 	setHeadlights,
 	setTurnSignal,
 	setCheckEngine,

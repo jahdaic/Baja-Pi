@@ -3,7 +3,7 @@ import React from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 
-import StitchHula from '../../../images/stitch.gif';
+import StitchHula from '../../../images/hula/stitch.gif';
 
 export interface IStitch {
 	children?: React.ReactElement<any, any> | null;

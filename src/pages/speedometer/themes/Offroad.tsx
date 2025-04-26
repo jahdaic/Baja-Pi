@@ -22,13 +22,75 @@ export const Offroad = () => {
 				width="100%"
 				height="100%"
 				center
+				className="gauge-glow"
 				style={{
 					background: 'linear-gradient(to bottom, rgba(15,32,57,1) 0%, rgba(0,4,25,1) 100%)',
-					// backgroundImage: `url('${MetalBG}')`,
-					// backgroundPosition: 'center center',
-					// backgroundRepeat: 'no-repeat',
-					// backgroundSize: 'cover',
 				}}
+			>
+				<RadialGauge
+					value={speed}
+					height={window.innerHeight}
+					width={window.innerHeight}
+					units="MPH"
+					fontUnits={fontFace}
+					fontTitle={fontFace}
+					minValue={0}
+					maxValue={Number(process.env.REACT_APP_SPEED_LIMIT || 80)}
+					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
+					minorTicks={4}
+					strokeTicks={false}
+					ticksAngle={240}
+					startAngle={60}
+					numbersMargin={3}
+					highlights={[]}
+					highlightsWidth={7}
+					colorPlate="transparent"
+					colorTitle={textColor}
+					colorUnits={textColor}
+					colorNeedle={needleColor}
+					colorNeedleEnd={needleColor}
+					colorNeedleShadowUp={needleColor}
+					colorNeedleShadowDown={needleColor}
+					colorNumbers={textColor}
+					colorMajorTicks={tickColor}
+					colorMinorTicks={tickColor}
+					colorBarStroke="#d2d2d2"
+					colorBarProgress="red"
+					colorBorderOuter="#000000"
+					colorBorderOuterEnd="#000000"
+					fontNumbers={fontFace}
+					fontNumbersSize={24}
+					needle={false}
+					needleShadow={false}
+					needleStart={30}
+					needleEnd={93}
+					needleWidth={8}
+					needleType="arrow"
+					needleCircleSize={14}
+					needleCircleOuter={false}
+					barStrokeWidth={0}
+					barWidth={0}
+					barProgress={false}
+					borders={false}
+					borderOuterWidth={0}
+					borderMiddleWidth={0}
+					borderInnerWidth={0}
+				/>
+			</PositionedElement>
+
+			<PositionedElement
+				width="100%"
+				height="100%"
+				center
+				style={
+					{
+						// background: 'linear-gradient(to bottom, rgba(15,32,57,1) 0%, rgba(0,4,25,1) 100%)',
+						// backgroundImage: `url('${MetalBG}')`,
+						// backgroundPosition: 'center center',
+						// backgroundRepeat: 'no-repeat',
+						// backgroundSize: 'cover',
+					}
+				}
 			>
 				<RadialGauge
 					value={speed}
@@ -69,58 +131,6 @@ export const Offroad = () => {
 					colorBorderOuterEnd="#000000"
 					fontNumbers={fontFace}
 					fontNumbersSize={24}
-					needleShadow={false}
-					needleStart={30}
-					needleEnd={93}
-					needleWidth={8}
-					needleType="arrow"
-					needleCircleSize={14}
-					needleCircleOuter={false}
-					barStrokeWidth={0}
-					barWidth={0}
-					barProgress={false}
-					borders={false}
-					borderOuterWidth={0}
-					borderMiddleWidth={0}
-					borderInnerWidth={0}
-				/>
-			</PositionedElement>
-
-			<PositionedElement width="100%" height="100%" center className="gauge-glow">
-				<RadialGauge
-					value={speed}
-					height={window.innerHeight}
-					width={window.innerHeight}
-					units="MPH"
-					fontUnits={fontFace}
-					fontTitle={fontFace}
-					minValue={0}
-					maxValue={Number(process.env.REACT_APP_SPEED_LIMIT || 80)}
-					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
-					minorTicks={4}
-					strokeTicks={false}
-					ticksAngle={240}
-					startAngle={60}
-					numbersMargin={3}
-					highlights={[]}
-					highlightsWidth={7}
-					colorPlate="transparent"
-					colorTitle={textColor}
-					colorUnits={textColor}
-					colorNeedle={needleColor}
-					colorNeedleEnd={needleColor}
-					colorNeedleShadowUp={needleColor}
-					colorNeedleShadowDown={needleColor}
-					colorNumbers={textColor}
-					colorMajorTicks={tickColor}
-					colorMinorTicks={tickColor}
-					colorBarStroke="#d2d2d2"
-					colorBarProgress="red"
-					colorBorderOuter="#000000"
-					colorBorderOuterEnd="#000000"
-					fontNumbers={fontFace}
-					fontNumbersSize={24}
-					needle={false}
 					needleShadow={false}
 					needleStart={30}
 					needleEnd={93}
@@ -282,7 +292,7 @@ export const Offroad = () => {
 
 			<PositionedElement width="8rem" top="85vh" left="CALC(50% - 4rem)" center>
 				<label className="offroad-speed" style={{ display: 'inline-block' }}>
-					{Math.round(location.speed)}
+					{Math.round(location.speed || speed)}
 				</label>
 				<span>MPH</span>
 			</PositionedElement>

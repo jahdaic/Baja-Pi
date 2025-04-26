@@ -12,7 +12,7 @@ export interface IGPS {
 const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 	const dispatch = useAppDispatch();
 	const { location } = useAppSelector(selectSpeedometer);
-	const timeout = 250; // 250ms
+	const timeout = 500; // 500ms
 	const [timeoutID, setTimeoutID] = useState<any>(0);
 
 	const updateLocation = () => {

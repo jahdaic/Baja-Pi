@@ -8,15 +8,23 @@
 	/* font-style: italic; */
 }
 
+.baja-label {
+	font-size: 1.25rem;
+}
+
 .baja-value {
 	font-size: 2rem;
 	text-align: right;
 }
 
 .baja-speed {
-	font-size: 6rem;
-	width: 100%;
-	text-align: center;
+	font-size: 8rem;
+	line-height: 6rem;
+	font-weight: bolder;
+}
+
+.baja-rpm {
+	font-size: 2.5rem;
 }
 
 .baja-turn {

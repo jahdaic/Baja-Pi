@@ -3,7 +3,7 @@ import React from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 
-import ShantaeDance from '../../../images/shantae.gif';
+import ShantaeDance from '../../../images/hula/shantae.gif';
 
 export interface IShantae {
 	children?: React.ReactElement<any, any> | null;

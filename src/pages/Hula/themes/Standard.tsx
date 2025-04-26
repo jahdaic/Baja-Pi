@@ -3,7 +3,7 @@ import React from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 
-import HulaGirl from '../../../images/hula-girl.gif';
+import HulaGirl from '../../../images/hula/hula-girl.gif';
 
 export interface IStandard {
 	children?: React.ReactElement<any, any> | null;

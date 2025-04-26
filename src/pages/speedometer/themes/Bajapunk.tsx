@@ -1,8 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
+import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
+import LayoutContainer from '../../../components/layout/LayoutContainer';
+import PositionedElement from '../../../components/layout/PositionedElement';
 
 import '../../../css/bajapunk.css';
 
@@ -15,19 +18,11 @@ export const Bajapunk = () => {
 	const barFillColor = '#FFFFFF';
 	const highlightColor = '#e62c0f';
 
-	return (
-		<div id="baja" className="expand circular">
-			<div
-				style={{
-					height: '100%',
-					width: '100%',
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					backdropFilter: 'blur(0px)',
-				}}
-			/>
+	const gaugeNumberSize = 40;
+	const gaugeLabelSize = 28;
 
+	return (
+		<LayoutContainer id="baja">
 			<div
 				style={{
 					height: '100%',
@@ -98,12 +93,12 @@ export const Bajapunk = () => {
 							from: 120,
 							to: Math.max(oilTemperature, 120),
 							color: barColor,
-						} /*{from: 5, to: 7, color: 'currentcolor'}*/,
+						},
 					]}
 					highlightsWidth={14}
 					numbersMargin={0}
 					barProgress={false}
-					fontNumbersSize={12}
+					fontNumbersSize={14}
 					colorPlate="transparent"
 					colorNumbers={textColor}
 					colorMinorTicks={textColor}
@@ -140,13 +135,13 @@ export const Bajapunk = () => {
 						{
 							from: 100 - fuel,
 							to: 100,
-							color: barColor,
-						} /*{from: 5, to: 7, color: 'currentcolor'}*/,
+							color: fuel > 20 ? barColor : highlightColor,
+						},
 					]}
 					highlightsWidth={14}
 					numbersMargin={3}
 					barProgress={false}
-					fontNumbersSize={12}
+					fontNumbersSize={14}
 					colorPlate="transparent"
 					colorNumbers={textColor}
 					colorMinorTicks={textColor}
@@ -168,11 +163,12 @@ export const Bajapunk = () => {
 			>
 				<LinearGauge
 					units="PSI"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={oilPressure}
 					minValue={0}
-					maxValue={70}
-					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70]}
+					maxValue={Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT) || 70}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT || 70), 8)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
@@ -192,12 +188,14 @@ export const Bajapunk = () => {
 					colorNumbers={textColor}
 					colorMinorTicks={textColor}
 					colorMajorTicks={textColor}
-					colorBarStroke="red"
+					colorBarStroke="green"
 					colorBar="transparent"
-					colorBarProgress={barFillColor}
+					colorBarProgress={
+						oilPressure > Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? barFillColor : highlightColor
+					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -215,11 +213,12 @@ export const Bajapunk = () => {
 			>
 				<LinearGauge
 					units="BOOST"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={8}
 					minValue={0}
 					maxValue={15}
-					majorTicks={[0, 5, 10, 15]}
+					majorTicks={Utility.getIntervalValues(0, 15, 6)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
@@ -238,7 +237,7 @@ export const Bajapunk = () => {
 					colorBarProgress={barFillColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -256,11 +255,12 @@ export const Bajapunk = () => {
 			>
 				<LinearGauge
 					units="VOLTS"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={voltage}
 					minValue={0}
 					maxValue={Number(process.env.REACT_APP_VOLTAGE_LIMIT)}
-					majorTicks={[0, 2, 4, 6, 8, 10, 12, 14]}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_VOLTAGE_LIMIT), 8)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -282,10 +282,10 @@ export const Bajapunk = () => {
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
 					colorBar="transparent"
-					colorBarProgress={barFillColor}
+					colorBarProgress={voltage > Number(process.env.REACT_APP_VOLTAGE_REDLINE) ? barFillColor : highlightColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -302,18 +302,25 @@ export const Bajapunk = () => {
 				}}
 			>
 				<LinearGauge
-					units="°F"
+					units="Oil °F"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
-					value={50}
+					value={oilTemperature}
 					minValue={0}
-					maxValue={120}
-					majorTicks={[0, 20, 40, 60, 80, 100, 120]}
+					maxValue={Number(process.env.REACT_APP_OIL_TEMP_LIMIT)}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_TEMP_LIMIT), 7)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
 					ticksWidth={5}
 					ticksWidthMinor={3}
-					highlights={[{ from: 80, to: 120, color: highlightColor }]}
+					highlights={[
+						{
+							from: Number(process.env.REACT_APP_OIL_TEMP_REDLINE),
+							to: Number(process.env.REACT_APP_OIL_TEMP_LIMIT),
+							color: highlightColor,
+						},
+					]}
 					highlightsWidth={3}
 					barBeginCircle={0}
 					barWidth={window.innerHeight / 33}
@@ -323,17 +330,19 @@ export const Bajapunk = () => {
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
 					colorBar="transparent"
-					colorBarProgress={barFillColor}
+					colorBarProgress={
+						oilTemperature < Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? barFillColor : highlightColor
+					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
 				/>
 			</div>
 
-			<div
+			{/* <div
 				className="centralized"
 				style={{
 					width: '6rem',
@@ -359,7 +368,17 @@ export const Bajapunk = () => {
 					<b>{speed.toFixed(0)}</b>
 				</div>
 				<label className="baja-label">MPH</label>
-			</div>
+			</div> */}
+
+			<PositionedElement width="8rem" top="18vh" left="CALC(50% - 4rem)" center>
+				<label className="baja-label">RPM</label>
+				<div className="baja-rpm">{rpm.toFixed(0)}</div>
+			</PositionedElement>
+
+			<PositionedElement width="13rem" height="10rem" top="CALC(50% - 5rem)" left="CALC(50% - 6.5rem)" center>
+				<div className="baja-speed">{speed.toFixed(0)}</div>
+				<label className="baja-label">MPH</label>
+			</PositionedElement>
 
 			<div
 				className="centralized"
@@ -397,7 +416,7 @@ export const Bajapunk = () => {
 				<label className="baja-symbol">{headlights === 1 ? '◀=' : ''}</label>
 				<label className="baja-symbol">{headlights === 2 ? '◀Ⲷ' : ''}</label>
 			</div>
-		</div>
+		</LayoutContainer>
 	);
 };
 

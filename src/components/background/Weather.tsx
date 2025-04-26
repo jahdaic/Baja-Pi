@@ -33,6 +33,8 @@ const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 			return;
 		}
 
+		// weatherAPI.getHourlyForecast();
+
 		weatherAPI
 			.getCurrent()
 			.then((data: any) => {

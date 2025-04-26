@@ -66,7 +66,6 @@ export const Standard: React.FC<IStandard> = () => {
 				<label className="label">Sunset</label>
 				<div className="value">{Utility.toTimeDisplay(weather.sunset)}</div>
 			</PositionedElement>
-			Hi
 		</LayoutContainer>
 	);
 };

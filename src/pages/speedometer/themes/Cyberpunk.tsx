@@ -1,8 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
+import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
+import LayoutContainer from '../../../components/layout/LayoutContainer';
+import PositionedElement from '../../../components/layout/PositionedElement';
 
 import '../../../css/cyberpunk.css';
 
@@ -15,19 +18,11 @@ export const Cyberpunk = () => {
 	const barFillColor = '#953E12';
 	const highlightColor = '#365BCC';
 
-	return (
-		<div id="cyberpunk" className="expand circular">
-			<div
-				style={{
-					height: '100%',
-					width: '100%',
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					backdropFilter: 'blur(0px)',
-				}}
-			/>
+	const gaugeNumberSize = 32;
+	const gaugeLabelSize = 24;
 
+	return (
+		<LayoutContainer id="cyberpunk">
 			<div
 				style={{
 					height: '100%',
@@ -168,11 +163,12 @@ export const Cyberpunk = () => {
 			>
 				<LinearGauge
 					units="PSI"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={oilPressure}
 					minValue={0}
-					maxValue={70}
-					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70]}
+					maxValue={Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT) || 70}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT || 70), 8)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
@@ -185,19 +181,21 @@ export const Cyberpunk = () => {
 							color: highlightColor,
 						},
 					]}
-					highlightsWidth={3}
+					highlightsWidth={5}
 					barBeginCircle={0}
 					barWidth={window.innerHeight / 33}
 					colorPlate="transparent"
 					colorNumbers={textColor}
 					colorMinorTicks={textColor}
 					colorMajorTicks={textColor}
-					colorBarStroke="red"
-					colorBar={barColor}
-					colorBarProgress={barFillColor}
+					colorBarStroke="green"
+					colorBar="transparent"
+					colorBarProgress={
+						oilPressure > Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? barFillColor : highlightColor
+					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -215,18 +213,19 @@ export const Cyberpunk = () => {
 			>
 				<LinearGauge
 					units="BOOST"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={8}
 					minValue={0}
 					maxValue={15}
-					majorTicks={[0, 5, 10, 15]}
+					majorTicks={Utility.getIntervalValues(0, 15, 6)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
 					ticksWidth={5}
 					ticksWidthMinor={3}
 					highlights={[{ from: 12.5, to: 15, color: highlightColor }]}
-					highlightsWidth={3}
+					highlightsWidth={5}
 					barBeginCircle={0}
 					barWidth={window.innerHeight / 33}
 					colorPlate="transparent"
@@ -234,11 +233,11 @@ export const Cyberpunk = () => {
 					colorMinorTicks={textColor}
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
-					colorBar={barColor}
+					colorBar="transparent"
 					colorBarProgress={barFillColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -256,11 +255,12 @@ export const Cyberpunk = () => {
 			>
 				<LinearGauge
 					units="VOLTS"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
 					value={voltage}
 					minValue={0}
 					maxValue={Number(process.env.REACT_APP_VOLTAGE_LIMIT)}
-					majorTicks={[0, 2, 4, 6, 8, 10, 12, 14]}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_VOLTAGE_LIMIT), 8)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -273,7 +273,7 @@ export const Cyberpunk = () => {
 							color: highlightColor,
 						},
 					]}
-					highlightsWidth={3}
+					highlightsWidth={5}
 					barBeginCircle={0}
 					barWidth={window.innerHeight / 33}
 					colorPlate="transparent"
@@ -281,11 +281,11 @@ export const Cyberpunk = () => {
 					colorMinorTicks={textColor}
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
-					colorBar={barColor}
-					colorBarProgress={barFillColor}
+					colorBar="transparent"
+					colorBarProgress={voltage > Number(process.env.REACT_APP_VOLTAGE_REDLINE) ? barFillColor : highlightColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
@@ -303,18 +303,25 @@ export const Cyberpunk = () => {
 			>
 				<LinearGauge
 					units="Oil °F"
+					fontUnitsSize={gaugeLabelSize}
 					needle={false}
-					value={50}
+					value={oilTemperature}
 					minValue={0}
-					maxValue={120}
-					majorTicks={[0, 20, 40, 60, 80, 100, 120]}
+					maxValue={Number(process.env.REACT_APP_OIL_TEMP_LIMIT)}
+					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_TEMP_LIMIT), 7)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
 					ticksWidth={5}
 					ticksWidthMinor={3}
-					highlights={[{ from: 80, to: 120, color: highlightColor }]}
-					highlightsWidth={3}
+					highlights={[
+						{
+							from: Number(process.env.REACT_APP_OIL_TEMP_REDLINE),
+							to: Number(process.env.REACT_APP_OIL_TEMP_LIMIT),
+							color: highlightColor,
+						},
+					]}
+					highlightsWidth={5}
 					barBeginCircle={0}
 					barWidth={window.innerHeight / 33}
 					colorPlate="transparent"
@@ -322,76 +329,28 @@ export const Cyberpunk = () => {
 					colorMinorTicks={textColor}
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
-					colorBar={barColor}
-					colorBarProgress={barFillColor}
+					colorBar="transparent"
+					colorBarProgress={
+						oilTemperature < Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? barFillColor : highlightColor
+					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
-					fontNumbersSize={32}
+					fontNumbersSize={gaugeNumberSize}
 					fontUnits={fontFace}
 					borders={false}
 					animation={true}
 				/>
 			</div>
 
-			<div
-				className="centralized"
-				style={{
-					width: '6rem',
-					position: 'absolute',
-					top: '18vh',
-					left: 'CALC(50% - 3rem)',
-				}}
-			>
-				<label className="lcd-label">RPM</label>
-				<div className="lcd-value">{rpm.toFixed(0)}</div>
-			</div>
+			<PositionedElement width="8rem" top="18vh" left="CALC(50% - 4rem)" center>
+				<label className="cyberpunk-label">RPM</label>
+				<div className="cyberpunk-rpm">{rpm.toFixed(0)}</div>
+			</PositionedElement>
 
-			<div
-				className="centralized"
-				style={{
-					width: '13rem',
-					position: 'absolute',
-					top: 'CALC(50% - 5rem)',
-					left: 'CALC(50% - 6.5rem)',
-				}}
-			>
-				<div className="cyberpunk-speed lcd-value">
-					<b>{speed.toFixed(0)}</b>
-				</div>
-				<label className="lcd-label">MPH</label>
-			</div>
-
-			{/* <div className="" style={{width: '5rem', position: 'absolute', top: '30vh', left: '15vh'}}>
-			<label className="lcd-label">Fuel</label>
-			<div className="lcd-value">{fuel.toFixed(0)}</div>
-			<div className="lcd-suffix">%</div>
-		</div> */}
-
-			{/* <div className="" style={{width: '5rem', position: 'absolute', top: '43vh', left: '3vh'}}>
-			<label className="lcd-label">Pressure</label>
-			<div className="lcd-value" data-unlit="ᛤᛤᛤ">{oilPressure.toFixed(0)}</div>
-			<div className="lcd-suffix">PSI</div>
-		</div> */}
-
-			{/* <div className="" style={{width: '5rem', position: 'absolute', top: '55vh', left: '15vh'}}>
-			<label className="lcd-label">Temp</label>
-			<div className="lcd-value" data-unlit="ᛤᛤᛤ">{oilTemperature.toFixed(0)}</div>
-			<div className="lcd-suffix">°F</div>
-		</div> */}
-
-			{/* <div className="" style={{width: '6rem', position: 'absolute', top: '30vh', right: '13vh'}}>
-			<label className="lcd-label">Voltage</label>
-			<div className="lcd-value" data-unlit="ᛤᛤᛤᛤ">{voltage.toFixed(1)}</div>
-			<div className="lcd-suffix">V</div>
-		</div> */}
-
-			{/* <div className="" style={{width: '12rem', position: 'absolute', top: '57vh', right: '2vh'}}>
-			<div className="lcd-value" data-unlit="ᛤᛤ:ᛤᛤ:ᛤᛤ"><b>{'10:24:57'}</b></div>
-		</div> */}
-
-			{/* <div className="centralized" style={{width: '28rem', position: 'absolute', top: '68vh', left: '8vh'}}>
-			<div className="lcd-value lcd-bottom" data-unlit="ᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤ">{'MAF 65488 G/S'}</div>
-		</div> */}
+			<PositionedElement width="13rem" height="10rem" top="CALC(50% - 5rem)" left="CALC(50% - 6.5rem)" center>
+				<div className="cyberpunk-speed">{speed.toFixed(0)}</div>
+				<label className="cyberpunk-label">MPH</label>
+			</PositionedElement>
 
 			<div
 				className="centralized"
@@ -431,15 +390,7 @@ export const Cyberpunk = () => {
 				<label className="cyberpunk-symbol">{headlights === 2 ? '◀Ⲷ' : ''}</label>
 				{/* ⚡ */}
 			</div>
-
-			{/* <div className="centralized" style={{width: '10rem', position: 'absolute', top: '87vh', left: '25vh'}}>
-			<label className="lcd-label">{oilTemperature >= Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? 'ENGINE OVERHEATING!' : ''}</label>
-		</div> */}
-
-			{/* <div className="centralized" style={{width: '6rem', position: 'absolute', top: '87vh', right: '25vh'}}>
-			<label className="lcd-label">{oilPressure <= Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 'OIL PRESSURE!' : ''}</label>
-		</div> */}
-		</div>
+		</LayoutContainer>
 	);
 };
 

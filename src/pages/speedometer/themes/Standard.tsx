@@ -17,6 +17,13 @@ export const Standard = () => {
 
 	return (
 		<LayoutContainer id="standard">
+			<div
+				className="centralized"
+				style={{ width: '6rem', position: 'absolute', top: '20vh', left: 'CALC(50% - 3rem)' }}
+			>
+				<div className={`standard-turn ${turnSignal ? 'standard-turn-on' : ''}`}>⬌</div>
+			</div>
+
 			<PositionedElement width="100%" height="100%" center>
 				<RadialGauge
 					value={speed}
@@ -234,13 +241,6 @@ export const Standard = () => {
 					borderInnerWidth={0}
 				/>
 			</PositionedElement>
-
-			<div
-				className="centralized"
-				style={{ width: '6rem', position: 'absolute', top: '20vh', left: 'CALC(50% - 3rem)' }}
-			>
-				<div className={`standard-turn ${turnSignal ? 'standard-turn-on' : ''}`}>⬌</div>
-			</div>
 
 			<div
 				className="centralized glow"

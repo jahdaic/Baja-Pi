@@ -43,3 +43,13 @@ export const toTimeDisplay = (time?: string | Date | number | null) => {
 
 	return Intl.DateTimeFormat([], { hour: 'numeric', minute: 'numeric' }).format(new Date(time));
 };
+
+export const getIntervalValues = (start: number, end: number, intervals: number) => {
+	const values = [];
+
+	for (let i = start; i <= end; i += (end - start) / (intervals - 1)) {
+		values.push(Math.round(i));
+	}
+
+	return values;
+};
