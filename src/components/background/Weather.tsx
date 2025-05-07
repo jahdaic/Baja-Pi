@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import OpenWeatherAPI from 'openweather-api-node';
+import OpenWeatherAPI, { CurrentWeather, HourlyWeather } from 'openweather-api-node';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSpeedometer, setWeather } from '../../store/siteSlice';
+import { selectSpeedometer, setForecast, setWeather } from '../../store/siteSlice';
 
 export interface IWeather {
 	children: React.ReactElement<any, any> | null;
@@ -10,14 +10,14 @@ export interface IWeather {
 
 const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 	const dispatch = useAppDispatch();
-	const { location, weather } = useAppSelector(selectSpeedometer);
+	const { location, weather, forecast } = useAppSelector(selectSpeedometer);
 	const timeout = 900000; // 15 minutes
 	const [timeoutID, setTimeoutID] = useState<any>(0);
 
 	const updateWeather = () => {
 		// if (process.env.NODE_ENV === 'development') console.log('WEATHER', weather);
 
-		let weatherAPI;
+		let weatherAPI: OpenWeatherAPI;
 
 		try {
 			weatherAPI = new OpenWeatherAPI({
@@ -37,8 +37,8 @@ const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 
 		weatherAPI
 			.getCurrent()
-			.then((data: any) => {
-				console.log('WEATHER IN', data);
+			.then((data: CurrentWeather) => {
+				console.log('CURRENT WEATHER IN', data);
 				dispatch(
 					setWeather({
 						...weather,
@@ -55,13 +55,19 @@ const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 						humidity: data.weather.humidity || weather.humidity || 0,
 						pressure: data.weather.pressure || weather.pressure || 0,
 						visibility: data.weather.visibility || weather.visibility || 0,
-						sunrise: data.astronomical.sunrise?.toISOString() || weather.sunrise || 0,
-						sunset: data.astronomical.sunset?.toISOString() || weather.sunset || 0,
-						city: data.name,
+						sunrise: data.astronomical.sunrise?.toISOString() || weather.sunrise || '',
+						sunset: data.astronomical.sunset?.toISOString() || weather.sunset || '',
+						city: '',
 						timezone: data.timezoneOffset || weather.timezone || 0,
 					}),
 				);
 				console.log('WEATHER', weather);
+			})
+			.then(() => weatherAPI.getHourlyForecast())
+			.then((data: HourlyWeather[]) => {
+				console.log('WEATHER FORECAST IN', data);
+				dispatch(setForecast(data.slice(0, 10).map(f => ({ ...f, dt: f.dt.toISOString() as any }))));
+				console.log('FORECAST', forecast);
 			})
 			.catch(err => console.error(err))
 			.finally(() => setTimeout(updateWeather, timeout));

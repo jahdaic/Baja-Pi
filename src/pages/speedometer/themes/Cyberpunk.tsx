@@ -357,24 +357,11 @@ export const Cyberpunk = () => {
 				style={{
 					width: '6rem',
 					position: 'absolute',
-					top: '56vh',
+					top: '65vh',
 					left: 'CALC(50% - 3rem)',
 				}}
 			>
 				<div className="cyberpunk-turn">{turnSignal ? '⬌' : ''}</div>
-			</div>
-
-			<div
-				className="centralized"
-				style={{
-					width: '6rem',
-					position: 'absolute',
-					top: '78vh',
-					left: 'CALC(50% - 3rem)',
-				}}
-			>
-				<label className="cyberpunk-check-engine">{checkEngine ? '⚠' : ''}</label>
-				{/* ☠☢☣⚠ */}
 			</div>
 
 			<div
@@ -389,6 +376,19 @@ export const Cyberpunk = () => {
 				<label className="cyberpunk-symbol">{headlights === 1 ? '◀=' : ''}</label>
 				<label className="cyberpunk-symbol">{headlights === 2 ? '◀Ⲷ' : ''}</label>
 				{/* ⚡ */}
+			</div>
+
+			<div
+				className="centralized"
+				style={{
+					width: '6rem',
+					position: 'absolute',
+					top: '78vh',
+					left: 'CALC(50% - 3rem)',
+				}}
+			>
+				<label className="cyberpunk-check-engine">{checkEngine ? '⚠' : ''}</label>
+				{/* ☠☢☣⚠ */}
 			</div>
 		</LayoutContainer>
 	);

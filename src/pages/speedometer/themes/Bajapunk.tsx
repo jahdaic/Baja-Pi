@@ -385,7 +385,7 @@ export const Bajapunk = () => {
 				style={{
 					width: '6rem',
 					position: 'absolute',
-					top: '56vh',
+					top: '65vh',
 					left: 'CALC(50% - 3rem)',
 				}}
 			>

@@ -40,11 +40,12 @@ describe('speedometer reducer', () => {
 			humidity: 0,
 			pressure: 0,
 			visibility: 0,
-			sunrise: 0,
-			sunset: 0,
+			sunrise: '',
+			sunset: '',
 			city: '',
 			timezone: 0,
 		},
+		forecast: [],
 		startTime: 1234567890,
 	};
 

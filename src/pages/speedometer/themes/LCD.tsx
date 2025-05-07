@@ -143,10 +143,12 @@ export const LCD = () => {
 
 			<div className="centralized" style={{ width: '28rem', position: 'absolute', top: '68vh', left: '8vh' }}>
 				<div className="lcd-value lcd-bottom" data-unlit="ᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤᛤ">
-					{`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`.padStart(
-						calculatePadding(`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`, 13),
-						' ',
-					)}
+					{`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`
+						.padStart(
+							calculatePadding(`${Math.round(weather.temperature)}° ${weather.description.toUpperCase()}`, 13),
+							' ',
+						)
+						.substring(0, 13)}
 					{/* {'MAF 65488 G/S'} */}
 				</div>
 			</div>

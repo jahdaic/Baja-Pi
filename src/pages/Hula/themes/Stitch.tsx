@@ -4,6 +4,7 @@ import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 
 import StitchHula from '../../../images/hula/stitch.gif';
+import StitchBG from '../../../images/hula/stitch-bg.jpg';
 
 export interface IStitch {
 	children?: React.ReactElement<any, any> | null;
@@ -11,8 +12,8 @@ export interface IStitch {
 
 export const Stitch: React.FC<IStitch> = () => {
 	return (
-		<LayoutContainer id="standard">
-			<PositionedElement width="100%" height="100%" top="0" left="0" center>
+		<LayoutContainer id="standard" style={{ backgroundImage: `url('${StitchBG}')` }}>
+			<PositionedElement width="75%" height="75%" bottom="0vh" left="12.5vh" center>
 				<img src={StitchHula} alt="Hula" width="90%" />
 			</PositionedElement>
 		</LayoutContainer>

@@ -28,7 +28,7 @@ export const Offroad = () => {
 				}}
 			>
 				<RadialGauge
-					value={speed}
+					value={location.speed}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -93,7 +93,7 @@ export const Offroad = () => {
 				}
 			>
 				<RadialGauge
-					value={speed}
+					value={location.speed}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -223,10 +223,7 @@ export const Offroad = () => {
 				}}
 				center
 			>
-				<div
-					className="smooth-rotate expand"
-					style={{ transform: `rotate(${-(location.heading || weather.windDirection)}deg)` }}
-				>
+				<div className="smooth-rotate expand" style={{ transform: `rotate(${-location.heading}deg)` }}>
 					<RadialGauge
 						value={0}
 						// height={window.innerHeight}
@@ -280,10 +277,12 @@ export const Offroad = () => {
 					}}
 				>
 					<div className="centralized">
-						<div>
-							<WeatherIcon className="offroad-weather-icon svg-glow" />
-							<WeatherIcon className="offroad-weather-icon" />
-						</div>
+						{weather.icon && (
+							<div>
+								<WeatherIcon className="offroad-weather-icon svg-glow" />
+								<WeatherIcon className="offroad-weather-icon" />
+							</div>
+						)}
 						<span className="offroad-weather">&nbsp;{Math.round(weather.feelsLike)}°</span>
 					</div>
 					{/* <div className="offroad-weather-description">{weather.description}</div> */}
@@ -292,7 +291,7 @@ export const Offroad = () => {
 
 			<PositionedElement width="8rem" top="85vh" left="CALC(50% - 4rem)" center>
 				<label className="offroad-speed" style={{ display: 'inline-block' }}>
-					{Math.round(location.speed || speed)}
+					{Math.round(location.speed)}
 				</label>
 				<span>MPH</span>
 			</PositionedElement>

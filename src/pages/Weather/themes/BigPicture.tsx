@@ -2,21 +2,22 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
-import * as Utility from '../../../scripts/Utility';
+// import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import * as Background from '../../../images/weather-bg';
 import * as Icons from 'react-bootstrap-icons';
 
 import '../../../css/big-picture.css';
+import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
 export interface IBigPicture {
 	children?: React.ReactElement<any, any> | null;
 }
 
 export const BigPicture: React.FC<IBigPicture> = () => {
-	const { weather } = useAppSelector(selectSpeedometer);
-	const bg: keyof typeof Background = `bg${'02d' || weather.icon}` as any;
+	const { weather, forecast } = useAppSelector(selectSpeedometer);
+	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 
 	return (
 		<LayoutContainer
@@ -33,30 +34,55 @@ export const BigPicture: React.FC<IBigPicture> = () => {
 			</PositionedElement>
 
 			<PositionedElement
-				width="50vw"
+				width="50vh"
 				top="45vh"
-				left="CALC(50% - 25vw - 1rem)"
+				left="CALC(50% - 25vh - 1rem)"
 				className="big-picture-conditions"
 				center
 			>
 				<div>
-					<label className="label">
+					<div className="label">
 						<Icons.Umbrella />
-					</label>
+					</div>
 					<div className="value">{weather.rain}%</div>
 				</div>
 				<div>
-					<label className="label">
+					<div className="label">
 						<Icons.Wind />
-					</label>
+					</div>
 					<div className="value">{Math.round(weather.windSpeed)} mph</div>
 				</div>
 				<div>
-					<label className="label">
+					<div className="label">
 						<Icons.Droplet />
-					</label>
+					</div>
 					<div className="value">{weather.humidity}%</div>
 				</div>
+			</PositionedElement>
+
+			<PositionedElement
+				width="60vh"
+				top="62vh"
+				left="CALC(50% - 30vh - 1rem)"
+				className="big-picture-conditions"
+				center
+			>
+				{forecast.slice(1, 6).map(hour => {
+					const date = new Date(hour.dt);
+
+					return (
+						<div key={date.getHours()}>
+							<label className="label">
+								<b>{new Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date)}</b>
+							</label>
+							<div className="value">
+								<WeatherIcon icon={hour.weather.icon.raw} />
+							</div>
+							<div className="value">{Math.round(hour.weather.feelsLike.cur)}°</div>
+							<div className="value">{Math.round(hour.weather.rain)}%</div>
+						</div>
+					);
+				})}
 			</PositionedElement>
 		</LayoutContainer>
 	);

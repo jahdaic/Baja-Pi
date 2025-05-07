@@ -5,12 +5,13 @@ import { selectSpeedometer } from '../../store/siteSlice';
 import * as Icon from 'react-bootstrap-icons';
 
 export interface IWeatherIcon {
+	icon?: string;
 	className?: string;
 	style?: React.CSSProperties;
 	children?: React.ReactElement<any, any> | null;
 }
 
-const WeatherIcon: React.FC<IWeatherIcon> = ({ className, style, children, ...props }) => {
+const WeatherIcon: React.FC<IWeatherIcon> = ({ icon, className, style, children, ...props }) => {
 	const { weather } = useAppSelector(selectSpeedometer);
 
 	const getWeatherIcon = (code: string) => {
@@ -49,7 +50,7 @@ const WeatherIcon: React.FC<IWeatherIcon> = ({ className, style, children, ...pr
 		}
 	};
 
-	return getWeatherIcon(weather.icon);
+	return getWeatherIcon(icon || weather.icon);
 };
 
 export default WeatherIcon;

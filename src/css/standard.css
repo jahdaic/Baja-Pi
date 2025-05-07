@@ -3,6 +3,8 @@
 #standard {
 	background: #000000;
 	/* background: red; */
+	background-size: cover;
+	background-position: center;
 	font-family: Bebas Neue;
 	color: #ffffff;
 }

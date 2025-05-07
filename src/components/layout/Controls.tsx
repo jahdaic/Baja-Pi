@@ -12,7 +12,7 @@ export function Controls() {
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
 	const timerRef = useRef<any>(null);
-	const timeout = 250;
+	const timeout = 500;
 
 	const appMap = [
 		{
@@ -87,10 +87,12 @@ export function Controls() {
 		timerRef.current = setTimeout(updateSpeedometer, timeout);
 	};
 
-	useHotkeys('left', prevGauge);
-	useHotkeys('right', nextGauge);
-	useHotkeys('up', prevTheme);
-	useHotkeys('down', nextTheme);
+	console.log('CURRENT', currentGauge, currentTheme);
+
+	useHotkeys('left', prevTheme);
+	useHotkeys('right', nextTheme);
+	useHotkeys('up', prevGauge);
+	useHotkeys('down', nextGauge);
 
 	useEffect(() => {
 		timerRef.current = setTimeout(updateSpeedometer, 0);
@@ -105,10 +107,10 @@ export function Controls() {
 			</VisibleGauge>
 
 			<div className="button-container">
-				<div className="prev-button" onClick={prevGauge} />
-				<div className="next-button" onClick={nextGauge} />
-				<div className="bottom-button" onClick={nextTheme} />
-				<div className="top-button" onClick={prevTheme} />
+				<div className="prev-button" onClick={prevTheme} />
+				<div className="next-button" onClick={nextTheme} />
+				<div className="bottom-button" onClick={nextGauge} />
+				<div className="top-button" onClick={prevGauge} />
 			</div>
 		</div>
 	);

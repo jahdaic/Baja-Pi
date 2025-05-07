@@ -4,7 +4,9 @@
 	background: #000000;
 	background-size: cover;
 	background-position: center;
-	/* font-family: Bebas Neue; */
+	font-family:
+		Arial,
+		Bebas Neue;
 	color: #ffffff;
 }
 
@@ -27,40 +29,13 @@
 
 .big-picture-conditions .value {
 	font-size: 1rem;
+	margin-top: 0.25rem;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .big-picture-conditions .label {
 	font-size: 1rem;
-}
-
-.standard-turn {
-	font-size: 4rem;
-	width: 100%;
-	text-align: center;
-	font-style: normal;
-	color: #323232;
-}
-
-.standard-turn-on {
-	color: #ffffff;
-	animation: glowing-green 1s ease-in-out infinite alternate;
-}
-
-.standard-speed {
-	font-size: 4rem;
-	text-align: center;
-	font-style: normal;
-}
-
-.weather-icon {
-	font-size: 4rem;
-	margin-right: 1rem;
-}
-
-.temperature {
-	font-size: 6rem;
-	line-height: 5rem;
-	margin-top: 0.5rem;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .label {
