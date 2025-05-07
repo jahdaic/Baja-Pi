@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { HourlyWeather } from 'openweather-api-node';
+import { Alert, HourlyWeather } from 'openweather-api-node';
 
 export interface ILocation {
 	latitude: number;
@@ -32,10 +32,12 @@ export interface IWeather {
 	humidity: number;
 	pressure: number;
 	visibility: number;
+	uvi: number;
 	sunrise: string;
 	sunset: string;
 	city: string;
 	timezone: number;
+	alerts: Alert[];
 }
 
 export interface ISpeedometerState {
@@ -93,10 +95,12 @@ const initialState: ISpeedometerState = {
 		humidity: 0,
 		pressure: 0,
 		visibility: 0,
+		uvi: 0,
 		sunrise: '',
 		sunset: '',
 		city: '',
 		timezone: 0,
+		alerts: [],
 	},
 	forecast: [],
 	startTime: Date.now(),

@@ -3,6 +3,7 @@ export { default as bg01d } from './01d.jpg';
 export { default as bg02d } from './02d.jpg';
 export { default as bg03d } from './03d.jpg';
 export { default as bg04d } from './03d.jpg';
+export { default as bg09d } from './10d.jpg';
 export { default as bg10d } from './10d.jpg';
 export { default as bg11d } from './11n.jpg';
 export { default as bg13d } from './13d.jpg';

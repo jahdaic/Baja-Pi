@@ -1,3 +1,5 @@
+import * as Icons from 'react-bootstrap-icons';
+
 /**
  * Converts a distance from meters to feet
  * @param {Number} m - The distance to convert in meters
@@ -44,6 +46,13 @@ export const toTimeDisplay = (time?: string | Date | number | null) => {
 	return Intl.DateTimeFormat([], { hour: 'numeric', minute: 'numeric' }).format(new Date(time));
 };
 
+/**
+ *
+ * @param start
+ * @param end
+ * @param intervals
+ * @returns
+ */
 export const getIntervalValues = (start: number, end: number, intervals: number) => {
 	const values = [];
 
@@ -52,4 +61,30 @@ export const getIntervalValues = (start: number, end: number, intervals: number)
 	}
 
 	return values;
+};
+
+export const degreesToCompassDirection = (angle: number): string => {
+	// const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
+	const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+
+	const index = Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / (360 / directions.length)) % 8;
+
+	return directions[index];
+};
+
+export const degreesToArrowIcon = (angle: number): Icons.Icon => {
+	const icons = {
+		N: Icons.ArrowUp,
+		NE: Icons.ArrowUpRight,
+		E: Icons.ArrowRight,
+		SE: Icons.ArrowDownRight,
+		S: Icons.ArrowDown,
+		SW: Icons.ArrowDownLeft,
+		W: Icons.ArrowLeft,
+		NW: Icons.ArrowUpLeft,
+	};
+
+	const direction = degreesToCompassDirection(angle) as keyof typeof icons;
+
+	return icons[direction];
 };

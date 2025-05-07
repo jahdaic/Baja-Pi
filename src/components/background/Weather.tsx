@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import OpenWeatherAPI, { CurrentWeather, HourlyWeather } from 'openweather-api-node';
+import OpenWeatherAPI, { Everything } from 'openweather-api-node';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectSpeedometer, setForecast, setWeather } from '../../store/siteSlice';
 
@@ -10,7 +10,7 @@ export interface IWeather {
 
 const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 	const dispatch = useAppDispatch();
-	const { location, weather, forecast } = useAppSelector(selectSpeedometer);
+	const { location, weather } = useAppSelector(selectSpeedometer);
 	const timeout = 900000; // 15 minutes
 	const [timeoutID, setTimeoutID] = useState<any>(0);
 
@@ -33,41 +33,39 @@ const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 			return;
 		}
 
-		// weatherAPI.getHourlyForecast();
-
 		weatherAPI
-			.getCurrent()
-			.then((data: CurrentWeather) => {
+			.getEverything()
+			.then((data: Everything) => {
 				console.log('CURRENT WEATHER IN', data);
+
 				dispatch(
 					setWeather({
 						...weather,
-						temperature: data.weather.temp.cur || weather.temperature || 0,
-						temperatureMin: data.weather.temp.min || weather.temperatureMin || 0,
-						temperatureMax: data.weather.temp.max || weather.temperatureMax || 0,
-						feelsLike: data.weather.feelsLike.cur || weather.feelsLike || 0,
-						description: data.weather.description || weather.description || '',
-						icon: data.weather.icon.raw || weather.icon || '',
-						rain: data.weather.rain || weather.rain || 0,
-						snow: data.weather.snow || weather.snow || 0,
-						windSpeed: data.weather.wind.speed || weather.windSpeed || 0,
-						windDirection: data.weather.wind.deg || weather.windDirection || 0,
-						humidity: data.weather.humidity || weather.humidity || 0,
-						pressure: data.weather.pressure || weather.pressure || 0,
-						visibility: data.weather.visibility || weather.visibility || 0,
-						sunrise: data.astronomical.sunrise?.toISOString() || weather.sunrise || '',
-						sunset: data.astronomical.sunset?.toISOString() || weather.sunset || '',
+						temperature: data.current.weather.temp.cur || weather.temperature || 0,
+						temperatureMin: data.daily[0].weather.temp.min || weather.temperatureMin || 0,
+						temperatureMax: data.daily[0].weather.temp.max || weather.temperatureMax || 0,
+						feelsLike: data.current.weather.feelsLike.cur || weather.feelsLike || 0,
+						description: data.current.weather.description || weather.description || '',
+						icon: data.current.weather.icon.raw || weather.icon || '',
+						rain: data.current.weather.rain || weather.rain || 0,
+						snow: data.current.weather.snow || weather.snow || 0,
+						windSpeed: data.current.weather.wind.speed || weather.windSpeed || 0,
+						windDirection: data.current.weather.wind.deg || weather.windDirection || 0,
+						humidity: data.current.weather.humidity || weather.humidity || 0,
+						pressure: data.current.weather.pressure || weather.pressure || 0,
+						visibility: data.current.weather.visibility || weather.visibility || 0,
+						uvi: data.current.weather.uvi || weather.uvi || 0,
+						sunrise: data.current.astronomical.sunrise?.toISOString() || weather.sunrise || '',
+						sunset: data.current.astronomical.sunset?.toISOString() || weather.sunset || '',
 						city: '',
 						timezone: data.timezoneOffset || weather.timezone || 0,
+						alerts: data.alerts || [],
 					}),
 				);
+
+				dispatch(setForecast(data.hourly.slice(0, 10).map(f => ({ ...f, dt: f.dt.toISOString() as any }))));
+
 				console.log('WEATHER', weather);
-			})
-			.then(() => weatherAPI.getHourlyForecast())
-			.then((data: HourlyWeather[]) => {
-				console.log('WEATHER FORECAST IN', data);
-				dispatch(setForecast(data.slice(0, 10).map(f => ({ ...f, dt: f.dt.toISOString() as any }))));
-				console.log('FORECAST', forecast);
 			})
 			.catch(err => console.error(err))
 			.finally(() => setTimeout(updateWeather, timeout));

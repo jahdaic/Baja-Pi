@@ -29,7 +29,7 @@ export function Controls() {
 		},
 		{
 			gauge: Weather.Weather,
-			themes: [Weather.Standard, Weather.BigPicture],
+			themes: [Weather.Current, Weather.Forecast, Weather.Alerts],
 		},
 		{
 			gauge: Hula.Hula,
@@ -86,8 +86,6 @@ export function Controls() {
 		clearTimeout(timerRef.current);
 		timerRef.current = setTimeout(updateSpeedometer, timeout);
 	};
-
-	console.log('CURRENT', currentGauge, currentTheme);
 
 	useHotkeys('left', prevTheme);
 	useHotkeys('right', nextTheme);

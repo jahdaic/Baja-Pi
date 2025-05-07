@@ -1,0 +1,59 @@
+/* STANDARD */
+
+#weather {
+	background: #000000;
+	background-size: cover;
+	background-position: center;
+	font-family:
+		Arial,
+		Bebas Neue;
+}
+
+#weather.day {
+	color: #333333;
+	text-shadow: 0 0 10px rgb(255, 255, 255);
+}
+
+#weather.night {
+	color: #ffffff;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.temperature {
+	padding-left: 0.3em;
+}
+
+.weather-panel {
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 1rem;
+	border-radius: 14px;
+	flex-direction: row !important;
+	justify-content: space-around !important;
+	backdrop-filter: blur(5px);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.day .weather-panel {
+	color: #ffffff;
+	background-color: rgb(49 49 49 / 59%);
+}
+
+.weather-panel > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.weather-panel .value {
+	font-size: 1rem;
+	margin-top: 0.25rem;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+}
+
+.weather-panel .label {
+	font-size: 1rem;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

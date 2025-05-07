@@ -2,44 +2,40 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
-// import * as Utility from '../../../scripts/Utility';
+import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import * as Background from '../../../images/weather-bg';
 import * as Icons from 'react-bootstrap-icons';
-
-import '../../../css/big-picture.css';
 import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
-export interface IBigPicture {
+import '../../../css/weather.css';
+
+export interface IForecast {
 	children?: React.ReactElement<any, any> | null;
 }
 
-export const BigPicture: React.FC<IBigPicture> = () => {
+export const Forecast: React.FC<IForecast> = () => {
 	const { weather, forecast } = useAppSelector(selectSpeedometer);
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 
 	return (
 		<LayoutContainer
-			id="big-picture"
+			id="weather"
+			className={bg.includes('d') ? 'day' : 'night'}
 			style={{ backgroundImage: `url(${Background[bg]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
 		>
 			<PositionedElement width="100%" top="10vh" left="0" center>
 				<label className="">Feels Like</label>
-				<div className="temperature" title={bg}>
+				<div className="temperature">
+					<WeatherIcon className="weather-icon" />
 					{Math.round(weather.feelsLike)}°
 				</div>
-				<label className="label">{weather.description}</label>
+				<label className="label">{Utility.toTitleCase(weather.description)}</label>
 				<label className="label">{`H:${Math.round(weather.temperatureMax)}° L:${Math.round(weather.temperatureMin)}°`}</label>
 			</PositionedElement>
 
-			<PositionedElement
-				width="50vh"
-				top="45vh"
-				left="CALC(50% - 25vh - 1rem)"
-				className="big-picture-conditions"
-				center
-			>
+			<PositionedElement width="50vh" top="45vh" left="CALC(50% - 25vh - 1rem)" className="weather-panel" center>
 				<div>
 					<div className="label">
 						<Icons.Umbrella />
@@ -60,13 +56,7 @@ export const BigPicture: React.FC<IBigPicture> = () => {
 				</div>
 			</PositionedElement>
 
-			<PositionedElement
-				width="60vh"
-				top="62vh"
-				left="CALC(50% - 30vh - 1rem)"
-				className="big-picture-conditions"
-				center
-			>
+			<PositionedElement width="60vh" top="62vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 				{forecast.slice(1, 6).map(hour => {
 					const date = new Date(hour.dt);
 
@@ -88,4 +78,4 @@ export const BigPicture: React.FC<IBigPicture> = () => {
 	);
 };
 
-export default BigPicture;
+export default Forecast;

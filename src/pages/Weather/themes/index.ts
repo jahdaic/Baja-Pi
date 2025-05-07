@@ -1,2 +1,3 @@
-export { Standard } from './Standard';
-export { BigPicture } from './BigPicture';
+export { Current } from './Current';
+export { Forecast } from './Forecast';
+export { Alerts } from './Alerts';
