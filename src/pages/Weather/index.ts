@@ -1,2 +1,2 @@
-export * from './themes';
+export * from './pages';
 export { Weather } from './Weather';

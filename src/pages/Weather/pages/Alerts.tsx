@@ -32,8 +32,6 @@ export const Alerts: React.FC<IAlerts> = () => {
 		return () => clearTimeout(timerRef.current);
 	}, []);
 
-	console.log('INDEX', alertIndex);
-
 	return (
 		<LayoutContainer
 			id="weather"
@@ -48,7 +46,7 @@ export const Alerts: React.FC<IAlerts> = () => {
 				</div>
 			</PositionedElement>
 
-			<PositionedElement width="60vh" top="35vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
+			<PositionedElement width="60vh" top="33vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 				<div className="value">
 					<div style={{ height: '45vh', overflow: 'hidden' }}>
 						{weather.alerts.length ? (

@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useAppDispatch } from '../../store/hooks';
 import { setHeadlights, setTurnSignal, setCheckEngine, incrementValue } from '../../store/siteSlice';
-import * as Speedometer from '../../pages/speedometer';
+import * as Speedometer from '../../pages/Speedometer';
 import * as Weather from '../../pages/Weather';
+import * as Time from '../../pages/Time';
 import * as Hula from '../../pages/Hula';
 
 export function Controls() {
@@ -30,6 +31,10 @@ export function Controls() {
 		{
 			gauge: Weather.Weather,
 			themes: [Weather.Current, Weather.Forecast, Weather.Alerts],
+		},
+		{
+			gauge: Time.Time,
+			themes: [Time.Analog],
 		},
 		{
 			gauge: Hula.Hula,

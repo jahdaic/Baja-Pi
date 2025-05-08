@@ -18,6 +18,8 @@
 		"openweather-api-node": "^3.1.5",
 		"react": "^18.2.0",
 		"react-bootstrap-icons": "^1.11.5",
+		"react-calendar": "^5.1.0",
+		"react-clock": "^5.1.0",
 		"react-dom": "^18.2.0",
 		"react-hotkeys-hook": "^5.0.1",
 		"react-redux": "^8.0.5",
