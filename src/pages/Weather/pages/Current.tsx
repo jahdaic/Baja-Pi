@@ -49,7 +49,7 @@ export const Current: React.FC<ICurrent> = () => {
 					</div>
 					<div className="value">
 						<span>
-							{weather.rain}
+							{Math.round(weather.rain * 100)}
 							<small>%</small>
 						</span>
 					</div>
@@ -101,7 +101,7 @@ export const Current: React.FC<ICurrent> = () => {
 					</div>
 					<div className="value">
 						<span>
-							{weather.visibility} <small>ft</small>
+							{Utility.feetToMiles(weather.visibility).toFixed(1)} <small>mi</small>
 						</span>
 					</div>
 				</div>

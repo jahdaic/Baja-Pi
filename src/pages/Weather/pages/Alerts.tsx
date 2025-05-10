@@ -19,7 +19,7 @@ export const Alerts: React.FC<IAlerts> = () => {
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 	const [alertIndex, setAlertIndex] = useState<number>(0);
 	const timerRef = useRef<any>(null);
-	const timeout = 5000;
+	const timeout = 10000;
 
 	const nextAlert = () => {
 		setAlertIndex(currentIndex => (currentIndex >= weather.alerts.length - 1 ? 0 : currentIndex + 1));

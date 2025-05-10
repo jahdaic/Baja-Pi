@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import OpenWeatherAPI, { Everything } from 'openweather-api-node';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectSpeedometer, setForecast, setWeather } from '../../store/siteSlice';
+import * as Utility from '../../scripts/Utility';
 
 export interface IWeather {
 	children: React.ReactElement<any, any> | null;
@@ -47,13 +48,13 @@ const Weather: React.FC<IWeather> = ({ children, ...props }) => {
 						feelsLike: data.current.weather.feelsLike.cur || weather.feelsLike || 0,
 						description: data.current.weather.description || weather.description || '',
 						icon: data.current.weather.icon.raw || weather.icon || '',
-						rain: data.current.weather.rain || weather.rain || 0,
+						rain: data.hourly[0].weather.pop || weather.rain || 0,
 						snow: data.current.weather.snow || weather.snow || 0,
 						windSpeed: data.current.weather.wind.speed || weather.windSpeed || 0,
 						windDirection: data.current.weather.wind.deg || weather.windDirection || 0,
 						humidity: data.current.weather.humidity || weather.humidity || 0,
 						pressure: data.current.weather.pressure || weather.pressure || 0,
-						visibility: data.current.weather.visibility || weather.visibility || 0,
+						visibility: Utility.metersToFeet(data.current.weather.visibility) || weather.visibility || 0,
 						uvi: data.current.weather.uvi || weather.uvi || 0,
 						sunrise: data.current.astronomical.sunrise?.toISOString() || weather.sunrise || '',
 						sunset: data.current.astronomical.sunset?.toISOString() || weather.sunset || '',

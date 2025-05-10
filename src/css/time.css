@@ -1,0 +1,89 @@
+#time {
+	color: #ffffff;
+	font-family: Bebas Neue;
+}
+
+div.react-clock__face {
+	border: 0px solid currentColor;
+}
+
+div.react-clock__mark__number {
+	font-size: 5rem;
+	top: 3% !important;
+}
+
+div.react-clock__hand__body,
+div.react-clock__mark__body {
+	background-color: currentColor;
+	/* border: 2px solid black; */
+}
+
+div.react-clock__second-hand__body {
+	background-color: red;
+}
+
+div.react-clock__second-hand {
+	transition-property: transform;
+	transition-timing-function: linear;
+	transition-duration: 1s;
+	transition-delay: 0s;
+}
+
+/* Calendar */
+
+.react-calendar__navigation {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+.react-calendar__navigation button {
+	height: 10vh;
+	min-width: 10vh;
+	background-color: #000000;
+	color: currentColor;
+	border-color: currentColor;
+	border-width: 2px;
+	border-style: solid;
+	/* border-radius: 100%; */
+	font-size: 1.5rem;
+	font-family: Arial;
+	display: none;
+}
+
+button.react-calendar__navigation__label {
+	font-size: 3rem;
+	font-family: Bebas Neue;
+	line-height: 1.25rem;
+	border-width: 0;
+	margin: 0 1rem;
+	display: block;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+	abbr {
+		text-decoration: none;
+		letter-spacing: 1px;
+	}
+}
+
+.react-calendar__tile {
+	height: 10vh;
+	background-color: #000000;
+	color: currentColor;
+	border-color: currentColor;
+	border-width: 1px;
+	border-style: solid;
+	border-color: inherit;
+	font-size: 1.5rem;
+	font-family: Bebas Neue;
+}
+
+.react-calendar__tile--now abbr {
+	font-weight: bolder;
+	color: red;
+}

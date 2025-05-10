@@ -40,19 +40,34 @@ export const Forecast: React.FC<IForecast> = () => {
 					<div className="label">
 						<Icons.Umbrella />
 					</div>
-					<div className="value">{weather.rain}%</div>
+					<div className="value">
+						<span>
+							{Math.round(weather.rain * 100)}
+							<small>%</small>
+						</span>
+					</div>
 				</div>
 				<div>
 					<div className="label">
 						<Icons.Wind />
 					</div>
-					<div className="value">{Math.round(weather.windSpeed)} mph</div>
+					<div className="value">
+						<span>
+							{Utility.degreesToCompassDirection(weather.windDirection)} {Math.round(weather.windSpeed)}{' '}
+							<small>mph</small>
+						</span>
+					</div>
 				</div>
 				<div>
 					<div className="label">
 						<Icons.Moisture />
 					</div>
-					<div className="value">{weather.humidity}%</div>
+					<div className="value">
+						<span>
+							{weather.humidity}
+							<small>%</small>
+						</span>
+					</div>
 				</div>
 			</PositionedElement>
 
@@ -69,7 +84,7 @@ export const Forecast: React.FC<IForecast> = () => {
 								<WeatherIcon icon={hour.weather.icon.raw} />
 							</div>
 							<div className="value">{Math.round(hour.weather.feelsLike.cur)}°</div>
-							<div className="value">{Math.round(hour.weather.rain)}%</div>
+							<div className="value">{Math.round(hour.weather.pop * 100)}%</div>
 						</div>
 					);
 				})}

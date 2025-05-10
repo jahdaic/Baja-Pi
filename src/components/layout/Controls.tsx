@@ -30,11 +30,11 @@ export function Controls() {
 		},
 		{
 			gauge: Weather.Weather,
-			themes: [Weather.Current, Weather.Forecast, Weather.Alerts],
+			themes: [Weather.Forecast, Weather.Current, Weather.Alerts],
 		},
 		{
 			gauge: Time.Time,
-			themes: [Time.Analog],
+			themes: [Time.Analog, Time.Calendar],
 		},
 		{
 			gauge: Hula.Hula,

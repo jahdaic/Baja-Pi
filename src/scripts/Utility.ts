@@ -2,7 +2,7 @@ import * as Icons from 'react-bootstrap-icons';
 
 /**
  * Converts a distance from meters to feet
- * @param {Number} m - The distance to convert in meters
+ * @param {Number} meters - The distance to convert in meters
  * @returns {Number}
  */
 export const metersToFeet = (meters: number): number => {
@@ -10,8 +10,17 @@ export const metersToFeet = (meters: number): number => {
 };
 
 /**
+ * Converts a distance from feet to miles
+ * @param {Number} feet - The distance to convert in feet
+ * @returns {Number}
+ */
+export const feetToMiles = (feet: number): number => {
+	return feet * 0.0001893939;
+};
+
+/**
  * Converts a velocity from meters per second to miles per hour (kilometers per hours for metric)
- * @param {Number} mps - The velocity to convert in meters per second
+ * @param {Number} metersPerSecond - The velocity to convert in meters per second
  * @returns {Number}
  */
 export const metersPerSecondToMPH = (metersPerSecond: number): number => {
