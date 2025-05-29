@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSpeedometer, setLocation } from '../../store/siteSlice';
+import { selectSpeedometer, setLocation, setSpeed } from '../../store/siteSlice';
 import * as Utility from '../../scripts/Utility';
 
 export interface IGPS {
@@ -11,7 +11,7 @@ export interface IGPS {
 
 const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 	const dispatch = useAppDispatch();
-	const { location } = useAppSelector(selectSpeedometer);
+	const { speed, location } = useAppSelector(selectSpeedometer);
 	const timeout = 500; // 500ms
 	const [timeoutID, setTimeoutID] = useState<any>(0);
 
@@ -23,7 +23,7 @@ const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 		try {
 			fetch(process.env.REACT_APP_GPSD_SERVER_URL || '')
 				.then(response => response.json())
-				.then(gps =>
+				.then(gps => {
 					dispatch(
 						setLocation({
 							latitude: gps?.lat || location.latitude || 0,
@@ -40,8 +40,10 @@ const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 								heading: gps?.track || location.error.heading || 0,
 							},
 						}),
-					),
-				)
+					);
+
+					dispatch(setSpeed(Utility.metersPerSecondToMPH(gps?.speed || 0) || speed || 0));
+				})
 				.catch(err => console.log(err));
 
 			// if (!response.ok) throw new Error(`Response status: ${response.status}`);

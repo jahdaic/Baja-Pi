@@ -8,10 +8,15 @@ import * as Weather from '../../pages/Weather';
 import * as Time from '../../pages/Time';
 import * as Hula from '../../pages/Hula';
 
-export function Controls() {
+export interface IControls {
+	test?: boolean;
+}
+
+export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const dispatch = useAppDispatch();
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
+	const [themeIndices, setThemeIndices] = useState<number[]>([0, 0, 0, 0]);
 	const timerRef = useRef<any>(null);
 	const timeout = 500;
 
@@ -46,24 +51,60 @@ export function Controls() {
 	const VisibleTheme = appMap[currentGauge].themes[currentTheme];
 
 	const nextGauge = () => {
-		setCurrentGauge(current => (current + 1 === appMap.length ? 0 : current + 1));
-		setCurrentTheme(0);
+		setCurrentGauge(current => {
+			const newGauge = current + 1 === appMap.length ? 0 : current + 1;
+
+			setCurrentTheme(themeIndices[newGauge] || 0);
+
+			return newGauge;
+		});
 	};
 
 	const prevGauge = () => {
-		setCurrentGauge(current => (current === 0 ? appMap.length - 1 : current - 1));
-		setCurrentTheme(0);
+		setCurrentGauge(current => {
+			const newGauge = current === 0 ? appMap.length - 1 : current - 1;
+
+			setCurrentTheme(themeIndices[newGauge] || 0);
+
+			return newGauge;
+		});
 	};
 
 	const nextTheme = () => {
-		setCurrentTheme(current => (current + 1 === appMap[currentGauge].themes.length ? 0 : current + 1));
+		setCurrentTheme(current => {
+			const newTheme = current + 1 === appMap[currentGauge].themes.length ? 0 : current + 1;
+
+			setThemeIndices(currentIndices => {
+				const newIndices = [...currentIndices];
+
+				newIndices[currentGauge] = newTheme;
+
+				return newIndices;
+			});
+
+			return newTheme;
+		});
 	};
 
 	const prevTheme = () => {
-		setCurrentTheme(current => (current === 0 ? appMap[currentGauge].themes.length - 1 : current - 1));
+		setCurrentTheme(current => {
+			const newTheme = current === 0 ? appMap[currentGauge].themes.length - 1 : current - 1;
+
+			setThemeIndices(currentIndices => {
+				const newIndices = [...currentIndices];
+
+				newIndices[currentGauge] = newTheme;
+
+				return newIndices;
+			});
+
+			return newTheme;
+		});
 	};
 
 	const updateSpeedometer = () => {
+		if (!test) return;
+
 		// dispatch(setSpeed(speed >= Number(process.env.REACT_APP_SPEED_LIMIT) ? 0 : speed + 1));
 		// dispatch(setRPM(rpm >= Number(process.env.REACT_APP_RPM_LIMIT) ? 0 : rpm + 1));
 		// dispatch(setFuel(fuel >= 100 ? 0 : fuel + 1));
@@ -117,6 +158,6 @@ export function Controls() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Controls;

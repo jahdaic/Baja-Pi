@@ -46,7 +46,7 @@ div.react-clock__second-hand {
 	border-color: currentColor;
 	border-width: 2px;
 	border-style: solid;
-	/* border-radius: 100%; */
+	border-radius: 100%;
 	font-size: 1.5rem;
 	font-family: Arial;
 	display: none;

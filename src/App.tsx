@@ -8,7 +8,7 @@ import './css/style.css';
 function App() {
 	return (
 		<div id="app">
-			<GPS stop>
+			<GPS>
 				<Weather>
 					<Controls />
 				</Weather>

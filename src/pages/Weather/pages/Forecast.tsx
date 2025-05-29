@@ -38,6 +38,12 @@ export const Forecast: React.FC<IForecast> = () => {
 			<PositionedElement width="60vh" top="45vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 				<div>
 					<div className="label">
+						<Icons.Thermometer />
+					</div>
+					<div className="value">{Math.round(weather.temperature)}°</div>
+				</div>
+				<div>
+					<div className="label">
 						<Icons.Umbrella />
 					</div>
 					<div className="value">

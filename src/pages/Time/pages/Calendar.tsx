@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import { Calendar as ReactCalendar } from 'react-calendar';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -14,10 +14,20 @@ export interface ICalendar {
 export const Calendar: React.FC<ICalendar> = () => {
 	const [date, setDate] = useState<any>(new Date());
 
+	const updateDate = () => {
+		setDate(new Date());
+	};
+
+	useEffect(() => {
+		const interval = setInterval(updateDate, 60000); // 1 minute
+
+		return () => clearInterval(interval);
+	}, []);
+
 	return (
 		<LayoutContainer id="time">
 			<PositionedElement width="80vh" height="70vh" top="9vh" left="10vh">
-				<ReactCalendar value={date} onChange={value => setDate(value)} />
+				<ReactCalendar value={date} calendarType="gregory" onChange={value => setDate(value)} />
 			</PositionedElement>
 		</LayoutContainer>
 	);
