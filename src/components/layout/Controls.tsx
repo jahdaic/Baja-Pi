@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { setHeadlights, setTurnSignal, setCheckEngine, incrementValue } from '../../store/siteSlice';
 import * as Speedometer from '../../pages/Speedometer';
 import * as Weather from '../../pages/Weather';
+import * as GPS from '../../pages/GPS';
 import * as Time from '../../pages/Time';
 import * as Hula from '../../pages/Hula';
 
@@ -36,6 +37,10 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 		{
 			gauge: Weather.Weather,
 			themes: [Weather.Forecast, Weather.Current, Weather.Alerts],
+		},
+		{
+			gauge: GPS.GPS,
+			themes: [GPS.Details],
 		},
 		{
 			gauge: Time.Time,

@@ -3,18 +3,34 @@ import { RootState } from './store';
 import { Alert, HourlyWeather } from 'openweather-api-node';
 
 export interface ILocation {
+	/** Latitude in degrees: +/- signifies North/South */
 	latitude: number;
+	/** Longitude in degrees: +/- signifies East/West */
 	longitude: number;
+	/** Mean sea level altitude in feet */
 	altitude: number;
+	/** Speed over ground, miles per hour */
 	speed: number;
+	/** Course over ground, degrees from true north */
 	heading: number;
+	/** Climb (positive) or sink (negative) rate, feet per second */
 	climb: number;
+	/** Estimated margins of error */
 	error: {
+		/** Latitude error estimate in feet  */
 		latitude: number;
+		/** Longitude error estimate in feet */
 		longitude: number;
+		/** Estimated vertical error in feet */
 		altitude: number;
+		/** Estimated speed error in miles per hour */
 		speed: number;
+		/** Estimated track (direction) error in degrees */
 		heading: number;
+		/** Estimated climb error in feet per second */
+		climb: number;
+		/** Last error received from Fetch request */
+		request: string;
 	};
 }
 
@@ -79,6 +95,8 @@ const initialState: ISpeedometerState = {
 			altitude: 0,
 			speed: 0,
 			heading: 0,
+			climb: 0,
+			request: '',
 		},
 	},
 	weather: {

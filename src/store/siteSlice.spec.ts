@@ -24,6 +24,8 @@ describe('speedometer reducer', () => {
 				altitude: 0,
 				speed: 0,
 				heading: 0,
+				climb: 0,
+				request: '',
 			},
 		},
 		weather: {
