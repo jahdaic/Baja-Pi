@@ -5,6 +5,7 @@ import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import WeatherIcon from '../../../components/formatting/WeatherIcon';
+import * as Icon from 'react-bootstrap-icons';
 
 import '../../../css/offroad.css';
 
@@ -28,7 +29,7 @@ export const Offroad = () => {
 				}}
 			>
 				<RadialGauge
-					value={location.speed}
+					value={speed}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -266,6 +267,10 @@ export const Offroad = () => {
 						borders={false}
 					/>
 				</div>
+			</PositionedElement>
+
+			<PositionedElement width="8rem" top="31vh" left="CALC(50% - 4rem)" center>
+				<Icon.TriangleFill />
 			</PositionedElement>
 
 			<PositionedElement width="30%" height="30%" top="CALC(50% - 15%)" left="CALC(50% - 15%)" center>

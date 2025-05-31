@@ -57,18 +57,31 @@ export interface IWeather {
 }
 
 export interface ISpeedometerState {
+	/** The current speed of the vehicle from GPS in miles per hour */
 	speed: number;
+	/** The current RPM of the vehicle in revolutions per minute */
 	rpm: number;
+	/** The current fuel level of the vehicle in percentage */
 	fuel: number;
+	/** The current oil temperature of the vehicle in farenheight */
 	oilTemperature: number;
+	/** The current oil pressure of the vehicle in PSI */
 	oilPressure: number;
+	/** The current voltage of the vehicle in volts */
 	voltage: number;
+	/** The current state of the vehicle's headlights, 0 = off, 1 = regular beams, 2 = high beams */
 	headlights: number;
+	/** The current state of the vehicle's turn signals, true = on, false = off */
 	turnSignal: boolean;
+	/** The current state of the vehicle's check engine light, true = on, false = off */
 	checkEngine: boolean;
+	/** GPS Location data fetched from gpsd-server */
 	location: ILocation;
+	/** Weather data fetched from Open Weather API */
 	weather: IWeather;
+	/** Hourly weather forecast fetched from Open Weather API */
 	forecast: HourlyWeather[];
+	/** The time the speedometer was started, used for calculating elapsed time */
 	startTime: number;
 }
 

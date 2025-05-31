@@ -5,6 +5,7 @@ import { selectSpeedometer } from '../../../store/siteSlice';
 import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
+import * as Icon from 'react-bootstrap-icons';
 
 import dayBG from '../../../images/topography-light.jpg';
 import nightBG from '../../../images/topography.jpg';
@@ -40,79 +41,82 @@ export const Details: React.FC<IDetails> = () => {
 				<div className="temperature" style={{ paddingLeft: 'initial' }}>
 					{Math.floor(location.speed)}{' '}
 				</div>
-				<label className="label">MPH</label>
-				<label className="label">{`${location.latitude}° ${location.longitude}°`}</label>
+				<label className="label">
+					<b>
+						<small>MPH</small>
+					</b>
+				</label>
+				<label className="label">{`${Utility.decimalCoordinateToDegrees(location.latitude, 'lat')},\xa0\xa0${Utility.decimalCoordinateToDegrees(location.longitude, 'long')}`}</label>
 			</PositionedElement>
 
 			<PositionedElement width="60vh" top="45vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 				<div>
-					<div className="label">Speed</div>
+					<div className="label">
+						{/* Speed */}
+						<Icon.Speedometer />
+					</div>
 					<div className="value">
-						<span>
+						<b>
 							{Math.floor(location.speed)} <small>MPH</small>
-						</span>
+						</b>
+					</div>
+					<div className="value">
+						<small>
+							<small>±</small> {Math.round(location.error.speed)} <small>mph</small>
+						</small>
 					</div>
 				</div>
 
 				<div>
-					<div className="label">Altitude</div>
+					<div className="label">
+						{/* Altitude */}
+						<Icon.Triangle />
+					</div>
 					<div className="value">
-						<span>
+						<b>
 							{Math.round(location.altitude)} <small>ft</small>
-						</span>
+						</b>
+					</div>
+					<div className="value">
+						<small>
+							<small>±</small> {Math.round(location.error.altitude)} <small>ft</small>
+						</small>
 					</div>
 				</div>
 				<div>
-					<div className="label">Direction</div>
+					<div className="label">
+						{/* Direction */}
+						<Icon.Compass />
+					</div>
 					<div className="value">
-						<span>{Utility.degreesToCompassDirection(location.heading)}</span>
+						<b>{Utility.degreesToCompassDirection(location.heading)}</b>
+					</div>
+					<div className="value">
+						<small>
+							<small>±</small> {location.error.heading}°
+						</small>
 					</div>
 				</div>
 				<div>
-					<div className="label">Climb</div>
+					<div className="label">
+						{/* Climb */}
+						<Icon.ArrowUpRight />
+					</div>
 					<div className="value">
-						<span>
+						<b>
 							{Math.round(location.climb)} <small>ft/s</small>
-						</span>
+						</b>
 					</div>
-				</div>
-			</PositionedElement>
-
-			<PositionedElement width="60vh" top="62vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
-				<div>
-					<div className="label">Speed Err</div>
 					<div className="value">
-						<span>
-							{Math.round(location.error.speed)} <small>mph</small>
-						</span>
-					</div>
-				</div>
-				<div>
-					<div className="label">Alt. Err</div>
-					<div className="value">
-						<span>
-							{Math.round(location.error.altitude)} <small>ft</small>
-						</span>
-					</div>
-				</div>
-				<div>
-					<div className="label">Dir. Err</div>
-					<div className="value">
-						<span>{location.error.heading}°</span>
-					</div>
-				</div>
-				<div>
-					<div className="label">Climb Err</div>
-					<div className="value">
-						<span>
-							{Math.round(location.error.climb)} <small>ft/s</small>
-						</span>
+						<small>
+							<small>±</small> {Math.round(location.error.climb)} <small>ft/s</small>
+						</small>
 					</div>
 				</div>
 			</PositionedElement>
 
 			{location.error.request && (
-				<PositionedElement width="60vh" top="78vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
+				<PositionedElement width="60vh" top="65vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 					{location.error.request}
 				</PositionedElement>
 			)}
