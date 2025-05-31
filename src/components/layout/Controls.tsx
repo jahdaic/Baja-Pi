@@ -15,6 +15,7 @@ export interface IControls {
 
 export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const dispatch = useAppDispatch();
+	const [showCursor, setShowCursor] = useState<boolean>(false);
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
 	const [themeIndices, setThemeIndices] = useState<number[]>([0, 0, 0, 0]);
@@ -142,6 +143,8 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	useHotkeys('right', nextTheme);
 	useHotkeys('up', prevGauge);
 	useHotkeys('down', nextGauge);
+	useHotkeys('c', () => setShowCursor(!showCursor));
+	useHotkeys('ctrl+r', () => window.location.reload());
 
 	useEffect(() => {
 		timerRef.current = setTimeout(updateSpeedometer, 0);
@@ -150,7 +153,7 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	}, []);
 
 	return (
-		<div>
+		<div className={showCursor ? '' : 'hide-cursor'}>
 			<VisibleGauge>
 				<VisibleTheme />
 			</VisibleGauge>
