@@ -1,0 +1,25 @@
+/*
+ * DT overlay: force the Waveshare 4" round LCD's native 720x720@78 mode on HDMI.
+ *
+ * Adds force-output + force-output-timing to the A733 HDMI node, which trips the
+ * sunxi-drm driver's drv_dts_force_mode bypass (skips its rate>60 rejection) and
+ * injects the exact panel timing.
+ *
+ * Timing string = clock(kHz)-hdisp-hss-hse-htot-vdisp-vss-vse-vtot
+ *   59400 720 760 800 1000 / 720 744 748 760
+ *
+ * Build:  dtc -@ -I dts -O dtb -o waveshare-round-hdmi.dtbo waveshare-round-hdmi.dts
+ * Use:    place the .dtbo in the board's user-overlay dir and reference it via
+ *         user_overlays= in /boot/orangepiEnv.txt (see install.sh --overlay).
+ *
+ * NOTE: install.sh applies the equivalent change by direct fdtput edit of the board
+ * DTB by default (most reliable). This overlay is the kernel-update-durable alternative.
+ */
+
+/dts-v1/;
+/plugin/;
+
+&{/soc@3000000/hdmi0@5520000} {
+    force-output = <1>;
+    force-output-timing = "59400-720-760-800-1000-720-744-748-760";
+};

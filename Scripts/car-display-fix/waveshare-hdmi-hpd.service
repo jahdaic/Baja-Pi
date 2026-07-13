@@ -1,0 +1,13 @@
+[Unit]
+Description=Force HDMI HPD plugin (hpd_mask=0x11) for Waveshare round LCD
+After=sysinit.target
+Before=display-manager.service
+ConditionPathExists=/sys/devices/virtual/hdmi/hdmi/attr/hpd_mask
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'echo 0x11 > /sys/devices/virtual/hdmi/hdmi/attr/hpd_mask'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
