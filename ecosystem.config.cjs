@@ -28,5 +28,18 @@ module.exports = {
 			args: `-N -n -F ${GPSD_CONTROL_SOCKET} ${GPS_DEVICE}`,
 			autorestart: true,
 		},
+		{
+			name: 'gps-server',
+			cwd: './GPS',
+			script: 'src/server.js',
+			// Node HTTP bridge: connects to gpsd on :2947 and serves the latest
+			// TPV as JSON (with a staleness flag) to the UI. It reconnects to
+			// gpsd on its own, so start order relative to the gpsd app above
+			// doesn't matter.
+			env: {
+				PORT: '8000',
+			},
+			autorestart: true,
+		},
 	],
 };
