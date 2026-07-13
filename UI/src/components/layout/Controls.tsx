@@ -111,26 +111,26 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const updateSpeedometer = () => {
 		if (!test) return;
 
-		// dispatch(setSpeed(speed >= Number(process.env.REACT_APP_SPEED_LIMIT) ? 0 : speed + 1));
-		// dispatch(setRPM(rpm >= Number(process.env.REACT_APP_RPM_LIMIT) ? 0 : rpm + 1));
+		// dispatch(setSpeed(speed >= Number(import.meta.env.VITE_SPEED_LIMIT) ? 0 : speed + 1));
+		// dispatch(setRPM(rpm >= Number(import.meta.env.VITE_RPM_LIMIT) ? 0 : rpm + 1));
 		// dispatch(setFuel(fuel >= 100 ? 0 : fuel + 1));
-		// dispatch(setOilTemp(oilTemperature >= Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 0 : oilTemperature + 1));
-		// dispatch(setOilPressure(oilPressure >= Number(process.env.REACT_APP_TEMP_REDLINE) ? 0 : oilPressure + 1));
+		// dispatch(setOilTemp(oilTemperature >= Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 0 : oilTemperature + 1));
+		// dispatch(setOilPressure(oilPressure >= Number(import.meta.env.VITE_TEMP_REDLINE) ? 0 : oilPressure + 1));
 		// dispatch(setVoltage(voltage >= 14 ? 0 : voltage + 0.1));
 
-		dispatch(incrementValue({ name: 'speed', amount: 1, max: Number(process.env.REACT_APP_SPEED_LIMIT) }));
-		dispatch(incrementValue({ name: 'rpm', amount: 50, max: Number(process.env.REACT_APP_RPM_LIMIT) }));
+		dispatch(incrementValue({ name: 'speed', amount: 1, max: Number(import.meta.env.VITE_SPEED_LIMIT) }));
+		dispatch(incrementValue({ name: 'rpm', amount: 50, max: Number(import.meta.env.VITE_RPM_LIMIT) }));
 		dispatch(incrementValue({ name: 'fuel', amount: 1, max: 100 }));
-		dispatch(incrementValue({ name: 'oilTemperature', amount: 5, max: Number(process.env.REACT_APP_OIL_TEMP_LIMIT) }));
-		dispatch(incrementValue({ name: 'oilPressure', amount: 1, max: Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT) }));
-		dispatch(incrementValue({ name: 'voltage', amount: 0.1, max: Number(process.env.REACT_APP_VOLTAGE_LIMIT) }));
+		dispatch(incrementValue({ name: 'oilTemperature', amount: 5, max: Number(import.meta.env.VITE_OIL_TEMP_LIMIT) }));
+		dispatch(incrementValue({ name: 'oilPressure', amount: 1, max: Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT) }));
+		dispatch(incrementValue({ name: 'voltage', amount: 0.1, max: Number(import.meta.env.VITE_VOLTAGE_LIMIT) }));
 
-		// dispatch(setSpeed(Math.random() * Number(process.env.REACT_APP_SPEED_LIMIT)));
-		// dispatch(setRPM(Math.random() * Number(process.env.REACT_APP_RPM_LIMIT)));
+		// dispatch(setSpeed(Math.random() * Number(import.meta.env.VITE_SPEED_LIMIT)));
+		// dispatch(setRPM(Math.random() * Number(import.meta.env.VITE_RPM_LIMIT)));
 		// dispatch(setFuel(Math.random() * 100));
-		// dispatch(setOilTemp(Math.random() * Number(process.env.REACT_APP_OIL_TEMP_LIMIT)));
+		// dispatch(setOilTemp(Math.random() * Number(import.meta.env.VITE_OIL_TEMP_LIMIT)));
 		// dispatch(setOilPressure(Math.random() * Number(70)));
-		// dispatch(setVoltage(Math.random() * Number(process.env.REACT_APP_VOLTAGE_LIMIT)));
+		// dispatch(setVoltage(Math.random() * Number(import.meta.env.VITE_VOLTAGE_LIMIT)));
 		dispatch(setHeadlights(Math.round(Math.random() * 2)));
 		dispatch(setTurnSignal(Boolean(Math.round(Math.random()))));
 		dispatch(setCheckEngine(Boolean(Math.round(Math.random()))));

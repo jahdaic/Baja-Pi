@@ -43,8 +43,8 @@ export const LCD = () => {
 				needle={false}
 				value={rpm / 1000}
 				minValue={0}
-				maxValue={Number(process.env.REACT_APP_RPM_LIMIT) / 1000}
-				majorTicks={Array.from(Array(Number(process.env.REACT_APP_RPM_LIMIT) / 1000 + 1).keys())}
+				maxValue={Number(import.meta.env.VITE_RPM_LIMIT) / 1000}
+				majorTicks={Array.from(Array(Number(import.meta.env.VITE_RPM_LIMIT) / 1000 + 1).keys())}
 				minorTicks={10}
 				exactTicks={false}
 				strokeTicks={true}
@@ -163,13 +163,13 @@ export const LCD = () => {
 
 			<div className="centralized" style={{ width: '10rem', position: 'absolute', top: '87vh', left: '25vh' }}>
 				<label className="lcd-label">
-					{oilTemperature >= Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? 'ENGINE OVERHEATING!' : ''}
+					{oilTemperature >= Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? 'ENGINE OVERHEATING!' : ''}
 				</label>
 			</div>
 
 			<div className="centralized" style={{ width: '6rem', position: 'absolute', top: '87vh', right: '25vh' }}>
 				<label className="lcd-label">
-					{oilPressure <= Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 'OIL PRESSURE!' : ''}
+					{oilPressure <= Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 'OIL PRESSURE!' : ''}
 				</label>
 			</div>
 		</LayoutContainer>

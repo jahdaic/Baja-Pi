@@ -19,7 +19,7 @@ const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 		if (stop) return;
 
 		try {
-			fetch(process.env.REACT_APP_GPSD_SERVER_URL || '')
+			fetch(import.meta.env.VITE_GPSD_SERVER_URL || '')
 				.then(response => response.json())
 				.then(gps => {
 					dispatch(

@@ -38,8 +38,8 @@ export const Bajapunk = () => {
 					height={window.innerHeight}
 					width={window.innerHeight}
 					minValue={0}
-					maxValue={Number(process.env.REACT_APP_RPM_LIMIT) / 1000}
-					majorTicks={Array.from(Array(Number(process.env.REACT_APP_RPM_LIMIT) / 1000 + 1).keys())}
+					maxValue={Number(import.meta.env.VITE_RPM_LIMIT) / 1000}
+					majorTicks={Array.from(Array(Number(import.meta.env.VITE_RPM_LIMIT) / 1000 + 1).keys())}
 					minorTicks={5}
 					exactTicks={false}
 					strokeTicks={true}
@@ -81,7 +81,7 @@ export const Bajapunk = () => {
 					height={window.innerHeight}
 					width={window.innerHeight}
 					minValue={120}
-					maxValue={Number(process.env.REACT_APP_OIL_TEMP_LIMIT || 300)}
+					maxValue={Number(import.meta.env.VITE_OIL_TEMP_LIMIT || 300)}
 					majorTicks={[120, 180, 220, 260, 300]}
 					minorTicks={2}
 					exactTicks={false}
@@ -167,8 +167,8 @@ export const Bajapunk = () => {
 					needle={false}
 					value={oilPressure}
 					minValue={0}
-					maxValue={Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT) || 70}
-					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_PRESSURE_LIMIT || 70), 8)}
+					maxValue={Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT) || 70}
+					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT || 70), 8)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
@@ -177,7 +177,7 @@ export const Bajapunk = () => {
 					highlights={[
 						{
 							from: 0,
-							to: Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE),
+							to: Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE),
 							color: highlightColor,
 						},
 					]}
@@ -191,7 +191,7 @@ export const Bajapunk = () => {
 					colorBarStroke="green"
 					colorBar="transparent"
 					colorBarProgress={
-						oilPressure > Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? barFillColor : highlightColor
+						oilPressure > Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? barFillColor : highlightColor
 					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
@@ -259,8 +259,8 @@ export const Bajapunk = () => {
 					needle={false}
 					value={voltage}
 					minValue={0}
-					maxValue={Number(process.env.REACT_APP_VOLTAGE_LIMIT)}
-					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_VOLTAGE_LIMIT), 8)}
+					maxValue={Number(import.meta.env.VITE_VOLTAGE_LIMIT)}
+					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_VOLTAGE_LIMIT), 8)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -269,7 +269,7 @@ export const Bajapunk = () => {
 					highlights={[
 						{
 							from: 0,
-							to: Number(process.env.REACT_APP_VOLTAGE_REDLINE),
+							to: Number(import.meta.env.VITE_VOLTAGE_REDLINE),
 							color: highlightColor,
 						},
 					]}
@@ -282,7 +282,7 @@ export const Bajapunk = () => {
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
 					colorBar="transparent"
-					colorBarProgress={voltage > Number(process.env.REACT_APP_VOLTAGE_REDLINE) ? barFillColor : highlightColor}
+					colorBarProgress={voltage > Number(import.meta.env.VITE_VOLTAGE_REDLINE) ? barFillColor : highlightColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
 					fontNumbersSize={gaugeNumberSize}
@@ -307,8 +307,8 @@ export const Bajapunk = () => {
 					needle={false}
 					value={oilTemperature}
 					minValue={0}
-					maxValue={Number(process.env.REACT_APP_OIL_TEMP_LIMIT)}
-					majorTicks={Utility.getIntervalValues(0, Number(process.env.REACT_APP_OIL_TEMP_LIMIT), 7)}
+					maxValue={Number(import.meta.env.VITE_OIL_TEMP_LIMIT)}
+					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_OIL_TEMP_LIMIT), 7)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -316,8 +316,8 @@ export const Bajapunk = () => {
 					ticksWidthMinor={3}
 					highlights={[
 						{
-							from: Number(process.env.REACT_APP_OIL_TEMP_REDLINE),
-							to: Number(process.env.REACT_APP_OIL_TEMP_LIMIT),
+							from: Number(import.meta.env.VITE_OIL_TEMP_REDLINE),
+							to: Number(import.meta.env.VITE_OIL_TEMP_LIMIT),
 							color: highlightColor,
 						},
 					]}
@@ -331,7 +331,7 @@ export const Bajapunk = () => {
 					colorBarStroke="red"
 					colorBar="transparent"
 					colorBarProgress={
-						oilTemperature < Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? barFillColor : highlightColor
+						oilTemperature < Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? barFillColor : highlightColor
 					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}

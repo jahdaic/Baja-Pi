@@ -50,7 +50,7 @@ export const Formula1 = () => {
 					top="20vh"
 					left="0"
 					borderWidth="2px"
-					background={oilPressure < Number(process.env.REACT_APP_OIL_PRESSURE_REDLINE) ? 'red' : ''}
+					background={oilPressure < Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>
@@ -65,7 +65,7 @@ export const Formula1 = () => {
 					top="40vh"
 					left="0"
 					borderWidth="2px"
-					background={oilTemperature > Number(process.env.REACT_APP_OIL_TEMP_REDLINE) ? 'red' : ''}
+					background={oilTemperature > Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>
@@ -80,7 +80,7 @@ export const Formula1 = () => {
 					top="60vh"
 					left="0"
 					borderWidth="2px"
-					background={voltage < Number(process.env.REACT_APP_VOLTAGE_REDLINE) ? 'red' : ''}
+					background={voltage < Number(import.meta.env.VITE_VOLTAGE_REDLINE) ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>

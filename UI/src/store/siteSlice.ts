@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { Alert, HourlyWeather } from 'openweather-api-node';
+
+// TODO(weather): these were openweather-api-node's `Alert` / `HourlyWeather`
+// types, dropped with the weather data layer during the Vite migration. Retype
+// them when the weather page is reimplemented against the NWS API.
+type Alert = any;
+type HourlyWeather = any;
 
 export interface ILocation {
 	/** Latitude in degrees: +/- signifies North/South */
