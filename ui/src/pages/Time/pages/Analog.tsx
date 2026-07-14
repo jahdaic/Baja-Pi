@@ -1,8 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import Clock from 'react-clock';
 import PositionedElement from '../../../components/layout/PositionedElement';
+import { useAppSelector } from '../../../store/hooks';
+import * as Utility from '../../../scripts/Utility';
 
 import '../../../css/time.css';
 import 'react-clock/dist/Clock.css';
@@ -12,18 +13,18 @@ export interface IAnalog {
 }
 
 export const Analog: React.FC<IAnalog> = () => {
-	const [time, setTime] = useState(new Date());
+	const timezone = useAppSelector(state => state.speedometer.weather.timezone);
+	const [now, setNow] = useState(new Date());
 	const size = window.innerHeight;
 
-	const updateTime = () => {
-		setTime(new Date());
-	};
-
 	useEffect(() => {
-		const interval = setInterval(updateTime, 500); // 0.5 seconds
+		const interval = setInterval(() => setNow(new Date()), 500); // 0.5 seconds
 
 		return () => clearInterval(interval);
 	}, []);
+
+	// Render the clock in the current location's time zone (device-local until known).
+	const time = Utility.getZonedDate(timezone, now);
 
 	return (
 		<LayoutContainer id="time">

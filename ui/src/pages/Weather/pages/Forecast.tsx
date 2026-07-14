@@ -82,9 +82,14 @@ export const Forecast: React.FC<IForecast> = () => {
 					const date = new Date(hour.dt);
 
 					return (
-						<div key={date.getHours()}>
+						<div key={hour.dt}>
 							<label className="label">
-								<b>{new Intl.DateTimeFormat('en-US', { hour: 'numeric' }).format(date)}</b>
+								<b>
+									{new Intl.DateTimeFormat('en-US', {
+										hour: 'numeric',
+										timeZone: weather.timezone || undefined,
+									}).format(date)}
+								</b>
 							</label>
 							<div className="value">
 								<WeatherIcon icon={hour.weather.icon.raw} />

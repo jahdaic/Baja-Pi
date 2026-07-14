@@ -109,7 +109,7 @@ export const Current: React.FC<ICurrent> = () => {
 					<div className="label">
 						<Icons.SunsetFill />
 					</div>
-					<div className="value">{Utility.toTimeDisplay(weather.sunset)}</div>
+					<div className="value">{Utility.toTimeDisplay(weather.sunset, weather.timezone)}</div>
 				</div>
 			</PositionedElement>
 		</LayoutContainer>

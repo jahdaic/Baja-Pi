@@ -76,10 +76,26 @@ export const toTitleCase = (str: string) =>
  * @param time - The date string
  * @returns The display formatted time
  */
-export const toTimeDisplay = (time?: string | Date | number | null) => {
+export const toTimeDisplay = (time?: string | Date | number | null, timeZone?: string) => {
 	if (!time) return '';
 
-	return Intl.DateTimeFormat([], { hour: 'numeric', minute: 'numeric' }).format(new Date(time));
+	return Intl.DateTimeFormat([], { hour: 'numeric', minute: 'numeric', timeZone: timeZone || undefined }).format(
+		new Date(time),
+	);
+};
+
+/**
+ * Reinterpret an instant's wall-clock time in `timeZone` as a local Date, so
+ * components that read local Date parts (react-clock, react-calendar,
+ * toTimeString) render the target zone's time. Falls back to the given date
+ * (device-local) when no timeZone is provided.
+ * @param timeZone - IANA time zone name, e.g. "America/New_York"
+ * @param date - the instant to convert (defaults to now)
+ * @returns A Date whose local parts equal the wall-clock time in timeZone
+ */
+export const getZonedDate = (timeZone?: string, date: Date = new Date()): Date => {
+	if (!timeZone) return date;
+	return new Date(date.toLocaleString('en-US', { timeZone }));
 };
 
 /**

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
+import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
@@ -119,7 +120,7 @@ export const Beetle13 = () => {
 						<label className="">{checkEngine ? '⚠' : ''}</label>
 					</PositionedElement>
 					<PositionedElement height="100%" center>
-						{new Date().toTimeString().substring(0, 5)}
+						{Utility.getZonedDate(weather.timezone).toTimeString().substring(0, 5)}
 					</PositionedElement>
 					<PositionedElement width="4rem" height="100%" top="0" right="5%" center style={{ textAlign: 'right' }}>
 						<label className="">

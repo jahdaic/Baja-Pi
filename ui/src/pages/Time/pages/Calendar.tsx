@@ -1,8 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import { Calendar as ReactCalendar } from 'react-calendar';
 import PositionedElement from '../../../components/layout/PositionedElement';
+import { useAppSelector } from '../../../store/hooks';
+import * as Utility from '../../../scripts/Utility';
 
 import '../../../css/time.css';
 import 'react-clock/dist/Clock.css';
@@ -12,17 +13,16 @@ export interface ICalendar {
 }
 
 export const Calendar: React.FC<ICalendar> = () => {
-	const [date, setDate] = useState<any>(new Date());
-
-	const updateDate = () => {
-		setDate(new Date());
-	};
+	const timezone = useAppSelector(state => state.speedometer.weather.timezone);
+	const [date, setDate] = useState<any>(() => Utility.getZonedDate(timezone));
 
 	useEffect(() => {
-		const interval = setInterval(updateDate, 60000); // 1 minute
+		// Track "today" in the current location's time zone (device-local until known).
+		setDate(Utility.getZonedDate(timezone));
+		const interval = setInterval(() => setDate(Utility.getZonedDate(timezone)), 60000); // 1 minute
 
 		return () => clearInterval(interval);
-	}, []);
+	}, [timezone]);
 
 	return (
 		<LayoutContainer id="time">

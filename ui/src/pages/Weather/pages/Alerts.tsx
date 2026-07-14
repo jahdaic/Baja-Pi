@@ -64,8 +64,8 @@ export const Alerts: React.FC<IAlerts> = () => {
 								<div style={{ display: 'flex', alignItems: 'center', marginBottom: '1em' }}>
 									<small>
 										<i>
-											{Utility.toTimeDisplay(weather.alerts[alertIndex].start * 1000)}-
-											{Utility.toTimeDisplay(weather.alerts[alertIndex].end * 1000)}
+											{Utility.toTimeDisplay(weather.alerts[alertIndex].start * 1000, weather.timezone)}-
+											{Utility.toTimeDisplay(weather.alerts[alertIndex].end * 1000, weather.timezone)}
 										</i>
 									</small>
 								</div>
