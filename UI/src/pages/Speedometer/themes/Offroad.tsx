@@ -1,3 +1,4 @@
+import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
@@ -36,7 +37,7 @@ export const Offroad = () => {
 					fontUnits={fontFace}
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_SPEED_LIMIT || 80)}
+					maxValue={config.speed.limit}
 					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 					minorTicks={4}
 					strokeTicks={false}
@@ -102,7 +103,7 @@ export const Offroad = () => {
 					// title="Speedometer"
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_SPEED_LIMIT || 80)}
+					maxValue={config.speed.limit}
 					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 					minorTicks={4}
 					strokeTicks={false}

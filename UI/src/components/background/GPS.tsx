@@ -1,3 +1,4 @@
+import config from '../../config';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -19,7 +20,7 @@ const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
 		if (stop) return;
 
 		try {
-			fetch(import.meta.env.VITE_GPSD_SERVER_URL || '')
+			fetch(config.gpsdServerUrl || '')
 				.then(response => response.json())
 				.then(gps => {
 					dispatch(

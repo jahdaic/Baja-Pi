@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
+import config from '../../../config';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 
@@ -43,8 +44,8 @@ export const LCD = () => {
 				needle={false}
 				value={rpm / 1000}
 				minValue={0}
-				maxValue={Number(import.meta.env.VITE_RPM_LIMIT) / 1000}
-				majorTicks={Array.from(Array(Number(import.meta.env.VITE_RPM_LIMIT) / 1000 + 1).keys())}
+				maxValue={config.rpm.limit / 1000}
+				majorTicks={Array.from(Array(config.rpm.limit / 1000 + 1).keys())}
 				minorTicks={10}
 				exactTicks={false}
 				strokeTicks={true}
@@ -163,13 +164,13 @@ export const LCD = () => {
 
 			<div className="centralized" style={{ width: '10rem', position: 'absolute', top: '87vh', left: '25vh' }}>
 				<label className="lcd-label">
-					{oilTemperature >= Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? 'ENGINE OVERHEATING!' : ''}
+					{oilTemperature >= config.oilTemp.redline ? 'ENGINE OVERHEATING!' : ''}
 				</label>
 			</div>
 
 			<div className="centralized" style={{ width: '6rem', position: 'absolute', top: '87vh', right: '25vh' }}>
 				<label className="lcd-label">
-					{oilPressure <= Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 'OIL PRESSURE!' : ''}
+					{oilPressure <= config.oilPressure.redline ? 'OIL PRESSURE!' : ''}
 				</label>
 			</div>
 		</LayoutContainer>

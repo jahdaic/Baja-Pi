@@ -20,7 +20,7 @@ import { IWeather, IWeatherAlert, IHourlyForecast } from '../store/siteSlice';
 const NWS_HEADERS = { Accept: 'application/geo+json' };
 
 const getJson = async (url: string, headers: Record<string, string> = {}): Promise<any> => {
-	const res = await fetch(url, { headers });
+	const res = await fetch(url, { headers, signal: AbortSignal.timeout(10000) });
 	if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
 	return res.json();
 };
@@ -118,6 +118,8 @@ export const nwsIconToOwm = (iconUrl?: string | null): string => {
 
 const toEpochSeconds = (iso?: string | null): number => (iso ? Math.floor(Date.parse(iso) / 1000) : 0);
 
+const isValidDate = (d?: Date | null): d is Date => d instanceof Date && !isNaN(d.getTime());
+
 /**
  * Fetch and assemble the full weather + hourly forecast for a location.
  * `previous` supplies fall-back values for any field a source omits this cycle.
@@ -182,7 +184,10 @@ export const fetchWeather = async (
 		feelsLike: feelsLike ?? previous.feelsLike ?? 0,
 		description: o?.textDescription || dayPeriod?.shortForecast || previous.description || '',
 		icon: nwsIconToOwm(o?.icon) || nwsIconToOwm(hourlyPeriods[0]?.icon) || previous.icon || '',
-		rain: (hourlyPeriods[0]?.probabilityOfPrecipitation?.value ?? 0) / 100 || previous.rain || 0,
+		rain:
+			hourlyPeriods[0]?.probabilityOfPrecipitation?.value != null
+				? hourlyPeriods[0].probabilityOfPrecipitation.value / 100
+				: previous.rain || 0,
 		snow: openMeteo?.current?.snowfall ?? previous.snow ?? 0,
 		windSpeed: o?.windSpeed?.value != null ? Utility.kmhToMph(o.windSpeed.value) : previous.windSpeed || 0,
 		windDirection: o?.windDirection?.value ?? previous.windDirection ?? 0,
@@ -193,8 +198,8 @@ export const fetchWeather = async (
 				: previous.pressure || 0,
 		visibility: o?.visibility?.value != null ? Utility.metersToFeet(o.visibility.value) : previous.visibility || 0,
 		uvi: openMeteo?.current?.uv_index != null ? Math.round(openMeteo.current.uv_index) : previous.uvi || 0,
-		sunrise: sun.sunrise ? sun.sunrise.toISOString() : previous.sunrise || '',
-		sunset: sun.sunset ? sun.sunset.toISOString() : previous.sunset || '',
+		sunrise: isValidDate(sun.sunrise) ? sun.sunrise.toISOString() : previous.sunrise || '',
+		sunset: isValidDate(sun.sunset) ? sun.sunset.toISOString() : previous.sunset || '',
 		city: points.city || previous.city || '',
 		timezone: points.timeZone || previous.timezone || '',
 		alerts,

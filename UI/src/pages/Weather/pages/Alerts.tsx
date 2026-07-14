@@ -18,12 +18,15 @@ export const Alerts: React.FC<IAlerts> = () => {
 	const { weather } = useAppSelector(selectSpeedometer);
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 	const [alertIndex, setAlertIndex] = useState<number>(0);
-	const timerRef = useRef<any>(null);
+	const timerRef = useRef<ReturnType<typeof setTimeout>>();
+	const alertsRef = useRef(weather.alerts);
+	alertsRef.current = weather.alerts;
 	const timeout = 10000;
 
 	const nextAlert = () => {
-		setAlertIndex(currentIndex => (currentIndex >= weather.alerts.length - 1 ? 0 : currentIndex + 1));
-		setTimeout(nextAlert, timeout);
+		setAlertIndex(currentIndex => (currentIndex >= alertsRef.current.length - 1 ? 0 : currentIndex + 1));
+		// store every timeout id so cleanup can cancel the whole chain (not just the first)
+		timerRef.current = setTimeout(nextAlert, timeout);
 	};
 
 	useEffect(() => {

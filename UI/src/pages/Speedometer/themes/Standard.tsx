@@ -1,3 +1,4 @@
+import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
@@ -34,7 +35,7 @@ export const Standard = () => {
 					// title="Speedometer"
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_SPEED_LIMIT || 80)}
+					maxValue={config.speed.limit}
 					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 					minorTicks={2}
 					strokeTicks={true}
@@ -92,7 +93,7 @@ export const Standard = () => {
 					// title="Speedometer"
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_SPEED_LIMIT || 80)}
+					maxValue={config.speed.limit}
 					majorTicks={[0, 10, 20, 30, 40, 50, 60, 70, 80]}
 					minorTicks={2}
 					strokeTicks={true}
@@ -145,7 +146,7 @@ export const Standard = () => {
 					title="RPM"
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_RPM_LIMIT || 7000) / 1000}
+					maxValue={config.rpm.limit / 1000}
 					majorTicks={[0, 1, 2, 3, 4, 5, 6, 7]}
 					minorTicks={2}
 					strokeTicks={true}
@@ -154,8 +155,8 @@ export const Standard = () => {
 					numbersMargin={5}
 					highlights={[
 						{
-							from: Number(import.meta.env.VITE_RPM_REDLINE || 5000) / 1000,
-							to: Number(import.meta.env.VITE_RPM_LIMIT || 7000) / 1000,
+							from: config.rpm.redline / 1000,
+							to: config.rpm.limit / 1000,
 							color: highlightColor,
 						},
 					]}
@@ -200,7 +201,7 @@ export const Standard = () => {
 					title="RPM"
 					fontTitle={fontFace}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_RPM_LIMIT || 7000) / 1000}
+					maxValue={config.rpm.limit / 1000}
 					majorTicks={[0, 1, 2, 3, 4, 5, 6, 7]}
 					minorTicks={2}
 					strokeTicks={true}

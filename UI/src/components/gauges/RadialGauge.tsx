@@ -25,12 +25,18 @@ const ReactRadialGauge: React.FC<IRadialGauge> = ({
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const [gauge, setGauge] = useState<RadialGauge | null>(null);
 
+	// Redraw only when an option value actually changes (not every render). `props`
+	// is a fresh object each render, so keying the effect on it forced a canvas
+	// redraw on every 500ms GPS tick; a serialized key runs it only on real change.
+	// `value` is handled by its own effect below.
+	const optionsKey = JSON.stringify(props);
 	useEffect(() => {
-		if (!gauge && canvas.current)
+		if (!gauge && canvas.current) {
 			setGauge(new RadialGauge({ ...defaultOptions, ...props, renderTo: canvas.current }).draw());
-
-		gauge?.update({ ...defaultOptions, ...gauge.options, ...props }).draw();
-	}, [props, canvas.current]);
+		} else if (gauge) {
+			gauge.update({ ...defaultOptions, ...gauge.options, ...props }).draw();
+		}
+	}, [optionsKey]);
 
 	// Update value
 	useEffect(() => {

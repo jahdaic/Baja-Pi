@@ -1,3 +1,4 @@
+import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
@@ -50,7 +51,7 @@ export const Formula1 = () => {
 					top="20vh"
 					left="0"
 					borderWidth="2px"
-					background={oilPressure < Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 'red' : ''}
+					background={oilPressure < config.oilPressure.redline ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>
@@ -65,7 +66,7 @@ export const Formula1 = () => {
 					top="40vh"
 					left="0"
 					borderWidth="2px"
-					background={oilTemperature > Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? 'red' : ''}
+					background={oilTemperature > config.oilTemp.redline ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>
@@ -80,7 +81,7 @@ export const Formula1 = () => {
 					top="60vh"
 					left="0"
 					borderWidth="2px"
-					background={voltage < Number(import.meta.env.VITE_VOLTAGE_REDLINE) ? 'red' : ''}
+					background={voltage < config.voltage.redline ? 'red' : ''}
 					noLeftBorder
 					noRightBorder
 				>

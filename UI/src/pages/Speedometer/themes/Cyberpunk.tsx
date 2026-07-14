@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
 import { selectSpeedometer } from '../../../store/siteSlice';
+import config from '../../../config';
 import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LinearGauge from '../../../components/gauges/LinearGauge';
@@ -38,8 +39,8 @@ export const Cyberpunk = () => {
 					height={window.innerHeight}
 					width={window.innerHeight}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_RPM_LIMIT) / 1000}
-					majorTicks={Array.from(Array(Number(import.meta.env.VITE_RPM_LIMIT) / 1000 + 1).keys())}
+					maxValue={config.rpm.limit / 1000}
+					majorTicks={Array.from(Array(config.rpm.limit / 1000 + 1).keys())}
 					minorTicks={5}
 					exactTicks={false}
 					strokeTicks={true}
@@ -81,7 +82,7 @@ export const Cyberpunk = () => {
 					height={window.innerHeight}
 					width={window.innerHeight}
 					minValue={120}
-					maxValue={Number(import.meta.env.VITE_OIL_TEMP_LIMIT || 300)}
+					maxValue={config.oilTemp.limit}
 					majorTicks={[120, 180, 220, 260, 300]}
 					minorTicks={2}
 					exactTicks={false}
@@ -167,8 +168,8 @@ export const Cyberpunk = () => {
 					needle={false}
 					value={oilPressure}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT) || 70}
-					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT || 70), 8)}
+					maxValue={config.oilPressure.limit || 70}
+					majorTicks={Utility.getIntervalValues(0, config.oilPressure.limit, 8)}
 					minorTicks={2}
 					tickSide="left"
 					numberSide="left"
@@ -177,7 +178,7 @@ export const Cyberpunk = () => {
 					highlights={[
 						{
 							from: 0,
-							to: Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE),
+							to: config.oilPressure.redline,
 							color: highlightColor,
 						},
 					]}
@@ -191,7 +192,7 @@ export const Cyberpunk = () => {
 					colorBarStroke="green"
 					colorBar="transparent"
 					colorBarProgress={
-						oilPressure > Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? barFillColor : highlightColor
+						oilPressure > config.oilPressure.redline ? barFillColor : highlightColor
 					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
@@ -259,8 +260,8 @@ export const Cyberpunk = () => {
 					needle={false}
 					value={voltage}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_VOLTAGE_LIMIT)}
-					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_VOLTAGE_LIMIT), 8)}
+					maxValue={config.voltage.limit}
+					majorTicks={Utility.getIntervalValues(0, config.voltage.limit, 8)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -269,7 +270,7 @@ export const Cyberpunk = () => {
 					highlights={[
 						{
 							from: 0,
-							to: Number(import.meta.env.VITE_VOLTAGE_REDLINE),
+							to: config.voltage.redline,
 							color: highlightColor,
 						},
 					]}
@@ -282,7 +283,7 @@ export const Cyberpunk = () => {
 					colorMajorTicks={textColor}
 					colorBarStroke="red"
 					colorBar="transparent"
-					colorBarProgress={voltage > Number(import.meta.env.VITE_VOLTAGE_REDLINE) ? barFillColor : highlightColor}
+					colorBarProgress={voltage > config.voltage.redline ? barFillColor : highlightColor}
 					colorUnits={barColor}
 					fontNumbers={fontFace}
 					fontNumbersSize={gaugeNumberSize}
@@ -307,8 +308,8 @@ export const Cyberpunk = () => {
 					needle={false}
 					value={oilTemperature}
 					minValue={0}
-					maxValue={Number(import.meta.env.VITE_OIL_TEMP_LIMIT)}
-					majorTicks={Utility.getIntervalValues(0, Number(import.meta.env.VITE_OIL_TEMP_LIMIT), 7)}
+					maxValue={config.oilTemp.limit}
+					majorTicks={Utility.getIntervalValues(0, config.oilTemp.limit, 7)}
 					minorTicks={2}
 					tickSide="right"
 					numberSide="right"
@@ -316,8 +317,8 @@ export const Cyberpunk = () => {
 					ticksWidthMinor={3}
 					highlights={[
 						{
-							from: Number(import.meta.env.VITE_OIL_TEMP_REDLINE),
-							to: Number(import.meta.env.VITE_OIL_TEMP_LIMIT),
+							from: config.oilTemp.redline,
+							to: config.oilTemp.limit,
 							color: highlightColor,
 						},
 					]}
@@ -331,7 +332,7 @@ export const Cyberpunk = () => {
 					colorBarStroke="red"
 					colorBar="transparent"
 					colorBarProgress={
-						oilTemperature < Number(import.meta.env.VITE_OIL_TEMP_REDLINE) ? barFillColor : highlightColor
+						oilTemperature < config.oilTemp.redline ? barFillColor : highlightColor
 					}
 					colorUnits={barColor}
 					fontNumbers={fontFace}

@@ -1,3 +1,4 @@
+import config from '../../config';
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -8,6 +9,7 @@ import * as Weather from '../../pages/Weather';
 import * as GPS from '../../pages/GPS';
 import * as Time from '../../pages/Time';
 import * as Hula from '../../pages/Hula';
+import ErrorBoundary from '../ErrorBoundary';
 
 export interface IControls {
 	test?: boolean;
@@ -18,7 +20,7 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const [showCursor, setShowCursor] = useState<boolean>(false);
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
-	const [themeIndices, setThemeIndices] = useState<number[]>([0, 0, 0, 0]);
+	const [themeIndices, setThemeIndices] = useState<number[]>([0, 0, 0, 0, 0]); // one slot per gauge in appMap
 	const timerRef = useRef<any>(null);
 	const timeout = 500;
 
@@ -111,26 +113,26 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const updateSpeedometer = () => {
 		if (!test) return;
 
-		// dispatch(setSpeed(speed >= Number(import.meta.env.VITE_SPEED_LIMIT) ? 0 : speed + 1));
-		// dispatch(setRPM(rpm >= Number(import.meta.env.VITE_RPM_LIMIT) ? 0 : rpm + 1));
+		// dispatch(setSpeed(speed >= config.speed.limit ? 0 : speed + 1));
+		// dispatch(setRPM(rpm >= config.rpm.limit ? 0 : rpm + 1));
 		// dispatch(setFuel(fuel >= 100 ? 0 : fuel + 1));
-		// dispatch(setOilTemp(oilTemperature >= Number(import.meta.env.VITE_OIL_PRESSURE_REDLINE) ? 0 : oilTemperature + 1));
+		// dispatch(setOilTemp(oilTemperature >= config.oilPressure.redline ? 0 : oilTemperature + 1));
 		// dispatch(setOilPressure(oilPressure >= Number(import.meta.env.VITE_TEMP_REDLINE) ? 0 : oilPressure + 1));
 		// dispatch(setVoltage(voltage >= 14 ? 0 : voltage + 0.1));
 
-		dispatch(incrementValue({ name: 'speed', amount: 1, max: Number(import.meta.env.VITE_SPEED_LIMIT) }));
-		dispatch(incrementValue({ name: 'rpm', amount: 50, max: Number(import.meta.env.VITE_RPM_LIMIT) }));
+		dispatch(incrementValue({ name: 'speed', amount: 1, max: config.speed.limit }));
+		dispatch(incrementValue({ name: 'rpm', amount: 50, max: config.rpm.limit }));
 		dispatch(incrementValue({ name: 'fuel', amount: 1, max: 100 }));
-		dispatch(incrementValue({ name: 'oilTemperature', amount: 5, max: Number(import.meta.env.VITE_OIL_TEMP_LIMIT) }));
-		dispatch(incrementValue({ name: 'oilPressure', amount: 1, max: Number(import.meta.env.VITE_OIL_PRESSURE_LIMIT) }));
-		dispatch(incrementValue({ name: 'voltage', amount: 0.1, max: Number(import.meta.env.VITE_VOLTAGE_LIMIT) }));
+		dispatch(incrementValue({ name: 'oilTemperature', amount: 5, max: config.oilTemp.limit }));
+		dispatch(incrementValue({ name: 'oilPressure', amount: 1, max: config.oilPressure.limit }));
+		dispatch(incrementValue({ name: 'voltage', amount: 0.1, max: config.voltage.limit }));
 
-		// dispatch(setSpeed(Math.random() * Number(import.meta.env.VITE_SPEED_LIMIT)));
-		// dispatch(setRPM(Math.random() * Number(import.meta.env.VITE_RPM_LIMIT)));
+		// dispatch(setSpeed(Math.random() * config.speed.limit));
+		// dispatch(setRPM(Math.random() * config.rpm.limit));
 		// dispatch(setFuel(Math.random() * 100));
-		// dispatch(setOilTemp(Math.random() * Number(import.meta.env.VITE_OIL_TEMP_LIMIT)));
+		// dispatch(setOilTemp(Math.random() * config.oilTemp.limit));
 		// dispatch(setOilPressure(Math.random() * Number(70)));
-		// dispatch(setVoltage(Math.random() * Number(import.meta.env.VITE_VOLTAGE_LIMIT)));
+		// dispatch(setVoltage(Math.random() * config.voltage.limit));
 		dispatch(setHeadlights(Math.round(Math.random() * 2)));
 		dispatch(setTurnSignal(Boolean(Math.round(Math.random()))));
 		dispatch(setCheckEngine(Boolean(Math.round(Math.random()))));
@@ -154,9 +156,11 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 
 	return (
 		<div className={showCursor ? '' : 'hide-cursor'}>
-			<VisibleGauge>
-				<VisibleTheme />
-			</VisibleGauge>
+			<ErrorBoundary key={`${currentGauge}-${currentTheme}`}>
+				<VisibleGauge>
+					<VisibleTheme />
+				</VisibleGauge>
+			</ErrorBoundary>
 
 			<div className="button-container">
 				<div className="prev-button" onClick={prevTheme} />

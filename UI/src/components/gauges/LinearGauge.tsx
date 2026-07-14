@@ -20,12 +20,16 @@ const ReactLinearGauge: React.FC<ILinearGauge> = ({ height = '100%', width = '10
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const [gauge, setGauge] = useState<LinearGauge | null>(null);
 
+	// Redraw only when an option value actually changes (see RadialGauge for the
+	// rationale); `value` is handled by its own effect below.
+	const optionsKey = JSON.stringify(props);
 	useEffect(() => {
-		if (!gauge && canvas.current)
+		if (!gauge && canvas.current) {
 			setGauge(new LinearGauge({ ...defaultOptions, ...props, renderTo: canvas.current }).draw());
-
-		gauge?.update({ ...defaultOptions, ...gauge.options, ...props }).draw();
-	}, [props, canvas.current]);
+		} else if (gauge) {
+			gauge.update({ ...defaultOptions, ...gauge.options, ...props }).draw();
+		}
+	}, [optionsKey]);
 
 	// Update value
 	useEffect(() => {
