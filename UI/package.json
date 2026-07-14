@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@patricksurry/g3": ">=0.1.16",
 		"@reduxjs/toolkit": "^1.9.0",
+		"@types/suncalc": "^1.9.2",
 		"canvas-gauges": "github:Mikhus/canvas-gauges",
 		"react": "^18.2.0",
 		"react-bootstrap-icons": "^1.11.5",
@@ -20,7 +21,8 @@
 		"react-clock": "^5.1.0",
 		"react-dom": "^18.2.0",
 		"react-hotkeys-hook": "^5.0.1",
-		"react-redux": "^8.0.5"
+		"react-redux": "^8.0.5",
+		"suncalc": "^2.0.1"
 	},
 	"devDependencies": {
 		"@types/canvas-gauges": "^2.1.4",

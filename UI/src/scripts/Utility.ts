@@ -37,6 +37,33 @@ export const millibarsToInchesOfMercury = (mb: number): number => {
 };
 
 /**
+ * Converts a temperature from Celsius to Fahrenheit
+ * @param {Number} celsius - The temperature to convert in degrees Celsius
+ * @returns {Number}
+ */
+export const celsiusToFahrenheit = (celsius: number): number => {
+	return (celsius * 9) / 5 + 32;
+};
+
+/**
+ * Converts a velocity from kilometers per hour to miles per hour
+ * @param {Number} kmh - The velocity to convert in kilometers per hour
+ * @returns {Number}
+ */
+export const kmhToMph = (kmh: number): number => {
+	return kmh * 0.621371;
+};
+
+/**
+ * Converts pressure in pascals to millibars (hectopascals)
+ * @param {Number} pascals - The pressure in pascals
+ * @returns {Number}
+ */
+export const pascalsToMillibars = (pascals: number): number => {
+	return pascals / 100;
+};
+
+/**
  * Convert a string into title/proper case
  * @param {String} str - The text to convert
  * @returns {String}

@@ -1,11 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
-// TODO(weather): these were openweather-api-node's `Alert` / `HourlyWeather`
-// types, dropped with the weather data layer during the Vite migration. Retype
-// them when the weather page is reimplemented against the NWS API.
-type Alert = any;
-type HourlyWeather = any;
+/** A single active weather alert (sourced from NWS /alerts/active). */
+export interface IWeatherAlert {
+	/** Short event name, e.g. "Tornado Warning" */
+	event: string;
+	/** Alert onset time, epoch seconds */
+	start: number;
+	/** Alert end/expiry time, epoch seconds */
+	end: number;
+	/** Full alert text */
+	description: string;
+}
+
+/**
+ * A single hour of forecast. The nested shape intentionally mirrors the old
+ * openweather-api-node `HourlyWeather` so the forecast page consumes it unchanged.
+ */
+export interface IHourlyForecast {
+	/** ISO timestamp for the hour */
+	dt: string;
+	weather: {
+		/** OWM-style icon code, e.g. "01d" */
+		icon: { raw: string };
+		/** "Feels like" temperature for the hour, in Fahrenheit */
+		feelsLike: { cur: number };
+		/** Probability of precipitation, 0..1 */
+		pop: number;
+	};
+}
 
 export interface ILocation {
 	/** Latitude in degrees: +/- signifies North/South */
@@ -57,8 +80,9 @@ export interface IWeather {
 	sunrise: string;
 	sunset: string;
 	city: string;
-	timezone: number;
-	alerts: Alert[];
+	/** IANA time zone name for the location, e.g. "America/New_York" (from NWS /points) */
+	timezone: string;
+	alerts: IWeatherAlert[];
 }
 
 export interface ISpeedometerState {
@@ -82,10 +106,10 @@ export interface ISpeedometerState {
 	checkEngine: boolean;
 	/** GPS Location data fetched from gpsd-server */
 	location: ILocation;
-	/** Weather data fetched from Open Weather API */
+	/** Weather data fetched from the weather service (NWS + Open-Meteo) */
 	weather: IWeather;
-	/** Hourly weather forecast fetched from Open Weather API */
-	forecast: HourlyWeather[];
+	/** Hourly weather forecast fetched from the weather service */
+	forecast: IHourlyForecast[];
 	/** The time the speedometer was started, used for calculating elapsed time */
 	startTime: number;
 }
@@ -135,7 +159,7 @@ const initialState: ISpeedometerState = {
 		sunrise: '',
 		sunset: '',
 		city: '',
-		timezone: 0,
+		timezone: '',
 		alerts: [],
 	},
 	forecast: [],
@@ -200,7 +224,7 @@ export const speedometerSlice = createSlice({
 		setWeather: (state, action: PayloadAction<IWeather>) => {
 			state.weather = action.payload;
 		},
-		setForecast: (state, action: PayloadAction<HourlyWeather[]>) => {
+		setForecast: (state, action: PayloadAction<IHourlyForecast[]>) => {
 			state.forecast = action.payload;
 		},
 	},
