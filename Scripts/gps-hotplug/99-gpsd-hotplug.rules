@@ -1,0 +1,14 @@
+# Re-attach the u-blox GPS to the pm2-managed gpsd when it is (re)plugged in.
+#
+# Our gpsd runs under pm2 with a user-owned control socket
+# (/run/user/1000/gpsd.sock), NOT the distro's /run/gpsd.sock, so the stock
+# /lib/udev/rules.d/60-gpsd.rules (which drives the masked systemd gpsd.socket
+# via gpsdctl@.service) does not apply here.
+#
+# We hand gpsd the SAME by-id path it was started with (see ecosystem.config.cjs),
+# so gpsd treats it as the one device: idempotent when already open (e.g. at
+# boot, where gpsd already has it), and a genuine re-attach after a replug.
+#
+# u-blox 8 GNSS receiver = 1546:01a8
+ACTION=="add",    SUBSYSTEM=="tty", ENV{ID_VENDOR_ID}=="1546", ENV{ID_MODEL_ID}=="01a8", RUN+="/bin/sh -c 'GPSD_SOCKET=/run/user/1000/gpsd.sock /usr/sbin/gpsdctl add /dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_GNSS_receiver-if00'"
+ACTION=="remove", SUBSYSTEM=="tty", ENV{ID_VENDOR_ID}=="1546", ENV{ID_MODEL_ID}=="01a8", RUN+="/bin/sh -c 'GPSD_SOCKET=/run/user/1000/gpsd.sock /usr/sbin/gpsdctl remove /dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_GNSS_receiver-if00'"
