@@ -22,7 +22,7 @@ Companion doc: `car-dashboard-displayfix.md` (display driver blocker — RESOLVE
 
 ```
 ~/car-dashboard/
-├── UI/                          # React app (the dashboard itself)
+├── ui/                          # React app (the dashboard itself)
 │   ├── src/                     # components, pages, state, styles
 │   ├── public/                  # static assets
 │   ├── bin/                     # kiosk-layer scripts (see below)
@@ -30,18 +30,18 @@ Companion doc: `car-dashboard-displayfix.md` (display driver blocker — RESOLVE
 │   ├── package.json
 │   ├── vite.config.ts
 │   └── tsconfig.json
-├── GPS/                         # GPSD-fronted position/speed HTTP server
+├── gps/                         # GPSD-fronted position/speed HTTP server
 │   ├── src/
 │   │   └── server.js            # the ~60-line node-gpsd-client wrapper
 │   └── package.json
-├── Voice/                       # (future) wake-word + STT + TTS, if we add it
+├── voice/                       # (future) wake-word + STT + TTS, if we add it
 │   └── README.md                # placeholder — voice is deferred, see project doc
-├── Docs/                        # project documentation
+├── docs/                        # project documentation
 │   ├── architecture.md          # this file (canonical copy — Documents/ is the working draft)
 │   ├── displayfix.md            # copy of the sunxi-drm fix writeup
 │   ├── decisions.md             # design decisions with reasoning (Alice-style)
 │   └── troubleshooting.md       # resolved incidents (Alice-style)
-├── Scripts/                     # ops + provisioning
+├── scripts/                     # ops + provisioning
 │   ├── install.sh               # one-shot: pm2 startup, deps, systemd units
 │   ├── waveshare-hdmi-hpd.service
 │   └── 10-waveshare-round.conf  # Xorg DPMS-off snippet
@@ -51,28 +51,28 @@ Companion doc: `car-dashboard-displayfix.md` (display driver blocker — RESOLVE
 └── CLAUDE.md                    # working context for Claude Code (Alice-style)
 ```
 
-### Why `UI/bin/` and not a top-level `Kiosk/`
+### Why `ui/bin/` and not a top-level `Kiosk/`
 
 Alice's `Avatar/` puts its Chromium kiosk launcher (`Avatar/bin/chromium-kiosk`, ~128 lines) inside the same directory as the app itself. Same pattern here:
 
-- `UI/src/` is the React app. Runs in any browser. Doesn't know about Chromium, Wayland, or the Waveshare panel.
-- `UI/bin/` holds the "get this app onto *this specific device's* screen" machinery — the Chromium launcher script, autostart .desktop file, maybe an `unclutter` config.
+- `ui/src/` is the React app. Runs in any browser. Doesn't know about Chromium, Wayland, or the Waveshare panel.
+- `ui/bin/` holds the "get this app onto *this specific device's* screen" machinery — the Chromium launcher script, autostart .desktop file, maybe an `unclutter` config.
 
-Nested (`UI/bin/`) is simpler than top-level (`Kiosk/`) when the kiosk layer is small — one launcher, one autostart entry. If the layer grows past ~5 files, promote to a top-level `Kiosk/`. Not a decision to sweat now.
+Nested (`ui/bin/`) is simpler than top-level (`Kiosk/`) when the kiosk layer is small — one launcher, one autostart entry. If the layer grows past ~5 files, promote to a top-level `Kiosk/`. Not a decision to sweat now.
 
 ### What goes where — quick reference
 
 | Concern | Directory | Example files |
 |---|---|---|
-| React components, pages, styles | `UI/src/` | `Speedometer.tsx`, `App.tsx`, `theme.css` |
-| Vite build config | `UI/` (root of app) | `vite.config.ts`, `package.json` |
-| Chromium kiosk shell | `UI/bin/` | `chromium-kiosk`, `car-dashboard.desktop` |
-| GPSD Node server | `GPS/src/` | `server.js`, `package.json` |
-| Display bring-up (HPD, Xorg DPMS) | `Scripts/` | `waveshare-hdmi-hpd.service`, `10-waveshare-round.conf` |
-| One-shot provisioning | `Scripts/` | `install.sh` (sets up pm2 startup, systemd units, deps) |
+| React components, pages, styles | `ui/src/` | `Speedometer.tsx`, `App.tsx`, `theme.css` |
+| Vite build config | `ui/` (root of app) | `vite.config.ts`, `package.json` |
+| Chromium kiosk shell | `ui/bin/` | `chromium-kiosk`, `car-dashboard.desktop` |
+| GPSD Node server | `gps/src/` | `server.js`, `package.json` |
+| Display bring-up (HPD, Xorg DPMS) | `scripts/` | `waveshare-hdmi-hpd.service`, `10-waveshare-round.conf` |
+| One-shot provisioning | `scripts/` | `install.sh` (sets up pm2 startup, systemd units, deps) |
 | pm2 process definitions | repo root | `ecosystem.config.cjs` |
 | Environment variables | repo root | `.env`, `.env.example` |
-| Project docs | `Docs/` | `architecture.md`, `decisions.md`, `troubleshooting.md` |
+| Project docs | `docs/` | `architecture.md`, `decisions.md`, `troubleshooting.md` |
 | Claude Code context | repo root | `CLAUDE.md` |
 
 ---
@@ -131,7 +131,7 @@ pm2 startup            # writes the systemd unit that resurrects pm2 on boot
 
 1. **UI iteration** on the laptop:
    ```bash
-   cd UI/
+   cd ui/
    npm run dev              # http://localhost:5173 in laptop browser
    ```
    No Orange Pi, no GPSD, no Chromium kiosk needed. Mock GPS data via a `.env` flag if needed.
@@ -152,19 +152,19 @@ pm2 startup            # writes the systemd unit that resurrects pm2 on boot
 ## Env vars — where they live
 
 - Repo root `.env` — GPSD port, GPS server port, feature flags (mock mode, etc.).
-- `UI/.env.local` — Vite-picked-up vars (`VITE_GPS_URL`, `VITE_MOCK_MODE`, etc.). *Not* checked in.
+- `ui/.env.local` — Vite-picked-up vars (`VITE_GPS_URL`, `VITE_MOCK_MODE`, etc.). *Not* checked in.
 - `.env.example` at repo root — documents every variable the system reads. *Is* checked in.
 
-Same pattern Alice uses (`Voice/.env`, `Brain/workspace/.env`, etc. all sourced from a documented `.env.example`).
+Same pattern Alice uses (`voice/.env`, `Brain/workspace/.env`, etc. all sourced from a documented `.env.example`).
 
 ---
 
 ## Open questions (decide as we hit them)
 
-- **Voice yet?** The project doc says voice is deferred. `Voice/` is a placeholder. When we add it, expect a wake-word service (openWakeWord CPU) + STT (probably cloud since the Orange Pi has no Hailo) + TTS (Piper or cloud). Roughly Alice-shaped but simpler.
+- **Voice yet?** The project doc says voice is deferred. `voice/` is a placeholder. When we add it, expect a wake-word service (openWakeWord CPU) + STT (probably cloud since the Orange Pi has no Hailo) + TTS (Piper or cloud). Roughly Alice-shaped but simpler.
 - **Alice integration?** User has expressed intent to bring Alice into the car "for real." Decision path is in `car-dashboard-project.md`. If we go that way, `Brain/` becomes a fourth top-level dir here or the car dashboard becomes a subsystem of a broader Companion-shaped repo. Not yet.
 - **DB / persistence?** GPS trace logging, trip history, config? Currently none. If it grows, add `Data/` or `Storage/`.
-- **Static build vs. Vite dev in prod?** For a car dashboard that boots and runs unattended, `vite build` + serving `UI/dist/` via a tiny static server is probably better than leaving `vite dev` running. Decide after the first working end-to-end.
+- **Static build vs. Vite dev in prod?** For a car dashboard that boots and runs unattended, `vite build` + serving `ui/dist/` via a tiny static server is probably better than leaving `vite dev` running. Decide after the first working end-to-end.
 
 ---
 
@@ -174,11 +174,11 @@ The old setup was "a bunch of separate repo directories inside `~/Code/`." Concr
 
 | Old (Zero 2W) | New (Zero 3W) |
 |---|---|
-| `~/Code/react-dashboard/` | `~/car-dashboard/UI/` |
-| `~/Code/gpsd-server/` | `~/car-dashboard/GPS/` |
-| ad-hoc launcher scripts scattered around | `~/car-dashboard/UI/bin/`, `~/car-dashboard/Scripts/` |
+| `~/Code/react-dashboard/` | `~/car-dashboard/ui/` |
+| `~/Code/gpsd-server/` | `~/car-dashboard/gps/` |
+| ad-hoc launcher scripts scattered around | `~/car-dashboard/ui/bin/`, `~/car-dashboard/scripts/` |
 | no unified process manager | `~/car-dashboard/ecosystem.config.cjs` under pm2 |
-| no docs directory | `~/car-dashboard/Docs/` |
+| no docs directory | `~/car-dashboard/docs/` |
 
 Recommend: create the new tree fresh, copy source files (`.tsx`, `.js`) over, rebuild `package.json` clean, git-init from scratch. Don't try to preserve the old git history — it wasn't organized in a way worth carrying forward, and the new repo layout will read cleaner without the "reorganization" commit noise.
 

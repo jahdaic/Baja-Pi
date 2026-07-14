@@ -1,6 +1,6 @@
 # Baja UI — Code Audit (2026-07-14)
 
-Foundation review of `UI/` (React 18 + TS 5 + Redux Toolkit + Vite 5), ahead of building
+Foundation review of `ui/` (React 18 + TS 5 + Redux Toolkit + Vite 5), ahead of building
 the GPS-WebSocket work. Findings from a 4-dimension review (data/state, React patterns,
 structure/dead-code, types/config), cross-corroborated and verified against the code.
 

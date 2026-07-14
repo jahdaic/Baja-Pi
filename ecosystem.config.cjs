@@ -30,7 +30,7 @@ module.exports = {
 		},
 		{
 			name: 'gps-server',
-			cwd: './GPS',
+			cwd: './gps',
 			script: 'src/server.js',
 			// Node HTTP bridge: connects to gpsd on :2947 and serves the latest
 			// TPV as JSON (with a staleness flag) to the UI. It reconnects to
@@ -43,7 +43,7 @@ module.exports = {
 		},
 		{
 			name: 'ui-vite',
-			cwd: './UI',
+			cwd: './ui',
 			// Serve the dashboard via the Vite dev server (HMR) for now. Run the
 			// vite binary directly (not `npm run dev`) so pm2 supervises the vite
 			// process itself. Host/port come from vite.config.ts (host: true,
@@ -54,7 +54,7 @@ module.exports = {
 		},
 		{
 			name: 'chromium-kiosk',
-			cwd: './UI',
+			cwd: './ui',
 			// Opens the dashboard fullscreen on the LCD. The script sets
 			// DISPLAY/XAUTHORITY and waits for X + the UI server before exec'ing
 			// Chromium, so it tolerates the boot race with the desktop session.

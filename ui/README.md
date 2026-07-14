@@ -9,7 +9,7 @@ Chromium kiosk.
 - **React 18 + TypeScript 5**, built with **Vite 5** (`@vitejs/plugin-react-swc`)
 - **Redux Toolkit** for state
 - **canvas-gauges** + **@patricksurry/g3** for the gauges
-- Data: the [GPS server](../GPS) (WebSocket) for speed/position, and the keyless
+- Data: the [GPS server](../gps) (WebSocket) for speed/position, and the keyless
   **NWS** (`api.weather.gov`) + **Open-Meteo** APIs for weather
 
 ## Pages

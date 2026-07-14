@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Media/images/Baja%20Pi%20Logo%20Horiztonal.png" alt="Baja Pi" width="640">
+  <img src="media/images/Baja%20Pi%20Logo%20Horiztonal.png" alt="Baja Pi" width="640">
 </p>
 
 An in-car dashboard for a Baja Bug, running on an Orange Pi single-board computer
@@ -24,11 +24,11 @@ gpsd ──► gps-server (:8000, HTTP + WebSocket) ──► ui-vite (:5173) �
 
 | Path | What it is |
 |---|---|
-| `UI/` | The React dashboard app (Vite + TS + Redux Toolkit). See [UI/README](UI/README.md). |
-| `GPS/` | Node service bridging gpsd → HTTP/WebSocket. See [GPS/README](GPS/README.md). |
-| `Scripts/` | Provisioning — notably the Waveshare round-LCD display fix. |
-| `Docs/` | Project documentation (architecture, display fix, code audit, backlog). |
-| `Voice/` | Placeholder for future voice/assistant work. |
+| `ui/` | The React dashboard app (Vite + TS + Redux Toolkit). See [ui/README](ui/README.md). |
+| `gps/` | Node service bridging gpsd → HTTP/WebSocket. See [gps/README](gps/README.md). |
+| `scripts/` | Provisioning — notably the Waveshare round-LCD display fix. |
+| `docs/` | Project documentation (architecture, display fix, code audit, backlog). |
+| `voice/` | Placeholder for future voice/assistant work. |
 | `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `ui-vite`, `chromium-kiosk`). |
 
 ## Tech stack
@@ -40,11 +40,11 @@ gpsd ──► gps-server (:8000, HTTP + WebSocket) ──► ui-vite (:5173) �
 
 ## Setup
 
-Assumes a fresh Debian Orange Pi image. See `Docs/` for the detailed writeups.
+Assumes a fresh Debian Orange Pi image. See `docs/` for the detailed writeups.
 
 1. **Display fix** (the Waveshare round LCD needs it to render):
    ```bash
-   sudo Scripts/car-display-fix/install.sh && sudo reboot
+   sudo scripts/car-display-fix/install.sh && sudo reboot
    ```
 2. **gpsd** and **pm2**:
    ```bash
@@ -65,15 +65,15 @@ Assumes a fresh Debian Orange Pi image. See `Docs/` for the detailed writeups.
    ```
 
 For development the UI runs against a laptop browser with no Pi hardware required —
-see [UI/README](UI/README.md).
+see [ui/README](ui/README.md).
 
 ## Documentation
 
-- [`Docs/car-dashboard-project.md`](Docs/car-dashboard-project.md) — project handoff / direction
-- [`Docs/car-dashboard-architecture.md`](Docs/car-dashboard-architecture.md) — repo layout & process model
-- [`Docs/car-dashboard-display-fix.md`](Docs/car-dashboard-display-fix.md) — the round-LCD display fix
-- [`Docs/ui-audit.md`](Docs/ui-audit.md) — UI code audit
-- [`Docs/todo.md`](Docs/todo.md) — backlog
+- [`docs/car-dashboard-project.md`](docs/car-dashboard-project.md) — project handoff / direction
+- [`docs/car-dashboard-architecture.md`](docs/car-dashboard-architecture.md) — repo layout & process model
+- [`docs/car-dashboard-display-fix.md`](docs/car-dashboard-display-fix.md) — the round-LCD display fix
+- [`docs/ui-audit.md`](docs/ui-audit.md) — UI code audit
+- [`docs/todo.md`](docs/todo.md) — backlog
 
 ## License
 
