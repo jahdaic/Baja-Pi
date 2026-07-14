@@ -126,20 +126,20 @@ export const degreesToArrowIcon = (angle: number): Icons.Icon => {
 };
 
 export const decimalCoordinateToDegrees = (value: number, type: 'lat' | 'long') => {
-	var sign = value < 0 ? -1 : 1;
+	const sign = value < 0 ? -1 : 1;
 
-	var direction = type === 'lat' ? (sign < 0 ? 'S' : 'N') : sign < 0 ? 'W' : 'E';
+	const direction = type === 'lat' ? (sign < 0 ? 'S' : 'N') : sign < 0 ? 'W' : 'E';
 
-	var abs = Math.abs(Math.round(value * 1000000));
+	const abs = Math.abs(Math.round(value * 1000000));
 
 	// if (abs > max * 1000000) {
 	// 	return NaN;
 	// }
 
-	var dec = (abs % 1000000) / 1000000;
-	var deg = Math.floor(abs / 1000000) * sign;
-	var min = Math.floor(dec * 60);
-	var sec = (dec - min / 60) * 3600;
+	const dec = (abs % 1000000) / 1000000;
+	const deg = Math.floor(abs / 1000000) * sign;
+	const min = Math.floor(dec * 60);
+	const sec = (dec - min / 60) * 3600;
 
 	return `${deg}°${min}'${sec.toFixed(2)}"${direction}`;
 };
