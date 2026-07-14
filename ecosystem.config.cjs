@@ -41,5 +41,27 @@ module.exports = {
 			},
 			autorestart: true,
 		},
+		{
+			name: 'ui-vite',
+			cwd: './UI',
+			// Serve the dashboard via the Vite dev server (HMR) for now. Run the
+			// vite binary directly (not `npm run dev`) so pm2 supervises the vite
+			// process itself. Host/port come from vite.config.ts (host: true,
+			// port: 5173). TODO: swap to a static server for the built dist/ once
+			// the kiosk is finalized.
+			script: 'node_modules/vite/bin/vite.js',
+			autorestart: true,
+		},
+		{
+			name: 'chromium-kiosk',
+			cwd: './UI',
+			// Opens the dashboard fullscreen on the LCD. The script sets
+			// DISPLAY/XAUTHORITY and waits for X + the UI server before exec'ing
+			// Chromium, so it tolerates the boot race with the desktop session.
+			script: 'bin/chromium-kiosk',
+			interpreter: 'none', // bash script (has its own shebang)
+			autorestart: true,
+			restart_delay: 3000,
+		},
 	],
 };
