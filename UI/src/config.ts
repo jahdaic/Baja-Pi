@@ -16,8 +16,10 @@ const num = (raw: string | undefined, fallback: number): number => {
 const env = import.meta.env;
 
 export const config = {
-	/** GPS HTTP server (pm2 `gps-server`). */
+	/** GPS HTTP server (pm2 `gps-server`) — health/fallback endpoint. */
 	gpsdServerUrl: env.VITE_GPSD_SERVER_URL || 'http://localhost:8000',
+	/** GPS WebSocket URL (same server, ws:// scheme) for live TPV push. */
+	gpsdWsUrl: (env.VITE_GPSD_SERVER_URL || 'http://localhost:8000').replace(/^http/, 'ws'),
 
 	speed: {
 		limit: num(env.VITE_SPEED_LIMIT, 80),

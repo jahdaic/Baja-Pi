@@ -1,95 +1,125 @@
-import config from '../../config';
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectSpeedometer, setLocation, setSpeed } from '../../store/siteSlice';
 import * as Utility from '../../scripts/Utility';
+import config from '../../config';
 
 export interface IGPS {
 	stop?: boolean;
 	children: React.ReactElement<any, any> | null;
 }
 
-const GPS: React.FC<IGPS> = ({ stop, children, ...props }) => {
+const RECONNECT_MIN_MS = 1000;
+const RECONNECT_MAX_MS = 15000;
+
+/**
+ * Background provider that keeps GPS state fresh from the gps-server over a
+ * WebSocket. The server pushes each gpsd TPV the moment it arrives (and the
+ * current state on connect), so there's no polling. On disconnect we reconnect
+ * with exponential backoff. Refs keep the socket/handlers stable across renders.
+ */
+const GPS: React.FC<IGPS> = ({ stop, children }) => {
 	const dispatch = useAppDispatch();
-	const { speed, location } = useAppSelector(selectSpeedometer);
-	const timeout = 500; // 500ms
-	const [timeoutID, setTimeoutID] = useState<any>(0);
+	const { location } = useAppSelector(selectSpeedometer);
 
-	const updateLocation = () => {
-		if (stop) return;
+	const locationRef = useRef(location);
+	locationRef.current = location;
+	const stopRef = useRef(stop);
+	stopRef.current = stop;
 
-		try {
-			fetch(config.gpsdServerUrl || '')
-				.then(response => response.json())
-				.then(gps => {
-					dispatch(
-						setLocation({
-							latitude: gps?.lat || location.latitude || 0,
-							longitude: gps?.lon || location.longitude || 0,
-							altitude: Utility.metersToFeet(gps?.altMSL || 0) || location.altitude || 0,
-							speed: Utility.metersPerSecondToMPH(gps?.speed || 0) || location.speed || 0,
-							heading: gps?.track || location.heading || 0,
-							climb: Utility.metersToFeet(gps?.climb || 0) || location.climb || 0,
-							error: {
-								latitude: Utility.metersToFeet(gps?.epx || 0) || location.error.latitude || 0,
-								longitude: Utility.metersToFeet(gps?.epy || 0) || location.error.longitude || 0,
-								altitude: Utility.metersToFeet(gps?.epv || 0) || location.error.altitude || 0,
-								speed: Utility.metersPerSecondToMPH(gps?.eps || 0) || location.error.speed || 0,
-								heading: gps?.epd || location.error.heading || 0,
-								climb: Utility.metersToFeet(gps?.epc || 0) || location.error.climb || 0,
-								request: '',
-							},
-						}),
-					);
-
-					dispatch(setSpeed(Utility.metersPerSecondToMPH(gps?.speed || 0) || speed || 0));
-				})
-				.catch(err => {
-					console.log(err);
-
-					setLocation({
-						...location,
-						error: {
-							...location.error,
-							request: err,
-						},
-					});
-				});
-
-			// if (!response.ok) throw new Error(`Response status: ${response.status}`);
-
-			// const gps = await response.json();
-
-			// dispatch(
-			// 	setLocation({
-			// 		latitude: gps?.lat || location.latitude || 0,
-			// 		longitude: gps?.lon || location.longitude || 0,
-			// 		altitude: Utility.metersToFeet(gps?.alt || 0) || location.altitude || 0,
-			// 		speed: Utility.metersPerSecondToMPH(gps?.speed || 0) || location.speed || 0,
-			// 		heading: gps?.track || location.heading || 0,
-			// 		climb: gps?.climb || location.climb || 0,
-			// 		error: {
-			// 			latitude: gps?.lat || location.error.latitude || 0,
-			// 			longitude: gps?.lon || location.error.longitude || 0,
-			// 			altitude: Utility.metersToFeet(gps?.epv || 0) || location.error.altitude || 0,
-			// 			speed: Utility.metersToFeet(gps?.epx || 0) || location.error.speed || 0,
-			// 			heading: gps?.track || location.error.heading || 0,
-			// 		},
-			// 	}),
-			// );
-		} catch (error: any) {
-			console.log(error.message);
-		} finally {
-			setTimeoutID(setTimeout(updateLocation, timeout));
-		}
-	};
+	const socketRef = useRef<WebSocket | null>(null);
+	const reconnectTimer = useRef<ReturnType<typeof setTimeout>>();
+	const reconnectDelay = useRef(RECONNECT_MIN_MS);
+	const unmounted = useRef(false);
 
 	useEffect(() => {
-		setTimeoutID(setTimeout(updateLocation, timeout));
+		unmounted.current = false;
 
-		return () => clearTimeout(timeoutID);
-	}, []);
+		// Map a gpsd TPV onto the store. Uses `??` (not `||`) so a legitimate 0
+		// (stopped car, due-north heading) is kept instead of falling back to the
+		// previous value; missing fields fall back to the last known value.
+		const applyGps = (gps: any) => {
+			const prev = locationRef.current;
+			const toMph = (v: unknown) => (v != null ? Utility.metersPerSecondToMPH(v as number) : undefined);
+			const toFeet = (v: unknown) => (v != null ? Utility.metersToFeet(v as number) : undefined);
+			const speedMph = toMph(gps?.speed);
+
+			dispatch(
+				setLocation({
+					latitude: gps?.lat ?? prev.latitude,
+					longitude: gps?.lon ?? prev.longitude,
+					altitude: toFeet(gps?.altMSL ?? gps?.alt) ?? prev.altitude,
+					speed: speedMph ?? prev.speed,
+					heading: gps?.track ?? prev.heading,
+					climb: toFeet(gps?.climb) ?? prev.climb,
+					error: {
+						latitude: toFeet(gps?.epx) ?? prev.error.latitude,
+						longitude: toFeet(gps?.epy) ?? prev.error.longitude,
+						altitude: toFeet(gps?.epv) ?? prev.error.altitude,
+						speed: toMph(gps?.eps) ?? prev.error.speed,
+						heading: gps?.epd ?? prev.error.heading,
+						climb: toFeet(gps?.epc) ?? prev.error.climb,
+						request: '',
+					},
+				}),
+			);
+			dispatch(setSpeed(speedMph ?? prev.speed));
+		};
+
+		const scheduleReconnect = () => {
+			if (unmounted.current || stopRef.current) return;
+			clearTimeout(reconnectTimer.current);
+			reconnectTimer.current = setTimeout(connect, reconnectDelay.current);
+			reconnectDelay.current = Math.min(reconnectDelay.current * 2, RECONNECT_MAX_MS);
+		};
+
+		function connect() {
+			if (unmounted.current || stopRef.current) return;
+
+			let socket: WebSocket;
+			try {
+				socket = new WebSocket(config.gpsdWsUrl);
+			} catch (err) {
+				console.error('GPS WS connect failed', err);
+				scheduleReconnect();
+				return;
+			}
+			socketRef.current = socket;
+
+			socket.onopen = () => {
+				reconnectDelay.current = RECONNECT_MIN_MS; // reset backoff on a good connection
+			};
+			socket.onmessage = event => {
+				try {
+					applyGps(JSON.parse(event.data));
+				} catch (err) {
+					console.error('GPS WS bad message', err);
+				}
+			};
+			socket.onclose = () => {
+				socketRef.current = null;
+				scheduleReconnect();
+			};
+			socket.onerror = () => {
+				// a close event follows; reconnect is handled there
+			};
+		}
+
+		connect();
+
+		return () => {
+			unmounted.current = true;
+			clearTimeout(reconnectTimer.current);
+			if (socketRef.current) {
+				// Detach handlers first so this intentional close can't schedule a
+				// reconnect (avoids a double connection under StrictMode's remount).
+				socketRef.current.onclose = null;
+				socketRef.current.onerror = null;
+				socketRef.current.close();
+			}
+			socketRef.current = null;
+		};
+	}, [dispatch]); // dispatch is stable, so this effect still runs once
 
 	return children;
 };
