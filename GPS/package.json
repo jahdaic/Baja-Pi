@@ -33,6 +33,7 @@
 		}
 	],
 	"dependencies": {
-		"node-gpsd-client": "^1.4.1"
+		"node-gpsd-client": "^1.4.1",
+		"ws": "^8.21.0"
 	}
 }
