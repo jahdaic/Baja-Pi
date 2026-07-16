@@ -72,3 +72,22 @@ hit during development, and notes worth keeping for the future.
 **Issues & gotchas** — Bind the endpoint to `127.0.0.1` only. Once "Close Chromium" runs the UI is gone, so it can't be reopened from the menu (needs the desktop / keyboard) — expected.
 
 **Notes** — The long-press gesture pairs with the swipe work (TODO #7).
+
+## g3 gauge
+
+**TODO #11** · ✅
+
+**Goal** — Use `@patricksurry/g3` (D3 SVG gauges) in the dashboard. Delivered two components: `G3Gauge` (a generic live radial gauge) and `G3Speedmaster` (the Omega Speedmaster contrib gauge reskinned as a vehicle chronograph).
+
+**Import interop (the hard part)** — g3 is a UMD bundle whose `package.json` sets `"type": "module"`, so bundlers treat it as ESM and expose the API **only as a single default export** (`export default require_g3()`), not named exports and not a global. `import * as g3` gives an empty-ish namespace; `import g3 from …` hit `__esModule` interop and resolved `undefined`. The components resolve it defensively: `namespace.gauge ?? namespace.default ?? window.g3`. Base API lives in `dist/g3.js`; the contrib gauges (incl. `contrib.clocks.omegaSpeedmaster`) in `dist/g3-contrib.js` (a superset bundle). Neither ships types → declared loosely in `src/g3.d.ts`. Uses `d3-scale` (`scaleLinear`) for measures — a direct dep now in `ui/package.json`.
+
+**Live data seam** — g3's `panel` runs its own update loop; by default (no `url`) it pulls each metric from a per-gauge `fake` generator every `interval` ms. So live Redux values are fed via `.fake(() => vRef.current.<field>)` — the needles animate without rebuilding the SVG.
+
+**Speedmaster metric mapping** — main dial minute hand = speed, second hand = RPM, hour hand decoupled onto its own metric (`50 + 10·speed/max`, so only the minute hand tracks speed). Outer ring = RPM (×100, dots at labels + white minor ticks, full-circle band); inner = speed (relative-oriented numbers, layered ticks). Subdials: oil pressure / voltage / oil temp. 3 o'clock window = fuel %. "BAJA PI" replaces the logo; "×100 RPM" curves along the bottom.
+
+**Issues & gotchas** —
+- `g3.panel()` starts an internal `setInterval` it never exposes; on a kiosk each theme switch would leak a timer. Both components monkey-patch `window.setInterval` during `panel()` to capture the id and `clearInterval` it on unmount.
+- Any ring/sector drawn on a gauge's own measure inherits that gauge's angular range (so a 270° speed sweep leaves a gap at the top). Draw full-circle chrome (bezel, outline, subdial fill, fuel window, ×100 caption) on a separate `domain([0,360]).range([0,360])` gauge.
+- `orient`: default is `'fixed'` (counter-rotated upright); `'relative'` follows the dial angle; `'upward'` flips at the extremes. `indicateText` has no `.metric()` — it shows the parent gauge's metric.
+
+**Notes** — On the round 720×720 panel, scale the panel `put()` to `size/201` so the bezel meets the rim. `G3Gauge` is currently unused (Vintage renders `G3Speedmaster`) but kept for reuse.

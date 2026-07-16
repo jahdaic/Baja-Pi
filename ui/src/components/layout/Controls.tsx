@@ -35,6 +35,7 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 				Speedometer.LCD,
 				Speedometer.Cyberpunk,
 				Speedometer.Bajapunk,
+				Speedometer.VintageVW,
 			],
 		},
 		{
