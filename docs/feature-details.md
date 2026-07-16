@@ -45,15 +45,17 @@ hit during development, and notes worth keeping for the future.
 
 ## Fonts don't load on first gauge
 
-**TODO #9** · ⬜
+**TODO #9** · ✅
 
-**Goal** — Fix custom fonts not applying on the first gauge shown at boot.
+**Goal** — Fix custom fonts not applying the first time a theme is shown.
 
-**Approach** — Repro: only the first gauge renders with fallback fonts; switching gauge and back fixes it for good → a first-paint font race (FOUT). The `@font-face` files (LCD, Bebas Neue, Brave81, Pixel Operator…) aren't loaded when the first view paints, and a later re-render picks them up. Fix by loading fonts before first render: `<link rel="preload">` the files and/or `await document.fonts.ready` (or `document.fonts.load(...)`) before mounting; consider a `font-display` value.
+**Root cause** — Not just the boot gauge — it hits *any* theme whose font hasn't downloaded yet. Browsers lazy-load `@font-face` fonts on first use, and `canvas-gauges` draws its text to a `<canvas>` once, using whatever font is loaded at draw time. So a theme like Cyberpunk (font `Brave81`) paints with a fallback and never corrects until the gauge re-renders (switch away and back). All four families (`LCD`, `Brave81`, `Bebas Neue`, `Pixel Operator`) are declared in `css/style.css`, which loads at startup.
 
-**Issues & gotchas** — Verify against a real cold boot — the dev browser caches fonts and won't reproduce it.
+**Fix** — `ui/src/scripts/fonts.ts` → `preloadFonts()` force-loads every family via `document.fonts.load()`; `index.tsx` awaits it before the first `root.render()`, with a 3s timeout so a slow/missing font can't block boot. Every theme now paints with the right font from the start.
 
-**Notes** — Fonts live in `ui/src/fonts/`; `@font-face` decls are in `ui/src/css/*.css` (LCD in `style.css`).
+**Verified** — Fresh boot → navigated straight to Cyberpunk: correct `Brave81` font on the first visit, identical after away-and-back (previously it showed a fallback until you switched gauges).
+
+**Notes** — Fonts live in `ui/src/fonts/`; `@font-face` decls are in `ui/src/css/style.css`. Reproduce only against a real cold boot — a warm dev browser caches fonts and won't show the bug.
 
 ## Long-press control menu
 

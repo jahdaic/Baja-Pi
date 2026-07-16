@@ -24,7 +24,7 @@ gotchas go in [`feature-details.md`](feature-details.md). Recurring upkeep lives
 | 6 | Move navigation state into the store | ⬜ | Current page/theme lives in local `useState`; move it to the store for programmatic nav, persistence, and settings-driven order. |
 | 7 | Swipe gestures + slide transitions | ⬜ | Add touch-swipe to change gauge/page with an animated slide; keys + on-screen buttons keep working. No gesture handling exists today. |
 | 8 | Waveshare AD HAT → vehicle sensors | ⬜ | Read real vehicle signals into the `vehicle` slice. Phase 1: turn signals, alternator light, oil warning light. Later: voltage, RPM, oil pressure/temp. [details](feature-details.md#waveshare-ad-hat-vehicle-sensors) |
-| 9 | Fonts don't load on first gauge | ⬜ | First gauge paints with fallback fonts; switching gauge and back fixes it → font race at first paint. [details](feature-details.md#fonts-dont-load-on-first-gauge) |
+| 9 | Fonts don't load on first gauge | ✅ | Preload all custom fonts before first render (`scripts/fonts.ts` + `index.tsx`) — canvas-gauges was drawing before the font loaded. [details](feature-details.md#fonts-dont-load-on-first-gauge) |
 | 10 | Long-press control menu | ⬜ | Long-press opens: Reboot Pi · Close Chromium (stop pm2) · Restart Chromium (restart pm2). Needs a localhost control endpoint. [details](feature-details.md#long-press-control-menu) |
 | 11 | g3 gauge | ⬜ | Build a gauge with `@patricksurry/g3` (already a dep). `G3Gauge.tsx` is a stub — decide build-on-it vs from-scratch when we start. |
 | 12 | Persist app state | ⬜ | Remember the active gauge/panel across reload/reboot via `localStorage`. Builds on item 6 (nav → store). |
