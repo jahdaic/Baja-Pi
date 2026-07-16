@@ -26,17 +26,17 @@ gpsd ──► gps-server (:8000, HTTP + WebSocket) ──► ui-vite (:5173) �
 |---|---|
 | `ui/` | The React dashboard app (Vite + TS + Redux Toolkit). See [ui/README](ui/README.md). |
 | `gps/` | Node service bridging gpsd → HTTP/WebSocket. See [gps/README](gps/README.md). |
-| `scripts/` | Provisioning — notably the Waveshare round-LCD display fix. |
+| `scripts/` | Provisioning — the Waveshare round-LCD display fix and the boot/shutdown branding installer. |
 | `docs/` | Project documentation (architecture, display fix, code audit, backlog). |
 | `voice/` | Placeholder for future voice/assistant work. |
-| `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `ui-vite`, `chromium-kiosk`). |
+| `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `ui-vite`, `chromium-kiosk`, `cursor-hide`). |
 
 ## Tech stack
 
 - **UI:** React 18, TypeScript 5, Vite 5, Redux Toolkit, canvas-gauges; Chromium kiosk
 - **GPS:** Node, gpsd, `node-gpsd-client`, `ws` (WebSocket)
 - **Weather:** keyless NWS (`api.weather.gov`) + Open-Meteo + `suncalc` — no API key
-- **Ops:** pm2 (process management + boot autostart), systemd (display fix only)
+- **Ops:** pm2 (process management + boot autostart), systemd + Plymouth (display fix, branded boot/shutdown)
 
 ## Setup
 
@@ -46,22 +46,28 @@ Assumes a fresh Debian Orange Pi image. See `docs/` for the detailed writeups.
    ```bash
    sudo scripts/car-display-fix/install.sh && sudo reboot
    ```
-2. **gpsd** and **pm2**:
+2. **gpsd**, **pm2**, and the cursor tool:
    ```bash
-   sudo apt install -y gpsd gpsd-clients
+   sudo apt install -y gpsd gpsd-clients unclutter-xfixes
    sudo systemctl mask gpsd.socket gpsd.service   # pm2 owns gpsd
    npm install -g pm2
    ```
+   (`unclutter-xfixes` backs the `cursor-hide` pm2 app.)
 3. **Dependencies:**
    ```bash
-   (cd GPS && npm install)
-   (cd UI && npm install && cp .env.example .env)   # then edit .env as needed
+   (cd gps && npm install)
+   (cd ui && npm install && cp .env.example .env)   # then edit .env as needed
    ```
 4. **Bring it up under pm2** (from the repo root):
    ```bash
    pm2 start ecosystem.config.cjs
    pm2 save
    pm2 startup            # once, so pm2 resurrects on boot
+   ```
+5. **Branded boot & shutdown** (optional polish — Plymouth splash, quiet/clean
+   boot, U-Boot logo; idempotent and backs up everything it touches):
+   ```bash
+   sudo scripts/boot-branding/install.sh && sudo reboot
    ```
 
 For development the UI runs against a laptop browser with no Pi hardware required —
