@@ -1,0 +1,60 @@
+# Baja Pi Plymouth theme.
+#   boot            -> Baja Pi emblem with a rotating ring spinner inside the chip.
+#   shutdown/reboot -> "GOODBYE" skull with a subtle opacity pulse (down to ~50%).
+# The splash images are full 720x720 compositions on black, centered on the panel.
+
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+screen_w = Window.GetWidth();
+screen_h = Window.GetHeight();
+
+mode = Plymouth.GetMode();
+
+if (mode == "shutdown" || mode == "reboot") {
+	# ---- Shutdown / reboot: GOODBYE skull, subtle pulse ----
+	img = Image("shutdown.png");
+	sprite = Sprite(img);
+	sprite.SetX((screen_w - img.GetWidth()) / 2);
+	sprite.SetY((screen_h - img.GetHeight()) / 2);
+	sprite.SetZ(1);
+
+	t = 0;
+	fun refresh() {
+		t += 0.02;
+		# oscillate opacity between 0.5 and 1.0 (a slow breathe)
+		sprite.SetOpacity(0.75 + 0.25 * Math.Sin(t * 2));
+	}
+	Plymouth.SetRefreshFunction(refresh);
+} else {
+	# ---- Boot: Baja Pi emblem + rotating ring inside the chip ----
+	bg = Image("splash.png");
+	bg_x = (screen_w - bg.GetWidth()) / 2;
+	bg_y = (screen_h - bg.GetHeight()) / 2;
+	bg_sprite = Sprite(bg);
+	bg_sprite.SetX(bg_x);
+	bg_sprite.SetY(bg_y);
+	bg_sprite.SetZ(1);
+
+	# Chip center within the emblem (fractions of the splash; tweak against the art).
+	chip_cx = bg_x + bg.GetWidth() * 0.5;
+	chip_cy = bg_y + bg.GetHeight() * 0.77;
+
+	ring = Image("ring.png");
+	# Construct the sprite WITH the image and place it up front, so it's visible
+	# from the very first frame instead of only after refresh() first runs.
+	ring_sprite = Sprite(ring);
+	ring_sprite.SetX(chip_cx - ring.GetWidth() / 2);
+	ring_sprite.SetY(chip_cy - ring.GetHeight() / 2);
+	ring_sprite.SetZ(2);
+
+	angle = 0;
+	fun refresh() {
+		angle += 0.12;
+		r = ring.Rotate(angle);
+		ring_sprite.SetImage(r);
+		ring_sprite.SetX(chip_cx - r.GetWidth() / 2);
+		ring_sprite.SetY(chip_cy - r.GetHeight() / 2);
+	}
+	Plymouth.SetRefreshFunction(refresh);
+}

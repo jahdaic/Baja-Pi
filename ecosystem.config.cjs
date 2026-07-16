@@ -63,5 +63,18 @@ module.exports = {
 			autorestart: true,
 			restart_delay: 3000,
 		},
+		{
+			name: 'cursor-hide',
+			cwd: './ui',
+			// Hides the mouse pointer when idle and reveals it on movement, so the
+			// kiosk stays pointer-free while the desktop remains usable with a
+			// Bluetooth mouse/keyboard. The script waits for X, then exec's
+			// unclutter in the foreground so pm2 supervises it directly.
+			// (Requires the unclutter-xfixes package.)
+			script: 'bin/cursor-hide',
+			interpreter: 'none', // bash script (has its own shebang)
+			autorestart: true,
+			restart_delay: 3000,
+		},
 	],
 };

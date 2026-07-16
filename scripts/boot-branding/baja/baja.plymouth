@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Baja Pi
+Description=Baja Pi boot and shutdown splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/baja
+ScriptFile=/usr/share/plymouth/themes/baja/baja.script

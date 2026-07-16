@@ -1,0 +1,81 @@
+<!doctype html>
+<!--
+  Kiosk boot splash. Chromium loads this (via file://) the moment it launches,
+  so the Baja Pi emblem is on screen long before the Vite dev server is ready.
+  It polls the dashboard URL and, once it responds, fades out and navigates to
+  it. The dashboard renders on black too, so the handoff stays black-on-black.
+  Dashboard URL is passed as ?dash=<url> (defaults to localhost:5173).
+-->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<style>
+			html,
+			body {
+				margin: 0;
+				height: 100%;
+				background: #000;
+				overflow: hidden;
+				cursor: none;
+			}
+			#wrap {
+				position: absolute;
+				inset: 0;
+				transition: opacity 0.6s ease;
+			}
+			#wrap.out {
+				opacity: 0;
+			}
+			#logo {
+				position: absolute;
+				inset: 0;
+				margin: auto;
+				max-width: 100%;
+				max-height: 100%;
+				opacity: 0;
+				transition: opacity 1s ease;
+				animation: breathe 3s ease-in-out infinite 1s;
+			}
+			#logo.in {
+				opacity: 1;
+			}
+			@keyframes breathe {
+				0%,
+				100% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(1.02);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap"><img id="logo" src="splash.png" alt="Baja Pi" /></div>
+		<script>
+			var wrap = document.getElementById('wrap');
+			var logo = document.getElementById('logo');
+			var dash = new URLSearchParams(location.search).get('dash') || 'http://localhost:5173/';
+
+			window.addEventListener('load', function () {
+				logo.classList.add('in');
+			});
+
+			// Poll the dashboard; once it responds, fade out and hand off.
+			function check() {
+				fetch(dash, { mode: 'no-cors', cache: 'no-store' })
+					.then(function () {
+						wrap.classList.add('out');
+						setTimeout(function () {
+							window.location.replace(dash);
+						}, 600);
+					})
+					.catch(function () {
+						setTimeout(check, 500);
+					});
+			}
+			setTimeout(check, 800);
+		</script>
+	</body>
+</html>

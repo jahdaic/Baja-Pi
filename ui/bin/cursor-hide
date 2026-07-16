@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# Hide the mouse pointer when idle (reveal it on movement) on the local display.
+#
+# Runs as a pm2-supervised process alongside chromium-kiosk: it waits for the X
+# server, then exec's unclutter in the foreground so pm2 owns the process
+# directly. This keeps the kiosk pointer-free while leaving the desktop usable
+# with a Bluetooth mouse/keyboard (the pointer reappears the moment you move it).
+#
+set -uo pipefail
+
+export DISPLAY="${DISPLAY:-:0}"
+export XAUTHORITY="${XAUTHORITY:-$HOME/.Xauthority}"
+
+log() { printf '[cursor-hide] %s\n' "$*"; }
+
+# Wait for the X server to accept connections (up to ~60s), so we survive the
+# boot race where pm2 resurrects before the desktop is ready.
+log "waiting for X on $DISPLAY ..."
+for _ in $(seq 1 60); do
+	xset q >/dev/null 2>&1 && break
+	sleep 1
+done
+xset q >/dev/null 2>&1 || { log "X not reachable on $DISPLAY, giving up (pm2 will retry)"; exit 1; }
+
+log "starting unclutter (hide pointer after 1s idle) ..."
+# Foreground (no --fork) so pm2 supervises unclutter itself.
+exec unclutter --timeout 1 --start-hidden
