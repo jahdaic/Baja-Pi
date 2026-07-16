@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -16,7 +16,7 @@ export interface ICurrent {
 }
 
 export const Current: React.FC<ICurrent> = () => {
-	const { weather } = useAppSelector(selectSpeedometer);
+	const { weather } = useAppSelector(selectWeather);
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 	// const WindDirection = useMemo(() => Utility.degreesToArrowIcon(weather.windDirection), [weather.windDirection]);
 

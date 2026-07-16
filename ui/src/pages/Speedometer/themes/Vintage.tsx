@@ -1,13 +1,13 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import G3Gauge from '../../../components/gauges/G3Gauge';
 
 import '../../../css/vintage.css';
 
 export const Vintage = () => {
-	const { speed } = useAppSelector(selectSpeedometer);
+	const { speed } = useAppSelector(selectVehicle);
 
 	return (
 		<div id="vintage" className="expand">

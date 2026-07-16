@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
 import config from '../../../config';
 import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
@@ -12,7 +12,7 @@ import '../../../css/bajapunk.css';
 
 export const Bajapunk = () => {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine } =
-		useAppSelector(selectSpeedometer);
+		useAppSelector(selectVehicle);
 	const fontFace = 'Bebas Neue';
 	const textColor = '#FFFFFF';
 	const barColor = '#FFFFFF';

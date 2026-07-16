@@ -3,7 +3,7 @@ import config from '../../config';
 import { useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useAppDispatch } from '../../store/hooks';
-import { setHeadlights, setTurnSignal, setCheckEngine, incrementValue } from '../../store/siteSlice';
+import { setHeadlights, setTurnSignal, setCheckEngine, incrementValue } from '../../store/vehicleSlice';
 import * as Speedometer from '../../pages/Speedometer';
 import * as Weather from '../../pages/Weather';
 import * as GPS from '../../pages/GPS';

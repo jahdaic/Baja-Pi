@@ -1,6 +1,6 @@
 import * as SunCalc from 'suncalc';
 import * as Utility from './Utility';
-import { IWeather, IWeatherAlert, IHourlyForecast } from '../store/siteSlice';
+import { IWeather, IWeatherAlert, IHourlyForecast } from '../store/weatherSlice';
 
 /**
  * Weather service.

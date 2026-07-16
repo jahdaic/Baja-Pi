@@ -13,7 +13,7 @@ export interface IAnalog {
 }
 
 export const Analog: React.FC<IAnalog> = () => {
-	const timezone = useAppSelector(state => state.speedometer.weather.timezone);
+	const timezone = useAppSelector(state => state.weather.weather.timezone);
 	const [now, setNow] = useState(new Date());
 	const size = window.innerHeight;
 

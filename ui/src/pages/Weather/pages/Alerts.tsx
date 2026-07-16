@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -15,7 +15,7 @@ export interface IAlerts {
 }
 
 export const Alerts: React.FC<IAlerts> = () => {
-	const { weather } = useAppSelector(selectSpeedometer);
+	const { weather } = useAppSelector(selectWeather);
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 	const [alertIndex, setAlertIndex] = useState<number>(0);
 	const timerRef = useRef<ReturnType<typeof setTimeout>>();

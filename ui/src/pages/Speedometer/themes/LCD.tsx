@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import config from '../../../config';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
@@ -19,8 +20,8 @@ export const LCD = () => {
 		turnSignal,
 		checkEngine,
 		startTime,
-		weather,
-	} = useAppSelector(selectSpeedometer);
+	} = useAppSelector(selectVehicle);
+	const { weather } = useAppSelector(selectWeather);
 
 	const calculateTime = () => {
 		const now = Date.now();

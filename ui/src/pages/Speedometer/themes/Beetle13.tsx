@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -11,7 +12,8 @@ import '../../../css/beetle13.css';
 import WeatherIcon from '../../../components/formatting/WeatherIcon';
 
 export const Beetle13 = () => {
-	const { speed, checkEngine, fuel, voltage, weather } = useAppSelector(selectSpeedometer);
+	const { speed, checkEngine, fuel, voltage } = useAppSelector(selectVehicle);
+	const { weather } = useAppSelector(selectWeather);
 
 	return (
 		<LayoutContainer id="beetle13">

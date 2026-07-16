@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSpeedometer, setForecast, setWeather } from '../../store/siteSlice';
+import { selectWeather, setForecast, setWeather } from '../../store/weatherSlice';
+import { selectGps } from '../../store/gpsSlice';
 import { fetchWeather } from '../../scripts/weather';
 
 export interface IWeather {
@@ -22,7 +23,8 @@ const DEFAULT_LON = -80.9956;
  */
 const Weather: React.FC<IWeather> = ({ children }) => {
 	const dispatch = useAppDispatch();
-	const { location, weather } = useAppSelector(selectSpeedometer);
+	const { location } = useAppSelector(selectGps);
+	const { weather } = useAppSelector(selectWeather);
 
 	const locationRef = useRef(location);
 	locationRef.current = location;

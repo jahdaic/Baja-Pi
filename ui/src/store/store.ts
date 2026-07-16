@@ -1,9 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import speedometerReducer from './siteSlice';
+import vehicleReducer from './vehicleSlice';
+import gpsReducer from './gpsSlice';
+import weatherReducer from './weatherSlice';
 
 export const store = configureStore({
 	reducer: {
-		speedometer: speedometerReducer,
+		vehicle: vehicleReducer,
+		gps: gpsReducer,
+		weather: weatherReducer,
 	},
 });
 

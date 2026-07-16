@@ -1,7 +1,7 @@
 import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
@@ -9,7 +9,7 @@ import LayoutContainer from '../../../components/layout/LayoutContainer';
 import '../../../css/standard.css';
 
 export const Standard = () => {
-	const { speed, rpm, turnSignal, checkEngine } = useAppSelector(selectSpeedometer);
+	const { speed, rpm, turnSignal, checkEngine } = useAppSelector(selectVehicle);
 	const fontFace = 'Bebas Neue';
 	const textColor = '#FFFFFF';
 	const tickColor = '#FFFFFF';

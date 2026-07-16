@@ -1,7 +1,9 @@
 import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
+import { selectGps } from '../../../store/gpsSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -11,7 +13,9 @@ import * as Icon from 'react-bootstrap-icons';
 import '../../../css/offroad.css';
 
 export const Offroad = () => {
-	const { speed, location, weather } = useAppSelector(selectSpeedometer);
+	const { speed } = useAppSelector(selectVehicle);
+	const { location } = useAppSelector(selectGps);
+	const { weather } = useAppSelector(selectWeather);
 	const fontFace = 'Bebas Neue';
 	const textColor = '#FFFFFF';
 	const tickColor = '#FFFFFF';
@@ -95,7 +99,7 @@ export const Offroad = () => {
 				}
 			>
 				<RadialGauge
-					value={location.speed}
+					value={speed}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -297,7 +301,7 @@ export const Offroad = () => {
 
 			<PositionedElement width="8rem" top="85vh" left="CALC(50% - 4rem)" center>
 				<label className="offroad-speed" style={{ display: 'inline-block' }}>
-					{Math.round(location.speed)}
+					{Math.round(speed)}
 				</label>
 				<span>MPH</span>
 			</PositionedElement>

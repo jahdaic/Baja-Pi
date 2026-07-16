@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useAppSelector } from '../../store/hooks';
-import { selectSpeedometer } from '../../store/siteSlice';
+import { selectWeather } from '../../store/weatherSlice';
 import * as Icon from 'react-bootstrap-icons';
 
 export interface IWeatherIcon {
@@ -12,7 +12,7 @@ export interface IWeatherIcon {
 }
 
 const WeatherIcon: React.FC<IWeatherIcon> = ({ icon, className, style, children, ...props }) => {
-	const { weather } = useAppSelector(selectSpeedometer);
+	const { weather } = useAppSelector(selectWeather);
 
 	const getWeatherIcon = (code: string) => {
 		switch (code) {

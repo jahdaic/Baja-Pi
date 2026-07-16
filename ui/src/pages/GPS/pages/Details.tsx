@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectGps } from '../../../store/gpsSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -17,7 +18,8 @@ export interface IDetails {
 }
 
 export const Details: React.FC<IDetails> = () => {
-	const { location, weather } = useAppSelector(selectSpeedometer);
+	const { location } = useAppSelector(selectGps);
+	const { weather } = useAppSelector(selectWeather);
 	const daylight = weather.icon.includes('d') ? 'day' : 'night';
 
 	return (

@@ -13,7 +13,7 @@ export interface ICalendar {
 }
 
 export const Calendar: React.FC<ICalendar> = () => {
-	const timezone = useAppSelector(state => state.speedometer.weather.timezone);
+	const timezone = useAppSelector(state => state.weather.weather.timezone);
 	const [date, setDate] = useState<any>(() => Utility.getZonedDate(timezone));
 
 	useEffect(() => {

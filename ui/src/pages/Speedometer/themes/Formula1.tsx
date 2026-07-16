@@ -1,7 +1,7 @@
 import config from '../../../config';
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
@@ -10,7 +10,7 @@ import '../../../css/formula1.css';
 
 export const Formula1 = () => {
 	const { speed, rpm, fuel, oilTemperature, oilPressure, voltage, headlights, turnSignal, checkEngine } =
-		useAppSelector(selectSpeedometer);
+		useAppSelector(selectVehicle);
 
 	return (
 		<LayoutContainer id="formula1">

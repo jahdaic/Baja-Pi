@@ -1,11 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSpeedometer, setLocation, setSpeed } from '../../store/siteSlice';
+import { selectGps, setLocation } from '../../store/gpsSlice';
+import { setSpeed } from '../../store/vehicleSlice';
 import * as Utility from '../../scripts/Utility';
 import config from '../../config';
 
 export interface IGPS {
 	stop?: boolean;
+	/** When true, keep updating every GPS value except the vehicle speed, so a
+	 *  simulated/test speed on the speedometer isn't overwritten by the live fix. */
+	suppressSpeed?: boolean;
 	children: React.ReactElement<any, any> | null;
 }
 
@@ -18,14 +22,16 @@ const RECONNECT_MAX_MS = 15000;
  * current state on connect), so there's no polling. On disconnect we reconnect
  * with exponential backoff. Refs keep the socket/handlers stable across renders.
  */
-const GPS: React.FC<IGPS> = ({ stop, children }) => {
+const GPS: React.FC<IGPS> = ({ stop, suppressSpeed, children }) => {
 	const dispatch = useAppDispatch();
-	const { location } = useAppSelector(selectSpeedometer);
+	const { location } = useAppSelector(selectGps);
 
 	const locationRef = useRef(location);
 	locationRef.current = location;
 	const stopRef = useRef(stop);
 	stopRef.current = stop;
+	const suppressSpeedRef = useRef(suppressSpeed);
+	suppressSpeedRef.current = suppressSpeed;
 
 	const socketRef = useRef<WebSocket | null>(null);
 	const reconnectTimer = useRef<ReturnType<typeof setTimeout>>();
@@ -63,7 +69,11 @@ const GPS: React.FC<IGPS> = ({ stop, children }) => {
 					},
 				}),
 			);
-			dispatch(setSpeed(speedMph ?? prev.speed));
+			// In test mode the speedometer runs on a simulated speed, so don't let a
+			// live fix (or a no-fix 0) clobber it. Every other GPS value still updates.
+			if (!suppressSpeedRef.current) {
+				dispatch(setSpeed(speedMph ?? prev.speed));
+			}
 		};
 
 		const scheduleReconnect = () => {

@@ -19,7 +19,7 @@ gotchas go in [`feature-details.md`](feature-details.md). Recurring upkeep lives
 | 1 | Increase GPS update rate | ⬜ | Bump the u-blox to 5–10 Hz (UBX-CFG-RATE) for a smoother needle; enabled by the WebSocket push. |
 | 2 | GPS signal-lost indicator | ⬜ | `gps-server` already reports `stale`/`age`; surface it in the UI (store field + on-screen indication). |
 | 3 | Voice subsystem | ⏸️ | Wake-word + STT + intent/Discord routing. Substantial — warrants its own planning session. |
-| 4 | Split the store into domain slices | ⬜ | Break the monolithic `speedometerSlice` into `vehicle` / `gps` / `weather` slices so each feature owns its state. |
+| 4 | Split the store into domain slices | ✅ | Broke the monolithic `speedometerSlice` into `vehicle` / `gps` / `weather` slices (`store/*Slice.ts`), each owning its state + actions + selector; ~20 consumers repointed. Behavior-preserving. |
 | 5 | Page + theme registry | ⬜ | Let features self-register their pages/themes; retire the hardcoded `appMap` in `Controls.tsx`. |
 | 6 | Move navigation state into the store | ⬜ | Current page/theme lives in local `useState`; move it to the store for programmatic nav, persistence, and settings-driven order. |
 | 7 | Swipe gestures + slide transitions | ⬜ | Add touch-swipe to change gauge/page with an animated slide; keys + on-screen buttons keep working. No gesture handling exists today. |

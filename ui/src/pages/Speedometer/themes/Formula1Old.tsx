@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectVehicle } from '../../../store/vehicleSlice';
 
 import TopDownView from '../../../images/beetle-top-down.png';
 
 export const Formula1 = () => {
-	const { speed, rpm, fuel, headlights, turnSignal, checkEngine } = useAppSelector(selectSpeedometer);
+	const { speed, rpm, fuel, headlights, turnSignal, checkEngine } = useAppSelector(selectVehicle);
 
 	return (
 		<div id="formula1" className="expand circular">

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useAppSelector } from '../../../store/hooks';
-import { selectSpeedometer } from '../../../store/siteSlice';
+import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
 import LayoutContainer from '../../../components/layout/LayoutContainer';
 import PositionedElement from '../../../components/layout/PositionedElement';
@@ -16,7 +16,7 @@ export interface IForecast {
 }
 
 export const Forecast: React.FC<IForecast> = () => {
-	const { weather, forecast } = useAppSelector(selectSpeedometer);
+	const { weather, forecast } = useAppSelector(selectWeather);
 	const bg: keyof typeof Background = `bg${weather.icon}` as any;
 
 	return (
