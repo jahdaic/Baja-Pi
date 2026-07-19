@@ -51,8 +51,10 @@ export interface ISatellite {
 
 /** Satellite health derived from gpsd SKY reports. */
 export interface ISatelliteInfo {
-	/** Satellites in view */
+	/** Satellites in view (includes almanac-predicted with no signal) */
 	seen: number;
+	/** Satellites actually being received (SNR > 0) */
+	tracked: number;
 	/** Satellites used in the fix */
 	used: number;
 	/** Signal strength summary (dB-Hz); null when nothing is in view */
@@ -96,6 +98,7 @@ const initialState: IGpsState = {
 	stale: true,
 	satellites: {
 		seen: 0,
+		tracked: 0,
 		used: 0,
 		snr: { max: null, avg: null },
 		hdop: null,

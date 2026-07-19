@@ -130,12 +130,12 @@ export const Details: React.FC<IDetails> = () => {
 				</div>
 				<div>
 					<div className="label">
-						{/* Satellites Seen */}
+						{/* Satellites Tracked */}
 						<Icon.Eye />
 					</div>
 					<div className="value">
 						<b>
-							{satellites.seen}
+							{satellites.tracked}
 						</b>
 					</div>
 				</div>

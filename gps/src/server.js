@@ -14,7 +14,8 @@ const buildSatellites = () => {
 	const list = Array.isArray(sky.satellites) ? sky.satellites : [];
 	const snrs = list.map(s => s.ss).filter(v => typeof v === 'number' && v > 0);
 	return {
-		seen: typeof sky.nSat === 'number' ? sky.nSat : list.length, // satellites in view
+		seen: typeof sky.nSat === 'number' ? sky.nSat : list.length, // satellites in view (incl. almanac-predicted, no signal)
+		tracked: snrs.length, // satellites actually being received (SNR > 0)
 		used: typeof sky.uSat === 'number' ? sky.uSat : list.filter(s => s.used).length, // used in the fix
 		snr: {
 			// signal strength (dB-Hz) across satellites reporting a value

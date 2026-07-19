@@ -82,6 +82,7 @@ const GPS: React.FC<IGPS> = ({ stop, suppressSpeed, children }) => {
 					stale: gps?.stale ?? true,
 					satellites: gps?.satellites ?? {
 						seen: 0,
+						tracked: 0,
 						used: 0,
 						snr: { max: null, avg: null },
 						hdop: null,
