@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectGps, setLocation } from '../../store/gpsSlice';
+import { selectGps, setLocation, setGpsMeta } from '../../store/gpsSlice';
 import { setSpeed } from '../../store/vehicleSlice';
 import * as Utility from '../../scripts/Utility';
 import config from '../../config';
@@ -74,6 +74,21 @@ const GPS: React.FC<IGPS> = ({ stop, suppressSpeed, children }) => {
 			if (!suppressSpeedRef.current) {
 				dispatch(setSpeed(speedMph ?? prev.speed));
 			}
+
+			// Freshness (age/stale) + satellite health ride on every payload (TPV and SKY).
+			dispatch(
+				setGpsMeta({
+					age: typeof gps?.age === 'number' ? gps.age : null,
+					stale: gps?.stale ?? true,
+					satellites: gps?.satellites ?? {
+						seen: 0,
+						used: 0,
+						snr: { max: null, avg: null },
+						hdop: null,
+						list: [],
+					},
+				}),
+			);
 		};
 
 		const scheduleReconnect = () => {

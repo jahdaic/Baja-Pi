@@ -33,9 +33,45 @@ export interface ILocation {
 	};
 }
 
+/** A single satellite from the receiver's sky view. */
+export interface ISatellite {
+	/** Satellite PRN / id */
+	prn: number;
+	/** gpsd constellation id (0 GPS, 2 Galileo, 3 BeiDou, 6 GLONASS, …) */
+	gnss?: number;
+	/** Elevation above the horizon, degrees */
+	elevation: number;
+	/** Azimuth, degrees from true north */
+	azimuth: number;
+	/** Signal strength, dB-Hz (0 if not reported) */
+	snr: number;
+	/** Whether this satellite is used in the current fix */
+	used: boolean;
+}
+
+/** Satellite health derived from gpsd SKY reports. */
+export interface ISatelliteInfo {
+	/** Satellites in view */
+	seen: number;
+	/** Satellites used in the fix */
+	used: number;
+	/** Signal strength summary (dB-Hz); null when nothing is in view */
+	snr: { max: number | null; avg: number | null };
+	/** Horizontal dilution of precision (lower is better); null until known */
+	hdop: number | null;
+	/** Per-satellite detail */
+	list: ISatellite[];
+}
+
 export interface IGpsState {
 	/** GPS Location data fetched from gpsd-server */
 	location: ILocation;
+	/** Milliseconds since the last fix; null until the first fix */
+	age: number | null;
+	/** True when the fix is stale / the signal is lost (older than the server's window, or never seen) */
+	stale: boolean;
+	/** Satellites in view / used and signal strength */
+	satellites: ISatelliteInfo;
 }
 
 const initialState: IGpsState = {
@@ -56,6 +92,15 @@ const initialState: IGpsState = {
 			request: '',
 		},
 	},
+	age: null,
+	stale: true,
+	satellites: {
+		seen: 0,
+		used: 0,
+		snr: { max: null, avg: null },
+		hdop: null,
+		list: [],
+	},
 };
 
 export const gpsSlice = createSlice({
@@ -65,10 +110,18 @@ export const gpsSlice = createSlice({
 		setLocation: (state, action: PayloadAction<ILocation>) => {
 			state.location = action.payload;
 		},
+		setGpsMeta: (
+			state,
+			action: PayloadAction<{ age: number | null; stale: boolean; satellites: ISatelliteInfo }>,
+		) => {
+			state.age = action.payload.age;
+			state.stale = action.payload.stale;
+			state.satellites = action.payload.satellites;
+		},
 	},
 });
 
-export const { setLocation } = gpsSlice.actions;
+export const { setLocation, setGpsMeta } = gpsSlice.actions;
 
 export const selectGps = (state: RootState) => state.gps;
 

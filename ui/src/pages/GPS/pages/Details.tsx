@@ -18,7 +18,7 @@ export interface IDetails {
 }
 
 export const Details: React.FC<IDetails> = () => {
-	const { location } = useAppSelector(selectGps);
+	const { location, age, stale, satellites } = useAppSelector(selectGps);
 	const { weather } = useAppSelector(selectWeather);
 	const daylight = weather.icon.includes('d') ? 'day' : 'night';
 
@@ -51,7 +51,7 @@ export const Details: React.FC<IDetails> = () => {
 				<label className="label">{`${Utility.decimalCoordinateToDegrees(location.latitude, 'lat')},\xa0\xa0${Utility.decimalCoordinateToDegrees(location.longitude, 'long')}`}</label>
 			</PositionedElement>
 
-			<PositionedElement width="60vh" top="45vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
+			<PositionedElement width="60vh" top="42vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
 				<div>
 					<div className="label">
 						{/* Speed */}
@@ -68,7 +68,6 @@ export const Details: React.FC<IDetails> = () => {
 						</small>
 					</div>
 				</div>
-
 				<div>
 					<div className="label">
 						{/* Altitude */}
@@ -117,9 +116,54 @@ export const Details: React.FC<IDetails> = () => {
 				</div>
 			</PositionedElement>
 
-			{location.error.request && (
-				<PositionedElement width="60vh" top="65vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
-					{location.error.request}
+			<PositionedElement width="60vh" top="62vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
+				<div>
+					<div className="label">
+						{/* Satellites Used */}
+						<Icon.Radar />
+					</div>
+					<div className="value">
+						<b>
+							{satellites.used}
+						</b>
+					</div>
+				</div>
+				<div>
+					<div className="label">
+						{/* Satellites Seen */}
+						<Icon.Eye />
+					</div>
+					<div className="value">
+						<b>
+							{satellites.seen}
+						</b>
+					</div>
+				</div>
+				<div>
+					<div className="label">
+						{/* Signal/Noise Ratio */}
+						<Icon.Reception3 />
+					</div>
+					<div className="value">
+						<b>{satellites.snr.avg || 'N/A'}</b>
+					</div>
+				</div>
+				<div>
+					<div className="label">
+						{/* Age */}
+						<Icon.Clock />
+					</div>
+					<div className="value">
+						<b>
+							{age || 'N/A'}
+						</b>
+					</div>
+				</div>
+			</PositionedElement>
+
+			{(stale || location.error.request) && (
+				<PositionedElement width="60vh" top="78vh" left="CALC(50% - 30vh - 1rem)" className="weather-panel" center>
+					{stale ? 'Stale Satellites' : location.error.request}
 				</PositionedElement>
 			)}
 		</LayoutContainer>
