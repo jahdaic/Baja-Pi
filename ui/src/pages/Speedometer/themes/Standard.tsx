@@ -28,6 +28,7 @@ export const Standard = () => {
 			<PositionedElement width="100%" height="100%" center>
 				<RadialGauge
 					value={speed}
+					animationDuration={config.gps.updateMs}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -86,6 +87,7 @@ export const Standard = () => {
 			<PositionedElement width="100%" height="100%" center className="gauge-glow">
 				<RadialGauge
 					value={speed}
+					animationDuration={config.gps.updateMs}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"

@@ -35,6 +35,7 @@ export const Offroad = () => {
 			>
 				<RadialGauge
 					value={speed}
+					animationDuration={config.gps.updateMs}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"
@@ -100,6 +101,7 @@ export const Offroad = () => {
 			>
 				<RadialGauge
 					value={speed}
+					animationDuration={config.gps.updateMs}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					units="MPH"

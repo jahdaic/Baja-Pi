@@ -3,6 +3,7 @@ import { useAppSelector } from '../../../store/hooks';
 import { selectVehicle } from '../../../store/vehicleSlice';
 import { selectWeather } from '../../../store/weatherSlice';
 import * as Utility from '../../../scripts/Utility';
+import config from '../../../config';
 import RadialGauge from '../../../components/gauges/RadialGauge';
 import PositionedElement from '../../../components/layout/PositionedElement';
 import Panel from '../../../components/layout/Panel';
@@ -75,6 +76,7 @@ export const Beetle13 = () => {
 			<PositionedElement width="100%" height="100%" center>
 				<RadialGauge
 					value={speed}
+					animationDuration={config.gps.updateMs}
 					height={window.innerHeight}
 					width={window.innerHeight}
 					minValue={0}

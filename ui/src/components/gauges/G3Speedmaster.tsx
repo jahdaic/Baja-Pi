@@ -252,6 +252,9 @@ text {fill: #ccc}
 			const p = panel()
 				.width(size)
 				.height(size)
+				// Pace the panel's update loop to the GPS push rate so the speed
+				// (minute) hand glides between samples instead of dwelling/lagging.
+				.interval(config.gps.updateMs)
 				.append(put().x(size / 2).y(size / 2).scale(size / 201).append(main));
 
 			const realSetInterval = window.setInterval;

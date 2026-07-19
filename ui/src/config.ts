@@ -21,6 +21,14 @@ export const config = {
 	/** GPS WebSocket URL (same server, ws:// scheme) for live TPV push. */
 	gpsdWsUrl: (env.VITE_GPSD_SERVER_URL || 'http://localhost:8000').replace(/^http/, 'ws'),
 
+	/** GPS data cadence — the interval (ms) between live GPS pushes. Drives the
+	 *  animation duration of GPS-fed gauges (the speedometer) so the needle glides
+	 *  between samples instead of dwelling/lagging. Keep in sync with the u-blox
+	 *  output rate: 1000 = the receiver's default 1 Hz. */
+	gps: {
+		updateMs: num(env.VITE_GPS_UPDATE_MS, 1000),
+	},
+
 	speed: {
 		limit: num(env.VITE_SPEED_LIMIT, 80),
 	},
