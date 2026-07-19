@@ -127,6 +127,11 @@ export const Details: React.FC<IDetails> = () => {
 							{satellites.used}
 						</b>
 					</div>
+					<div className="value">
+						<small>
+							&nbsp;
+						</small>
+					</div>
 				</div>
 				<div>
 					<div className="label">
@@ -138,6 +143,11 @@ export const Details: React.FC<IDetails> = () => {
 							{satellites.tracked}
 						</b>
 					</div>
+					<div className="value">
+						<small>
+							{satellites.seen}
+						</small>
+					</div>
 				</div>
 				<div>
 					<div className="label">
@@ -145,7 +155,12 @@ export const Details: React.FC<IDetails> = () => {
 						<Icon.Reception3 />
 					</div>
 					<div className="value">
-						<b>{satellites.snr.avg || 'N/A'}</b>
+						<b>{String((satellites.snr.avg || 0).toFixed(1)).padStart(4, '0')}</b>
+					</div>
+					<div className="value">
+						<small>
+							{satellites.snr.max} <small>max</small>
+						</small>
 					</div>
 				</div>
 				<div>
@@ -155,8 +170,13 @@ export const Details: React.FC<IDetails> = () => {
 					</div>
 					<div className="value">
 						<b>
-							{age || 'N/A'}
+							{age ? Utility.timeSpanToDisplay(new Date(Date.now() - age)) : 'N/A'}
 						</b>
+					</div>
+					<div className="value">
+						<small>
+							&nbsp;
+						</small>
 					</div>
 				</div>
 			</PositionedElement>

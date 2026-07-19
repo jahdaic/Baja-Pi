@@ -159,3 +159,71 @@ export const decimalCoordinateToDegrees = (value: number, type: 'lat' | 'long') 
 
 	return `${deg}°${min}'${sec.toFixed(2)}"${direction}`;
 };
+
+/**
+ * Converts a duration into a display formatted string
+ * @param diff - The duration as hours:minute:seconds
+ * @returns
+ */
+export const apiDurationToDisplay = (diff?: string) => {
+	if (!diff) return '';
+
+	const [hours, minutes, seconds] = diff.split(':').map(x => Number(x));
+
+	if (String(hours).split('.').length === 2) {
+		const [days, newHours] = String(hours)
+			.split('.')
+			.map(x => Number(x));
+
+		if (days > 365) return `${(days / 365).toFixed(0)} y`;
+
+		if (days > 29) return `${(days / 30).toFixed(0)} m`;
+
+		return `${((minutes / 60 + newHours) / 24 + days).toFixed(0)} d`;
+	}
+
+	if (hours / 24 >= 365) {
+		return `${(hours / 24 / 365).toFixed(0)} y`;
+	}
+
+	if (hours / 24 >= 30) {
+		return `${(hours / 24 / 30).toFixed(0)} m`;
+	}
+
+	if (hours > 24) {
+		return `${(hours / 24).toFixed(0)} d`;
+	}
+
+	if (hours) {
+		return `${(hours + minutes / 60).toFixed(0)} h`;
+	}
+
+	if (minutes) {
+		return `${minutes} m`;
+	}
+
+	if (seconds || seconds === 0) {
+		return `${seconds.toFixed(0)} s`;
+	}
+
+	return '';
+};
+
+/**
+ * Finds the amount of time between two datetimes
+ * @param dateA - The start datetime string
+ * @param dateB - The end datetime string
+ * @returns The amount of time rounded to the largest amount of time
+ */
+export const timeSpanToDisplay = (dateA: string | Date, dateB: string | Date = new Date()) => {
+	const d1 = new Date(dateA);
+	const d2 = new Date(dateB);
+
+	const totalSeconds = Math.abs((d2.getTime() - d1.getTime()) / 1000);
+
+	const hoursSince = Math.floor(totalSeconds / 60 / 60);
+	const minutesSince = Math.floor(totalSeconds / 60 - hoursSince * 60);
+	const secondsSince = Math.floor(totalSeconds - hoursSince * 60 * 60 - minutesSince * 60);
+
+	return apiDurationToDisplay(`${hoursSince}:${minutesSince}:${secondsSince}`);
+};
