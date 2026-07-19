@@ -17,7 +17,7 @@ gotchas go in [`feature-details.md`](feature-details.md). Recurring upkeep lives
 | # | Item | Status | Notes |
 |---|---|---|---|
 | 1 | Increase GPS update rate | ⬜ | Bump the u-blox to 5–10 Hz (UBX-CFG-RATE) for a smoother needle; enabled by the WebSocket push. |
-| 2 | GPS signal-lost indicator | ⬜ | `gps-server` already reports `stale`/`age`; surface it in the UI (store field + on-screen indication). |
+| 2 | GPS signal-lost indicator | ✅ | `gps-server` reports `age`/`stale` + satellite health (seen/used/SNR/HDOP); `gps` slice carries it and the GPS Details page shows sats used/seen, avg SNR, fix age, and a "Stale Satellites" banner. |
 | 3 | Voice subsystem | ⏸️ | Wake-word + STT + intent/Discord routing. Substantial — warrants its own planning session. |
 | 4 | Split the store into domain slices | ✅ | Broke the monolithic `speedometerSlice` into `vehicle` / `gps` / `weather` slices (`store/*Slice.ts`), each owning its state + actions + selector; ~20 consumers repointed. Behavior-preserving. |
 | 5 | Page + theme registry | ⬜ | Let features self-register their pages/themes; retire the hardcoded `appMap` in `Controls.tsx`. |
