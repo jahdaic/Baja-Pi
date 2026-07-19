@@ -91,3 +91,36 @@ hit during development, and notes worth keeping for the future.
 - `orient`: default is `'fixed'` (counter-rotated upright); `'relative'` follows the dial angle; `'upward'` flips at the extremes. `indicateText` has no `.metric()` — it shows the parent gauge's metric.
 
 **Notes** — On the round 720×720 panel, scale the panel `put()` to `size/201` so the bezel meets the rim. `G3Gauge` is currently unused (Vintage renders `G3Speedmaster`) but kept for reuse.
+
+## Map view
+
+**TODO #13** · ⬜
+
+**Goal** — A live map centered on the vehicle for offroad/backcountry driving, fully offline (no connectivity in the field). This is a Baja — the map matters most *off*-road, so the emphasis is trails, terrain, and where you're legally allowed to drive, not paved streets.
+
+**Approach — topographic, built as a stack of overlays, not satellite and not one basemap.** That's the recipe every serious offroad app (onX, Gaia) uses, and every layer has a free, self-hostable US-government equivalent that's legal to bundle offline:
+
+| Layer | Source | License | Format |
+|---|---|---|---|
+| Base (roads/water/labels) | OpenStreetMap via **Protomaps** basemap or **Planetiler** | ODbL (must show OSM attribution) | PMTiles / MBTiles |
+| **Trails / OHV** | **USFS MVUM** + OSM `highway=track` | CC0 public domain / ODbL | Shapefile, ArcGIS REST → vector tiles |
+| **Terrain relief** | **USGS 3DEP** DEM → hillshade + contours | US public domain | GeoTIFF → terrain-RGB / vector |
+| **Land ownership** | **PAD-US 4.1** (+ BLM GBP) | US public domain | Geodatabase/Shapefile → vector |
+
+All four render together in **MapLibre GL** (already the plan) from **PMTiles** files served straight off `gps-server` — no tile server, no connectivity.
+
+**Why these layers** — USFS **MVUM** is the standout: the authoritative *legal* answer to "can I drive this trail, in this vehicle, right now" — per-vehicle-class permissions (`FourWD_GT50inches`, ATV, Motorcycle…) each with a seasonal `DatesOpen` field, under 36 CFR 212.56, and it's **CC0**. It's the exact data the paid apps license. **PAD-US** gives public-vs-private / agency boundaries. **3DEP** drives contours/hillshade/slope-shading. Satellite is optional as a hybrid tint, not the primary layer.
+
+**Rendering on the Pi** — MapLibre reads PMTiles directly via a protocol handler (static files, no server). `maplibre-contour` (BSD-3) can generate contours *client-side at runtime* from raster-DEM tiles (terrain-RGB/Terrarium), in a web worker with caching — attractive since it avoids storing separate contour tiles, but **watch CPU on the Zero 3W**; pre-baked contour vector tiles are the lower-CPU fallback. `nst-guide/terrain` (MIT) is a ready-made GDAL+tippecanoe pipeline for hillshade/contour/Terrain-RGB/slope tiles (its slope colors mirror CalTopo).
+
+**Tooling pipeline** (do all tiling on a dev machine; the Pi only serves/renders): OSM extract → Planetiler/Protomaps → `base.pmtiles`; MVUM+OSM tracks → tippecanoe → `trails.pmtiles`; 3DEP GeoTIFF → GDAL (`gdaldem`/`gdal_contour`) + `rio rgbify` → `terrain-rgb.pmtiles`; PAD-US/BLM → `ogr2ogr`+tippecanoe → `landown.pmtiles`. All free/OSS.
+
+**Storage** — Vector overlays are tiny; DEM terrain dominates. Per-state ballpark: OSM base ~0.2–1 GB, overlays tens of MB, 3DEP terrain-RGB ~1–3 GB → **a single state fits in ~2–4 GB**; a few states still leave tons of room on the 58 GB card. **Pre-clip everything to a bounding box of the driving region — do not bundle CONUS.**
+
+**Issues & gotchas** —
+- `tracktype` grades *surface firmness, not 4x4 difficulty* — combine with `surface`/`smoothness`/`4wd_only`/`sac_scale`, don't rely on it alone.
+- USGS 3DEP 1/3 arc-second (~10 m) is seamless for the lower-48 but **partial/coarser for Alaska & territories** — fine for CONUS offroading, check the region if further north.
+- MVUM freshness is **per-forest** — only as current as each unit's last publish.
+- ODbL requires on-screen **OSM attribution** for the OSM/Protomaps base.
+
+**Notes** — Depends on the `gps` slice (lat/lon/heading) and the signal-lost state from #2 (fall back gracefully when there's no fix). Full cited research report captured during planning. Commercial-app benchmark: onX (650k+ mi trail DB, per-vehicle filtering) and Gaia (10-layer stacking, Overland basemap) — both assume a *plan-at-home-over-WiFi, navigate-offline* workflow, exactly our constraint.

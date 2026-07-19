@@ -28,3 +28,4 @@ gotchas go in [`feature-details.md`](feature-details.md). Recurring upkeep lives
 | 10 | Long-press control menu | ⬜ | Long-press opens: Reboot Pi · Close Chromium (stop pm2) · Restart Chromium (restart pm2). Needs a localhost control endpoint. [details](feature-details.md#long-press-control-menu) |
 | 11 | g3 gauge | ✅ | Built `G3Gauge` (live radial gauge) + `G3Speedmaster` (Omega Speedmaster reskinned as a vehicle chronograph: speed/RPM dual rings, oil-pressure/voltage/oil-temp subdials, fuel window, decoupled hands). Wired into the Vintage theme. [details](feature-details.md#g3-gauge) |
 | 12 | Persist app state | ⬜ | Remember the active gauge/panel across reload/reboot via `localStorage`. Builds on item 6 (nav → store). |
+| 13 | Map view | ⬜ | Show a live map centered on the vehicle when there's a GPS fix (uses the `gps` slice lat/lon/heading). Fall back gracefully when the signal is lost (item 2). |
