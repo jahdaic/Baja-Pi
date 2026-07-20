@@ -124,3 +124,29 @@ All four render together in **MapLibre GL** (already the plan) from **PMTiles** 
 - ODbL requires on-screen **OSM attribution** for the OSM/Protomaps base.
 
 **Notes** — Depends on the `gps` slice (lat/lon/heading) and the signal-lost state from #2 (fall back gracefully when there's no fix). Full cited research report captured during planning. Commercial-app benchmark: onX (650k+ mi trail DB, per-vehicle filtering) and Gaia (10-layer stacking, Overland basemap) — both assume a *plan-at-home-over-WiFi, navigate-offline* workflow, exactly our constraint.
+
+## Power-loss protection (PiSugar UPS)
+
+**TODO #14** · ⬜
+
+**Goal** — Survive ignition-off without SD corruption or data loss. The car cuts power the instant the ignition turns off, and the root fs runs `commit=600` (up to a 10-min RAM-only write window) plus `data=writeback`, so a hard cut can lose/garble recent writes. Add a UPS that holds power long enough to shut down gracefully, then auto-boots when the car restarts.
+
+**Hardware — PiSugar 3 (Pi-Zero UPS), confirmed compatible.** The Orange Pi Zero 3W is the Raspberry Pi Zero form factor (30×65 mm), the mounting holes line up (verified — a USB hub already mounts underneath and the AD HAT on top), and the GPIO power pins match RPi. PiSugar's pogo pins contact the **underside GPIO solder points** (5V/GND) — they don't need Pi-specific pads — and it sits *under* the board without occupying the 40-pin header, so it coexists with a top HAT (#8). "Auto power on when external power restored" is **on by default**, so the board reboots on ignition-on with no extra work — the effort is entirely on the clean-*shutdown* side.
+
+**Approach — a PM2-managed Python daemon** (matches the "everything under PM2" architecture) polling the PiSugar over I²C:
+
+```
+poll power-good every ~5s
+  external present → reset timer
+  external absent  → accumulate timer
+    absent ≥ 60s            → schedule PiSugar output-cut (reg 0x09), then `poweroff`
+    absent AND battery low  → shut down immediately (skip the 60s wait)
+```
+
+**Issues & gotchas** —
+- **Must pair `poweroff` with the PiSugar output-cut**, or the trap bites: a bare `poweroff` leaves the PiSugar still feeding 5V → the SoC halts but never sees a power cycle → it will **not** auto-boot when the car restarts. Before halting, write the **`0x09` shutdown-countdown register** so the PiSugar drops its own output a few seconds after the Pi goes down. This register is **not** exposed in PiSugar's WebUI — it needs a direct I²C write, which the daemon does via `smbus`. (So the one daemon solves both detection *and* the output-cut.)
+- **60s debounce also rides out engine crank** — starting the car dips/cuts accessory power briefly; the sustained-60s requirement ignores crank + momentary brownouts and only acts on a real ignition-off.
+- **Battery-low failsafe bypasses the timer** — if external power is gone *and* the pack is critically low, shut down now rather than risk a hard cut mid-countdown.
+- **Permissions** — under PM2 as `orangepi` the daemon needs I²C access (`i2c` group / `/dev/i2c-N`) and a scoped sudoers rule for `poweroff`.
+
+**Notes** — Confirm on real hardware before trusting it in the car: the **Orange Pi I²C bus number** (differs from RPi — find with `i2cdetect`), the **PiSugar 3 address (`0x57`)**, and the exact **power-good register/bit** — all from the [PiSugar 3 I²C datasheet](https://github.com/PiSugar/PiSugar/wiki/PiSugar-3-I2C-Datasheet). Related: the SD-hardening notes (commit window, `data=writeback`, disabled auto-fsck) and that #12 (persist app state) needs an explicit flush to survive a cut. A UPS is the real fix; #12's flush is the cheap partial one.
