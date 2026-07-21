@@ -129,6 +129,8 @@ All four render together in **MapLibre GL** (already the plan) from **PMTiles** 
 
 **TODO #14** · ⬜
 
+> **Status (2026-07-21):** PiSugar 3 ordered, arriving **2026-07-22**. Once it's here, run the on-hardware checks in **Notes** below (I²C bus number, address `0x57`, power-good register/bit) before wiring up the daemon.
+
 **Goal** — Survive ignition-off without SD corruption or data loss. The car cuts power the instant the ignition turns off, and the root fs runs `commit=600` (up to a 10-min RAM-only write window) plus `data=writeback`, so a hard cut can lose/garble recent writes. Add a UPS that holds power long enough to shut down gracefully, then auto-boots when the car restarts.
 
 **Hardware — PiSugar 3 (Pi-Zero UPS), confirmed compatible.** The Orange Pi Zero 3W is the Raspberry Pi Zero form factor (30×65 mm), the mounting holes line up (verified — a USB hub already mounts underneath and the AD HAT on top), and the GPIO power pins match RPi. PiSugar's pogo pins contact the **underside GPIO solder points** (5V/GND) — they don't need Pi-specific pads — and it sits *under* the board without occupying the 40-pin header, so it coexists with a top HAT (#8). "Auto power on when external power restored" is **on by default**, so the board reboots on ignition-on with no extra work — the effort is entirely on the clean-*shutdown* side.
