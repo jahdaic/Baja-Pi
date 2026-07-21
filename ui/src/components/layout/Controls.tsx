@@ -10,6 +10,7 @@ import * as GPS from '../../pages/GPS';
 import * as Time from '../../pages/Time';
 import * as Hula from '../../pages/Hula';
 import ErrorBoundary from '../ErrorBoundary';
+import ControlMenu from './ControlMenu';
 
 export interface IControls {
 	test?: boolean;
@@ -21,8 +22,46 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	const [currentGauge, setCurrentGauge] = useState<number>(0);
 	const [currentTheme, setCurrentTheme] = useState<number>(0);
 	const [themeIndices, setThemeIndices] = useState<number[]>([0, 0, 0, 0, 0]); // one slot per gauge in appMap
+	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const timerRef = useRef<any>(null);
 	const timeout = 500;
+
+	// Long-press (hold ~700ms without moving) opens the control menu. Tracked
+	// here so the follow-up click on a nav zone can be swallowed — otherwise
+	// releasing the hold would also change the gauge underneath the menu.
+	const LONG_PRESS_MS = 700;
+	const pressTimerRef = useRef<any>(null);
+	const pressStartRef = useRef<{ x: number; y: number } | null>(null);
+	const longPressedRef = useRef<boolean>(false);
+
+	const startPress = (e: React.PointerEvent) => {
+		pressStartRef.current = { x: e.clientX, y: e.clientY };
+		clearTimeout(pressTimerRef.current);
+		pressTimerRef.current = setTimeout(() => {
+			longPressedRef.current = true;
+			setMenuOpen(true);
+		}, LONG_PRESS_MS);
+	};
+
+	const movePress = (e: React.PointerEvent) => {
+		const start = pressStartRef.current;
+		if (!start) return;
+		const dx = e.clientX - start.x;
+		const dy = e.clientY - start.y;
+		if (dx * dx + dy * dy > 100) clearTimeout(pressTimerRef.current); // moved >10px = not a long-press
+	};
+
+	const endPress = () => clearTimeout(pressTimerRef.current);
+
+	// Swallow the click that fires right after a long-press so opening the menu
+	// doesn't also advance the gauge/theme it was layered over.
+	const guard = (fn: () => void) => () => {
+		if (longPressedRef.current) {
+			longPressedRef.current = false;
+			return;
+		}
+		fn();
+	};
 
 	const appMap = [
 		{
@@ -148,6 +187,8 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	useHotkeys('down', nextGauge);
 	useHotkeys('c', () => setShowCursor(!showCursor));
 	useHotkeys('ctrl+r', () => window.location.reload());
+	useHotkeys('m', () => setMenuOpen(true));
+	useHotkeys('esc', () => setMenuOpen(false));
 
 	useEffect(() => {
 		timerRef.current = setTimeout(updateSpeedometer, 0);
@@ -156,7 +197,14 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 	}, []);
 
 	return (
-		<div className={showCursor ? '' : 'hide-cursor'}>
+		<div
+			className={showCursor ? '' : 'hide-cursor'}
+			onPointerDown={startPress}
+			onPointerMove={movePress}
+			onPointerUp={endPress}
+			onPointerLeave={endPress}
+			onPointerCancel={endPress}
+		>
 			<ErrorBoundary key={`${currentGauge}-${currentTheme}`}>
 				<VisibleGauge>
 					<VisibleTheme />
@@ -164,11 +212,13 @@ export const Controls: React.FC<IControls> = ({ test, ...props }) => {
 			</ErrorBoundary>
 
 			<div className="button-container">
-				<div className="prev-button" onClick={prevTheme} />
-				<div className="next-button" onClick={nextTheme} />
-				<div className="bottom-button" onClick={nextGauge} />
-				<div className="top-button" onClick={prevGauge} />
+				<div className="prev-button" onClick={guard(prevTheme)} />
+				<div className="next-button" onClick={guard(nextTheme)} />
+				<div className="bottom-button" onClick={guard(nextGauge)} />
+				<div className="top-button" onClick={guard(prevGauge)} />
 			</div>
+
+			{menuOpen && <ControlMenu onClose={() => setMenuOpen(false)} />}
 		</div>
 	);
 };

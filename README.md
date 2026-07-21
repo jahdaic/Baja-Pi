@@ -28,10 +28,11 @@ gpsd ──► gps-server (:8000, HTTP + WebSocket) ──► ui-vite (:5173) �
 |---|---|
 | `ui/` | The React dashboard app (Vite + TS + Redux Toolkit). See [ui/README](ui/README.md). |
 | `gps/` | Node service bridging gpsd → HTTP/WebSocket. See [gps/README](gps/README.md). |
-| `scripts/` | Provisioning installers — the Waveshare round-LCD display fix, the GPS hotplug udev rule, and the boot/shutdown branding. |
+| `control/` | Localhost Node endpoint for reboot/shutdown/Chromium actions (the long-press menu). See [control/README](control/README.md). |
+| `scripts/` | Provisioning installers — the Waveshare round-LCD display fix, the GPS hotplug udev rule, the control-server sudoers rule, and the boot/shutdown branding. |
 | `docs/` | Project documentation (architecture, display fix, code audit, backlog). |
 | `voice/` | Placeholder for future voice/assistant work. |
-| `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `ui-vite`, `chromium-kiosk`, `cursor-hide`). |
+| `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `control-server`, `ui-vite`, `chromium-kiosk`, `cursor-hide`). |
 
 ## Tech stack
 
@@ -59,18 +60,23 @@ Assumes a fresh Debian Orange Pi image. See `docs/` for the detailed writeups.
    ```bash
    sudo scripts/gps-hotplug/install.sh
    ```
-4. **Dependencies:**
+4. **Control-server sudoers rule** (lets the long-press menu reboot / shut down the Pi):
+   ```bash
+   sudo scripts/control-server/install.sh
+   ```
+5. **Dependencies:**
    ```bash
    (cd gps && npm install)
    (cd ui && npm install && cp .env.example .env)   # then edit .env as needed
    ```
-5. **Bring it up under pm2** (from the repo root):
+   (`control/` has no dependencies — pure Node.)
+6. **Bring it up under pm2** (from the repo root):
    ```bash
    pm2 start ecosystem.config.cjs
    pm2 save
    pm2 startup            # once, so pm2 resurrects on boot
    ```
-6. **Branded boot & shutdown** (optional polish — Plymouth splash, quiet/clean
+7. **Branded boot & shutdown** (optional polish — Plymouth splash, quiet/clean
    boot, U-Boot logo; idempotent and backs up everything it touches):
    ```bash
    sudo scripts/boot-branding/install.sh && sudo reboot

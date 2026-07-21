@@ -21,6 +21,10 @@ export const config = {
 	/** GPS WebSocket URL (same server, ws:// scheme) for live TPV push. */
 	gpsdWsUrl: (env.VITE_GPSD_SERVER_URL || 'http://localhost:8000').replace(/^http/, 'ws'),
 
+	/** Control server (pm2 `control-server`) — backs the long-press menu's
+	 *  reboot / shutdown / Chromium actions. Localhost only. */
+	controlServerUrl: env.VITE_CONTROL_SERVER_URL || 'http://localhost:8100',
+
 	/** GPS data cadence — the interval (ms) between live GPS pushes. Drives the
 	 *  animation duration of GPS-fed gauges (the speedometer) so the needle glides
 	 *  between samples instead of dwelling/lagging. Keep in sync with the u-blox

@@ -59,6 +59,26 @@ hit during development, and notes worth keeping for the future.
 
 ## Long-press control menu
 
+**TODO #10** · 🚧
+
+**Goal** — A touch-only way to reboot / shut down the Pi and stop/restart the Chromium kiosk, since the dashboard is a fullscreen kiosk with no window chrome, keyboard, or desktop to fall back on.
+
+**Approach** —
+- **Trigger:** press-and-hold ~700 ms anywhere (`Controls.tsx` `onPointer*` handlers). A hold that moves >10 px is cancelled (it's a swipe/scrub, not a hold). The follow-up click is swallowed by a `longPressedRef` guard wrapping the nav tap-zone handlers, so opening the menu doesn't also change the gauge underneath it. `m` opens / `Esc` closes for keyboard/dev.
+- **Menu:** `components/layout/ControlMenu.tsx` — a full-screen backdrop over a centered column (styled in `css/style.css`, `z-index 1000`, above the `z-index 100` tap zones). Actions, least-destructive first: **Restart Chromium** (one tap) · **Close Chromium** · **Reboot Pi** · **Shutdown Pi**. The three destructive ones are **two-tap**: first tap arms (button turns red, label → "Confirm …?"), second fires — a stray tap in a moving car can't reboot the Pi. Backdrop tap / Cancel / `Esc` dismiss.
+- **Backend — a dedicated `control-server`** (`control/src/server.js`, pm2 app on **:8100**), chosen over folding it into `gps-server` so system control is isolated from the GPS data path and the one privileged rule is scoped to a single service. Bound to **127.0.0.1** (never network-reachable). `POST /control {action}` maps a fixed **allowlist** (`reboot`/`shutdown`/`chromium-stop`/`chromium-restart`) to `execFile` calls with hard-coded args — no shell, no request data on any command line, so nothing to inject. It ACKs *before* running, since reboot/shutdown/stop tear the client down.
+- **Permissions:** Chromium actions are `pm2 stop/restart chromium-kiosk` — same user that owns the apps, **no sudo**. Only `reboot`/`poweroff` need privilege, granted by a scoped NOPASSWD sudoers drop-in (`scripts/control-server/install.sh` → `/etc/sudoers.d/010-baja-control`, `visudo`-validated, limited to those two binaries).
+
+**Issues & gotchas** —
+- **Swallow the post-hold click** — without the `longPressedRef` guard, releasing the long-press also fires the nav tap zone under the menu and advances the gauge.
+- **ACK before acting** — reboot/shutdown/stop kill the socket; reply first (`res.on('finish', …)`) or the UI never hears back.
+- **Localhost bind is load-bearing** — this endpoint reboots the machine; it must never listen on `0.0.0.0`. Keep `HOST=127.0.0.1`.
+- **`pm2` on `PATH`** — the server shells out to `pm2`; it inherits the pm2 daemon's env, which has the global npm bin. Fine under pm2; if ever run bare, ensure `pm2` resolves.
+
+**Setup** — `sudo scripts/control-server/install.sh` once (the sudoers rule); the pm2 app comes up with `pm2 start ecosystem.config.cjs`. URL is `VITE_CONTROL_SERVER_URL` (default `http://localhost:8100`).
+
+**Status** — Code complete and running under pm2; Restart/Close Chromium verified. **Reboot/Shutdown pending the one-time sudoers install** on the Pi, then an on-device confirm. Related: a manual Shutdown pairs with #14 (graceful power-off before pulling power).
+
 **TODO #10** · ⬜
 
 **Goal** — A long-press (touch) opens an on-screen menu for appliance-style control with no keyboard: Reboot Pi · Close Chromium · Restart Chromium.

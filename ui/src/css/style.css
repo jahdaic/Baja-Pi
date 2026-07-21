@@ -208,3 +208,73 @@ body,
 			0 0 80px #4dff71;
 	}
 }
+
+/* --- Long-press control menu (item #10) ------------------------------------ */
+/* Above the .button-container tap zones (z-index 100). Full-screen dim backdrop;
+   a centered column of big touch targets sized for the round 720x720 panel. */
+.control-menu-backdrop {
+	position: absolute;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.72);
+	backdrop-filter: blur(2px);
+}
+
+.control-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 2.4vh;
+	width: 62%;
+	max-width: 60vh;
+	padding: 3vh 0;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.control-menu-title {
+	color: #cfcfcf;
+	font-size: 3vh;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+.control-menu-button {
+	padding: 2.2vh 1vh;
+	border: 2px solid #555;
+	border-radius: 1.4vh;
+	background: #1a1a1a;
+	color: #f0f0f0;
+	font-size: 3.4vh;
+	font-family: inherit;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.control-menu-button:active {
+	background: #2a2a2a;
+}
+
+.control-menu-button:disabled {
+	opacity: 0.5;
+}
+
+/* Armed (first tap on a destructive action) — red to signal the next tap fires. */
+.control-menu-button.confirming {
+	border-color: #fe0238;
+	background: #3a0512;
+	color: #ff5c78;
+}
+
+.control-menu-button.cancel {
+	border-color: #333;
+	background: transparent;
+	color: #999;
+}
+
+.control-menu-error {
+	color: #ff5c78;
+	font-size: 2.3vh;
+}

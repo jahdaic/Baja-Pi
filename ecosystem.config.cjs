@@ -42,6 +42,19 @@ module.exports = {
 			autorestart: true,
 		},
 		{
+			name: 'control-server',
+			cwd: './control',
+			script: 'src/server.js',
+			// Localhost-only Node HTTP endpoint the long-press menu POSTs to for
+			// system actions (reboot / shutdown / restart Chromium). Runs as the
+			// same user that owns the pm2 apps; reboot/poweroff go through a
+			// scoped NOPASSWD sudoers rule (scripts/control-server/install.sh).
+			env: {
+				PORT: '8100',
+			},
+			autorestart: true,
+		},
+		{
 			name: 'ui-vite',
 			cwd: './ui',
 			// Serve the dashboard via the Vite dev server (HMR) for now. Run the
