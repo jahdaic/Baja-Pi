@@ -12,15 +12,25 @@ endpoint and a WebSocket.
   - **HTTP `GET /`** — the latest fix as JSON (health check / fallback).
   - **WebSocket** — pushes each `TPV` the moment gpsd delivers it, and sends the
     current state on connect. This is what the UI uses for a real-time needle.
+- Tracks the latest `SKY` report too, and folds satellite health into every
+  payload (see `satellites` below).
 - Adds freshness metadata to every payload:
   - `receivedAt` — epoch ms of the last fix (`null` until the first one)
-  - `age` — ms since the last fix
+  - `age` — ms since the last fix (`null` until the first one)
   - `stale` — `true` when the fix is older than 5 s (or never seen) = signal lost
 
 ## Payload
 
 Whatever gpsd puts in the TPV (`lat`, `lon`, `altMSL`, `speed` in m/s, `track`,
-`climb`, and error estimates `epx`/`epy`/…) plus the three freshness fields above.
+`climb`, and error estimates `epx`/`epy`/…), plus the freshness fields above, plus
+a `satellites` summary derived from the latest `SKY`:
+
+- `seen` — satellites in view (incl. almanac-predicted, no signal)
+- `tracked` — satellites actually being received (SNR > 0)
+- `used` — satellites used in the fix
+- `snr` — `{ max, avg }` signal strength in dB-Hz across satellites reporting one (`null` when none)
+- `hdop` — horizontal dilution of precision (`null` when unavailable)
+- `list` — per-satellite detail (PRN, `snr`, `used`, …)
 
 ## Run
 

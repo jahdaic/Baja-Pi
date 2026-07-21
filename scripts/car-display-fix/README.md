@@ -2,7 +2,7 @@
 
 Re-applies the Orange Pi Zero 3W display fix (Waveshare 4" round 720×720@78 HDMI panel) on a
 fresh OS image. Works on both the Ubuntu and Debian BSP images (identical kernel `6.6.98-sun60iw2`
-and `sunxi-drm` driver). Full technical background: `~/Documents/car-dashboard-display-fix.md`.
+and `sunxi-drm` driver). Full technical background: [`docs/car-dashboard-display-fix.md`](../../docs/car-dashboard-display-fix.md).
 
 ## What it does
 1. **DT force-output** — adds `force-output` + `force-output-timing` to the HDMI node so the
@@ -13,9 +13,8 @@ and `sunxi-drm` driver). Full technical background: `~/Documents/car-dashboard-d
 
 ## Usage
 ```bash
-cd ~/car-display-fix
-sudo ./install.sh
-sudo reboot        # verify it comes up at 720x720@78 with no manual steps
+sudo scripts/car-display-fix/install.sh   # from the repo root
+sudo reboot                                # verify it comes up at 720x720@78 with no manual steps
 ```
 Idempotent — safe to re-run. **Re-run after any kernel update** (`apt upgrade` rewrites the board
 DTB and drops the force-output edit).

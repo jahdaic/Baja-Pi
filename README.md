@@ -12,6 +12,8 @@ Chromium kiosk.
 - **SBC:** Orange Pi Zero 3W (Allwinner A733, 12 GB LPDDR5)
 - **Display:** Waveshare 4" round HDMI touch LCD — 720×720 @ 78 Hz
 - **GPS:** u-blox 8 USB receiver (via gpsd)
+- **Vehicle sensors:** Waveshare AD/DA HAT — mounted; wiring into the `vehicle` slice is backlog [#8](docs/todo.md)
+- **Power:** PiSugar 3 UPS (Pi-Zero form factor) — incoming; graceful power-loss shutdown is backlog [#14](docs/todo.md)
 - **OS:** Debian bookworm (Orange Pi BSP, kernel 6.6.98-sun60iw2)
 
 ## Architecture
@@ -26,7 +28,7 @@ gpsd ──► gps-server (:8000, HTTP + WebSocket) ──► ui-vite (:5173) �
 |---|---|
 | `ui/` | The React dashboard app (Vite + TS + Redux Toolkit). See [ui/README](ui/README.md). |
 | `gps/` | Node service bridging gpsd → HTTP/WebSocket. See [gps/README](gps/README.md). |
-| `scripts/` | Provisioning — the Waveshare round-LCD display fix and the boot/shutdown branding installer. |
+| `scripts/` | Provisioning installers — the Waveshare round-LCD display fix, the GPS hotplug udev rule, and the boot/shutdown branding. |
 | `docs/` | Project documentation (architecture, display fix, code audit, backlog). |
 | `voice/` | Placeholder for future voice/assistant work. |
 | `ecosystem.config.cjs` | pm2 process definitions (`gpsd`, `gps-server`, `ui-vite`, `chromium-kiosk`, `cursor-hide`). |
@@ -53,18 +55,22 @@ Assumes a fresh Debian Orange Pi image. See `docs/` for the detailed writeups.
    npm install -g pm2
    ```
    (`unclutter-xfixes` backs the `cursor-hide` pm2 app.)
-3. **Dependencies:**
+3. **GPS hotplug rule** (so pm2's gpsd re-attaches the u-blox when it's replugged):
+   ```bash
+   sudo scripts/gps-hotplug/install.sh
+   ```
+4. **Dependencies:**
    ```bash
    (cd gps && npm install)
    (cd ui && npm install && cp .env.example .env)   # then edit .env as needed
    ```
-4. **Bring it up under pm2** (from the repo root):
+5. **Bring it up under pm2** (from the repo root):
    ```bash
    pm2 start ecosystem.config.cjs
    pm2 save
    pm2 startup            # once, so pm2 resurrects on boot
    ```
-5. **Branded boot & shutdown** (optional polish — Plymouth splash, quiet/clean
+6. **Branded boot & shutdown** (optional polish — Plymouth splash, quiet/clean
    boot, U-Boot logo; idempotent and backs up everything it touches):
    ```bash
    sudo scripts/boot-branding/install.sh && sudo reboot
@@ -80,6 +86,8 @@ see [ui/README](ui/README.md).
 - [`docs/car-dashboard-display-fix.md`](docs/car-dashboard-display-fix.md) — the round-LCD display fix
 - [`docs/ui-audit.md`](docs/ui-audit.md) — UI code audit
 - [`docs/todo.md`](docs/todo.md) — backlog
+- [`docs/feature-details.md`](docs/feature-details.md) — per-backlog-item deep dives, dev notes & gotchas
+- [`docs/maintenance.md`](docs/maintenance.md) — recurring upkeep & field-fix procedures
 
 ## License
 
